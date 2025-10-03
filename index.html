@@ -1,263 +1,1039 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Get Week Number / Data Matrix Generator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Digital Codes Generator</title>
     <link rel=icon type=image/x-icon
           href="C:\Users\astafieni\OneDrive - Louis Vuitton Malletier\Code generator LV\schedule.png">
     <script src=https://cdn.jsdelivr.net/npm/bwip-js@3.0.0/dist/bwip-js.min.js></script>
-	<div id="copyright">
-    &copy; Nikita Astafiev. All rights reserved V.1.0
-	</div>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 <style>
-        body {
-		/* Keep your existing body styles and add these */
-		background-color: #f9f7f4;
-		background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8b897' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-		background-attachment: fixed;
-}
+			body {
+			background-color: #f9f7f4;
+			background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8b897' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+			background-attachment: fixed;
+			min-height: 100vh;
+			margin: 0;
+			padding: 20px;
+			display: grid;
+			grid-template-areas: 
+				"header header"
+				"generate generate"
+				"donation donation"
+				"form main"
+				"form main";
+			grid-template-columns: 350px 1fr; /* Only 2 columns now */
+			grid-template-rows: auto 1fr auto;
+			gap: 20px;
+			align-items: start;
+		}
+
+		/* Header area for buttons */
+		.header-section {
+			grid-area: header;
+			display: flex;
+			flex-direction: column;
+			gap: 0px;
+			font-size: 24px;
+			padding: 20px 40px;
+			background-color: #4CAF50;
 		
-		body {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            padding-left: 20px;
-            padding-top: 60px 60px;
-        }
+		}
 
-        button {
-            font-size: 24px;
-            padding: 20px 40px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #3e8e41;
-        }
-
-        .input-group {
-            margin-bottom: 10px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            text-align: left;
-            width: 100%;
-        }
-
-        input[type=text],
-        input[type=number] {
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-            box-sizing: border-box;
-        }
-
-        #generatedCode {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: left;
-        }
-
-        .hidden-label {
-            display: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .serial-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .serial-container .input-group {
-            width: auto;
-            flex-grow: 1;
-            margin-bottom: 0;
-        }
-
-        .serial-container #generatedCode {
-            margin-left: -1000px;
-            margin-top: 0;
-            flex-grow: 1;
-            text-align: left;
-        }
-        
-        #barcodeImage {
-            margin-top: -60px;
-            margin-left: -350px;
-            text-align: center;
-        }
-
-        #barcodeImage canvas {
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: white;
-        }
-        
-        .utility-button {
-            font-size: 16px;
-            padding: 8px 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .utility-button:hover {
-            background-color: #0056b3;
-        }
-		
-		#productImageSection {
-			position: absolute;
-			/*left: 90%; /* Changed from 50% to move it left */*/
-			transform: translateX(-50%);
-			margin-left: -450px;
-			text-align: center;
-			z-index: 10;
-			
-}
-
-
-		#productImage {
-			max-width: 300px;
-			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-		/* Add this to create space at the bottom of the page for the image */
-			body::after {
-			content: "";
-			display: block;
-			height: 400px; /* Adjust based on your image size */
-			width: 100%;
-}
-
-		button[onclick="focusSerial()"] {
-			position: relative;
-			z-index: 100;
-			padding: 8px 16px;
-			margin-left: 10px;
+		button {
+			font-size: 24px;
+			padding: 20px 40px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
 			cursor: pointer;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			margin-top: 10px;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+
+		.utility-button {
+			font-size: 12px;
+			padding: 6px 12px;
 			background-color: #007bff;
 			color: white;
 			border: none;
+			cursor: pointer;
 			border-radius: 4px;
-			min-width: 80px;
-			min-height: 35px;
-			font-size: 14px;
-			display: inline-block; /* Ensure proper block rendering */
-			pointer-events: auto; /* Force pointer events to be active */
-}
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
 
-#copyright {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    font-size: 12px;
-    color: #666;
-    padding: 5px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 3px;
-    z-index: 1000;
-}
-	
-    </style>
+		.utility-button:hover {
+			background-color: #3e8e41;
+		}
+
+		/* Form container - LEFT COLUMN */
+		#FormContainer {
+			grid-area: form;
+			width: 100%;
+			padding: 20px;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			border-radius: 8px;
+			align-self: start;
+			position: sticky;
+			top: 20px;
+			gap: 10px;
+		}
+
+		/* Main content area - RIGHT COLUMN (Contains generated code, binary, and image) */
+		#mainContainer {
+			grid-area: main;
+			display: flex;
+			flex-direction: column; /* Stack all three vertically */
+			align-items: stretch; /* Full width for child elements */
+			box-sizing: border-box;
+			width: 100%;
+			gap: 15px; /* Space between all sections */
+			padding: 15px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+		}
+
+		/* Generated code section - FIRST in main container */
+		#generatedCode {
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #ddd;
+			border-radius: 6px;
+			box-sizing: border-box;
+			order: 1; /* First position */
+		}
+
+		/* Binary code section - SECOND in main container */
+		#binaryCodeSection {
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #ddd;
+			border-radius: 6px;
+			box-sizing: border-box;
+			text-align: left;
+			order: 2; /* Second position */
+		}
+
+		/* Product image section - THIRD in main container */
+		#productImageSection {
+			width: 100%;
+			text-align: center;
+			box-sizing: border-box;
+			padding: 15px;
+			border: 1px solid #ddd;
+			border-radius: 6px;
+			order: 3; /* Third position */
+		}
+
+		.code-result-container {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			gap: 10px;
+		}
+
+		#productImage {
+			max-width: 100%;            /* Reduced width (adjust as needed) */
+			height: auto;                   /* Auto height */
+			aspect-ratio: 21 / 7;           /* Enforce 16:9 aspect ratio */
+			border-radius: 4px;
+			object-fit: contain;            /* Make sure whole image is visible */
+			object-position: center;        /* Center the image */
+		}
+
+		#copyright {
+			position: fixed;
+			bottom: 10px;
+			right: 10px;
+			font-size: 12px;
+			color: #666;
+			padding: 5px;
+			background-color: rgba(255, 255, 255, 0.7);
+			border-radius: 3px;
+			z-index: 1000;
+		}
+
+		/* Input and form styling */
+		.input-group {
+			width: 100%;
+			margin-bottom: 10px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+			text-align: left;
+			width: 100%;
+		}
+
+		input[type="text"], 
+		input[type="number"] {
+			padding: 8px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		.hidden-label {
+			display: none;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		.serial-container {
+			width: 100%;
+			display: flex;
+			align-items: center;
+		}
+
+		#barcodeImage {
+			text-align: center;
+			margin-top: 10px;
+		}
+
+		#barcodeImage canvas {
+			border: 1px solid #ccc;
+			padding: 10px;
+			background-color: white;
+			border-radius: 4px;
+		}
+
+		/* Section titles styling */
+		#codeTitle {
+			font-size: 18px;
+			color: #8e44ad;           /* Purple */
+			font-style: italic;
+			text-decoration: underline;
+		}
+
+		#productTitle {
+			font-size: 18px;
+			color: #8e44ad;           /* Purple */
+			font-style: italic;
+			text-decoration: underline;
+		}
+
+		
+		/* For Binary and Product Image titles */
+		#codeTitle h3,
+		#binaryCodeSection h3,
+		#productImageSection h3 {
+			margin-top: 0;
+			margin-bottom: 15px;
+			font-size: 18px;           /* Larger font */
+			color: #007bff;            /* Blue color */
+			font-weight: 600;          /* Semi-bold */
+			text-align: center;        /* Center align */
+			border-bottom: 2px solid #007bff; /* Underline */
+			padding-bottom: 5px;       /* Space above border */
+		}
+
+		/* Responsive design */
+		@media (max-width: 1200px) {
+			body {
+				grid-template-areas: 
+					"header"
+					"form"
+					"main";
+				grid-template-columns: 1fr;
+				grid-template-rows: auto auto 1fr;
+				gap: 20px;
+			}
+			
+			#FormContainer {
+				position: static;
+			}
+		}
+
+		/* Mobile responsive design */
+		@media (max-width: 768px) {
+			body {
+				grid-template-areas: 
+					"header"
+					"form"  
+					"main";
+				grid-template-columns: 1fr;
+				grid-template-rows: auto auto 1fr;
+				padding: 10px;
+			}
+			
+			#FormContainer {
+				position: static;
+			}
+			
+			#mainContainer {
+				flex-direction: column;
+			}
+
+			#generatedCode,
+			#binaryCodeSection,
+			#productImageSection {
+				width: 100%;
+			}
+		}
+
+		.close-button {
+			position: absolute;
+			top: 10px;
+			right: 15px;
+			background: rgba(255,255,255,0.2);
+			color: white;
+			border: none;
+			font-size: 24px;
+			cursor: pointer;
+			padding: 5px 10px;
+			border-radius: 50%;
+			font-weight: bold;
+			transition: background 0.2s ease;
+		}
+
+		.close-button:hover {
+			background: rgba(255,255,255,0.3);
+			transform: scale(1.1);
+		}
+
+				/* Tiny show button styling */
+		.tiny-show-button {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: white;
+			border: none;
+			padding: 8px;
+			border-radius: 50%;
+			cursor: pointer;
+			font-size: 16px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+			z-index: 1001;
+			width: 40px;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.2s ease;
+			border: 2px solid rgba(255,255,255,0.3);
+		}
+
+		.tiny-show-button:hover {
+			transform: scale(1.1);
+			box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+		}
+
+
+		
+		/* Donation Section Styling */
+		#donationSection {
+			grid-area: header;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			padding: 20px;
+			border-radius: 10px;
+			text-align: center;
+			color: white;
+			box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+		}
+
+		#donationSection h2 {
+			margin-top: 0;
+			margin-bottom: 20px;
+			font-size: 24px;
+			text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+		}
+
+		#donationContent {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 30px;
+			flex-wrap: wrap;
+		}
+
+		#qrCodeContainer {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 10px;
+		}
+
+		#donationQR {
+			border-radius: 10px;
+			border: 3px solid rgba(255,255,255,0.3);
+			background: white;
+			padding: 3px;
+			box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+		}
+
+		#qrCodeContainer p {
+			margin: 0;
+			font-size: 15px;
+			opacity: 0.9;
+		}
+
+		/* Responsive adjustments */
+		@media (max-width: 768px) {
+			#donationContent {
+				flex-direction: column;
+				gap: 10px;
+			}
+			
+			#donationButton {
+				font-size: 9px;
+				padding: 8px 25px;
+			}
+			
+			#donationSection h2 {
+				font-size: 10px;
+			}
+		}
+
+
+	</style>
+
 </head>
 <body>
+    
+		<div class="generate-section">
+			<button onclick=generateCode()>Generate Code</button>
+		</div>
+	
+		<div id="donationSection">
+			<button id="hideDonationBtn" class="close-button" onclick="hideDonation()">&times;</button>
+			<h2>Support This Project</h2>
+			<div id="donationContent">
+			<a href="https://www.buymeacoffee.com/stilsla"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=stilsla&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+			<div id="qrCodeContainer">
+            <img id="donationQR" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://buymeacoffee.com/YOUR_USERNAME" alt="Donation QR Code">
+            <p>Scan to donate</p>
+			</div>
+			</div>
+		</div>
 
-<button onclick="getWeekNumber()">Get Week Number</button>
-
-<h2>Data Matrix Code Generator</h2>
-
-<div>
-    <button class="utility-button" onclick="resetToDefaults()">Reset to Default Values</button>
-    <button class="utility-button" onclick="clearAllFields()">Clear All Fields</button>
+		<!-- Tiny show button (hidden by default) -->
+<div id="showDonationBtn" class="tiny-show-button" onclick="showDonation()" style="display:none;">
+    💝
 </div>
 
-<div class="serial-container">
-    <div class="input-group">
-        <label for="serial" class="hidden-label">Serial (13-14 chars):</label>
-        <input type="text" id="serial" name="serial" maxlength="14">
-		<button type="button" class="utility-button" onclick="focusSerial()">Edit Serial</button>
-    </div>
-    <div id="generatedCode">
-  <div id="codeTitle" style="font-weight: bold; color: blue; font-size: 20px;">2D Data Matrix code PCE:</div>
-  <div style="display: flex; align-items: center;">
-  <div id="codeResult" style="margin-right: 10px;"></div>
-    <button id="copyButton" class="utility-button" style="margin: 0; padding: 4px 8px; font-size: 12px;">Copy</button>
-  </div>
-  <div id="barcodeImage"></div>
-</div>
-</div>
-</div>
-</div>
+		<div id="FormContainer">
+        <div class="serial-container">
+            <div class="input-group">
+                <label for="serial" class="hidden-label">Serial (13-14 chars):</label>
+                <input type="text" id="serial" name="serial" maxlength="14">
+                <button type="button" class="utility-button" onclick="focusSerial()">Edit Serial</button>
+            </div>
+        </div>
+         <div class="utility-buttons">
+            <button class="utility-button" onclick="resetToDefaults()">Reset to Default Values</button>
+            <button class="utility-button" onclick="clearAllFields()">Clear All Fields</button>
+        </div>
 
+        <div class="input-group">
+            <label for="shortSku">ShortSKU (6 chars):</label>
+            <input type="text" id="shortSku" name="shortSku" maxlength="6">
+        </div>
+        
+        <div class="input-group">
+            <label for="quantity">Quantity (4 digits):</label>
+            <input type="number" id="quantity" name="quantity" min="0" max="9999">
+        </div>
+        
+        <div class="input-group">
+            <label for="madeIn">Made IN (2 chars):</label>
+            <input type="text" id="madeIn" name="madeIn" maxlength="2">
+        </div>
+        
+        <div class="input-group">
+            <label for="supplierId">Supplier ID (3 chars):</label>
+            <input type="text" id="supplierId" name="supplierId" maxlength="3">
+        </div>
+        
+        <div class="input-group">
+            <label for="batch">Batch (3-17 chars):</label>
+            <input type="text" id="batch" name="batch" minlength="3" maxlength="17">
+        </div>
+        
+        <div class="input-group">
+            <label for="originPref">Origin Pref (3-17 chars):</label>
+            <input type="text" id="originPref" name="originPref" minlength="3" maxlength="17">
+        </div>
+        
+        <button onclick="generateCode()">Generate code</button>
 </div>
+    
+		 <div id="mainContainer">
+			<div id="generatedCode">
+				<div id="codeTitle">
+					<h3>2D Data Matrix code PCE</h3>
+				</div>
+				<div class="code-result-container">
+					<div id="codeResult"></div>
+					<button id="copyButton" class="utility-button">Copy</button>
+				</div>
+				<div id="barcodeImage"></div>
+			</div>
+			
+			<div id=binaryCodeSection>
+				<h3>RFID code</h3>
+				<div class=code-result-container>
+				<div id=binaryResult></div>
+				<button id=copyBinaryButton class=utility-button>Copy</button>
+			</div>
+			</div>
 
-<div class="input-group">
-    <label for="shortSku">ShortSKU (6 chars):</label>
-    <input type="text" id="shortSku" name="shortSku" maxlength="6">
+			<div id="productImageSection">
+			<h3>Product Image</h3>
+			<a id="productImageLink" href="#" target="_blank">
+				<img id="productImage" src="" alt="Product Image">
+			</a>
+			</div>
+		</div>
 </div>
+    
+    	
+	<div id="copyright">
+    &copy; Nikita Astafiev. All rights reserved V.1.1
+	</div>
+    
+</body>
 
-<div class="input-group">
-    <label for="quantity">Quantity (4 digits):</label>
-    <input type="number" id="quantity" name="quantity" min="0" max="9999">
-</div>
-
-<div class="input-group">
-    <label for="madeIn">Made IN (2 chars):</label>
-    <input type="text" id="madeIn" name="madeIn" maxlength="2">
-</div>
-
-<div class="input-group">
-    <label for="supplierId">Supplier ID (3 chars):</label>
-    <input type="text" id="supplierId" name="supplierId" maxlength="3">
-</div>
-
-<div class="input-group">
-    <label for="batch">Batch (3-17 chars):</label>
-    <input type="text" id="batch" name="batch" minlength="3" maxlength="17">
-</div>
-
-<div class="input-group">
-    <label for="originPref">Origin Pref (3-17 chars):</label>
-    <input type="text" id="originPref" name="originPref" minlength="3" maxlength="17">
-</div>
-
-<button onclick="generateCode()">Generate Code</button>
-
-<div id="productImageSection" style="display: none; position: absolute; left: 50%; transform: translateX(-50%); margin-top: 10px; text-align: center;font-size: 20px;">
-    <h3 style="color: blue; margin-left: -150px;margin-bottom: 10px;">Product Image</h3>
-    <a id="productImageLink" href="#" target="_blank">
-        <img id="productImage" src="" alt="Product Image" style="max-width: 300px; margin-left: 150px; border: 1px solid #ccc; padding: 80px;">
-    </a>
-</div>
 
 
 <script>
-    const _0x3978d4=_0x3ff7;(function(_0x5191f7,_0x27ccc3){const _0x277bb2=_0x3ff7,_0x340bbf=_0x5191f7();while(!![]){try{const _0xbcf17c=-parseInt(_0x277bb2(0x1ad))/0x1+parseInt(_0x277bb2(0x19f))/0x2*(parseInt(_0x277bb2(0x17c))/0x3)+parseInt(_0x277bb2(0x16e))/0x4*(-parseInt(_0x277bb2(0x16a))/0x5)+parseInt(_0x277bb2(0x196))/0x6*(parseInt(_0x277bb2(0x17b))/0x7)+parseInt(_0x277bb2(0x19a))/0x8*(-parseInt(_0x277bb2(0x194))/0x9)+-parseInt(_0x277bb2(0x191))/0xa+parseInt(_0x277bb2(0x1a5))/0xb;if(_0xbcf17c===_0x27ccc3)break;else _0x340bbf['push'](_0x340bbf['shift']());}catch(_0x26c985){_0x340bbf['push'](_0x340bbf['shift']());}}}(_0x1efd,0x79997),Date[_0x3978d4(0x193)][_0x3978d4(0x19b)]=function(){const _0x15fe1f=_0x3978d4;var _0x150ba2=new Date(this[_0x15fe1f(0x19c)]()),_0x55978e=(this[_0x15fe1f(0x173)]()+0x6)%0x7;_0x150ba2['setDate'](_0x150ba2[_0x15fe1f(0x1b2)]()-_0x55978e+0x3);var _0x29e2c6=_0x150ba2[_0x15fe1f(0x19c)]();return _0x150ba2[_0x15fe1f(0x190)](0x0,0x1),_0x150ba2[_0x15fe1f(0x173)]()!=0x4&&_0x150ba2['setMonth'](0x0,0x1+(0x4-_0x150ba2['getDay']()+0x7)%0x7),0x1+Math[_0x15fe1f(0x170)]((_0x29e2c6-_0x150ba2)/0x240c8400);});function getWeekNumber(){const _0x3931d1=_0x3978d4;var _0x1e232e=new Date();alert(_0x1e232e[_0x3931d1(0x19b)]());}function _0x3ff7(_0x84e640,_0x63b206){const _0x1efd41=_0x1efd();return _0x3ff7=function(_0x3ff795,_0x434589){_0x3ff795=_0x3ff795-0x164;let _0x46836a=_0x1efd41[_0x3ff795];return _0x46836a;},_0x3ff7(_0x84e640,_0x63b206);}let currentShortSku='';function updateProductImage(){const _0x5d0020=_0x3978d4,_0x556cac=document['getElementById'](_0x5d0020(0x195))[_0x5d0020(0x178)],_0x45b997=document[_0x5d0020(0x165)]('productImageSection'),_0x46eace=Math[_0x5d0020(0x16f)]()<0.2;if(_0x46eace){const _0x3080ab='PayPal.png';document[_0x5d0020(0x165)]('productImage')['src']=_0x3080ab,document['getElementById'](_0x5d0020(0x176))[_0x5d0020(0x171)]='#',_0x45b997[_0x5d0020(0x181)][_0x5d0020(0x168)]=_0x5d0020(0x1a1),_0x45b997['style'][_0x5d0020(0x19d)]='270px';}else{if(_0x556cac&&_0x556cac!==currentShortSku){const _0x3f77c0='https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--'+_0x556cac+'_PM2_Front%20view.jpg?wid=800&amp;hei=800';document[_0x5d0020(0x165)]('productImage')['src']=_0x3f77c0,document['getElementById'](_0x5d0020(0x176))[_0x5d0020(0x171)]=_0x3f77c0,_0x45b997['style'][_0x5d0020(0x19d)]='270px',_0x45b997[_0x5d0020(0x181)][_0x5d0020(0x168)]=_0x5d0020(0x1a1),currentShortSku=_0x556cac;}else!_0x556cac&&!_0x46eace&&(_0x45b997['style'][_0x5d0020(0x168)]=_0x5d0020(0x192),currentShortSku='');}}let counter=0x0,serialOverride=![];function resetToDefaults(){const _0x1d558a=_0x3978d4;document['getElementById'](_0x1d558a(0x195))[_0x1d558a(0x178)]=_0x1d558a(0x198),document['getElementById'](_0x1d558a(0x1a7))['value']=_0x1d558a(0x197),document[_0x1d558a(0x165)](_0x1d558a(0x1a6))[_0x1d558a(0x178)]='US',document['getElementById']('supplierId')['value']=_0x1d558a(0x1af),document[_0x1d558a(0x165)](_0x1d558a(0x17a))[_0x1d558a(0x178)]='FR',document[_0x1d558a(0x165)]('originPref')['value']='UE',serialOverride=![],generateCode();}function clearAllFields(){const _0x317053=_0x3978d4;document['getElementById']('serial')[_0x317053(0x178)]='',document[_0x317053(0x165)]('shortSku')[_0x317053(0x178)]='',document['getElementById'](_0x317053(0x1a7))[_0x317053(0x178)]='',document[_0x317053(0x165)]('madeIn')['value']='',document[_0x317053(0x165)](_0x317053(0x1ac))[_0x317053(0x178)]='',document[_0x317053(0x165)](_0x317053(0x17a))[_0x317053(0x178)]='',document[_0x317053(0x165)](_0x317053(0x1ab))['value']='',serialOverride=![],generateCode();}function _0x1efd(){const _0x3fe998=['createElement','getDate','Error\x20generating\x20barcode:\x20','barcodeImage','getElementById','addEventListener','Copy\x20failed.\x20','display','getFullYear','248510uUjJON','padStart','catch','removeChild','44mXXLnW','random','ceil','href','select','getDay','toCanvas','onload','productImageLink','focus','value','#4CAF50','batch','6153427oQQtUb','9TadSrB','activeElement','backgroundColor','change','body','style','writeText','Copied!','innerText','serial','forEach','input','generatedCode','Copy\x20failed:','center','copy','canvas','hidden','#007bff','remove','setMonth','4123020JwuHOL','none','prototype','143685PYOFSs','shortSku','6lxpHqh','0010','M41414','htmlFor','24uwmzVP','getWeek','valueOf','top','hidden-label','90866eUTpsi','codeResult','block','innerHTML','appendChild','datamatrix','9458581zJzDPf','madeIn','quantity','click','getMonth','classList','originPref','supplierId','370241flbMkb','copyButton','130','label'];_0x1efd=function(){return _0x3fe998;};return _0x1efd();}function focusSerial(){const _0x40e8e7=_0x3978d4,_0x2afd6c=document[_0x40e8e7(0x165)]('serial');_0x2afd6c[_0x40e8e7(0x177)](),_0x2afd6c[_0x40e8e7(0x172)]();}function generateCode(){const _0x4713f0=_0x3978d4,_0x5d44d4=document[_0x4713f0(0x165)](_0x4713f0(0x185)),_0x454ad1=document['getElementById'](_0x4713f0(0x195)),_0x3e36ad=document['getElementById'](_0x4713f0(0x1a7)),_0x2668e9=document[_0x4713f0(0x165)]('madeIn'),_0x22da70=document[_0x4713f0(0x165)]('supplierId'),_0xb6e8aa=document[_0x4713f0(0x165)](_0x4713f0(0x17a)),_0x1941e4=document[_0x4713f0(0x165)](_0x4713f0(0x1ab));currentShortSku='',updateProductImage();if(!serialOverride){counter++;const _0x5a24f2=new Date(),_0x43f8c6=_0x5a24f2[_0x4713f0(0x169)](),_0x23a5b7=String(_0x5a24f2[_0x4713f0(0x1a9)]()+0x1)['padStart'](0x2,'0'),_0x4560c6=String(_0x5a24f2['getDate']())[_0x4713f0(0x16b)](0x2,'0'),_0xafaaf=''+_0x43f8c6+_0x23a5b7+_0x4560c6,_0x442994=String(counter)[_0x4713f0(0x16b)](0x4,'0'),_0x40d095='FR'+_0xafaaf+_0x442994;_0x5d44d4['value']=_0x40d095;}_0x5d44d4[_0x4713f0(0x166)](_0x4713f0(0x187),()=>{serialOverride=!![];});_0x5d44d4[_0x4713f0(0x178)]===''&&(_0x5d44d4['value']=createSerial());const _0x4d0162=document['querySelectorAll'](_0x4713f0(0x1b0));_0x4d0162[_0x4713f0(0x186)](_0x5b63b5=>{const _0x5041d6=_0x4713f0;_0x5b63b5[_0x5041d6(0x199)]!==_0x5041d6(0x185)&&_0x5b63b5[_0x5041d6(0x1aa)]['remove'](_0x5041d6(0x19e));});const _0x54cc46=document['getElementById'](_0x4713f0(0x188));_0x54cc46[_0x4713f0(0x1aa)][_0x4713f0(0x18f)](_0x4713f0(0x18d));const _0x3c6af2=_0x3e36ad[_0x4713f0(0x178)],_0x3b2e0e=_0x454ad1[_0x4713f0(0x178)],_0x2928b3=_0x22da70['value'],_0x40e96c=_0x2668e9[_0x4713f0(0x178)],_0x45c86a=_0x1941e4[_0x4713f0(0x178)],_0x5387e6=_0xb6e8aa[_0x4713f0(0x178)],_0x57c382='0_'+_0x5d44d4[_0x4713f0(0x178)]+'_'+_0x3c6af2+'_'+_0x3b2e0e+'__'+_0x2928b3+'_'+_0x40e96c+'_'+_0x45c86a+'_'+_0x5387e6;document['getElementById'](_0x4713f0(0x1a0))[_0x4713f0(0x184)]=_0x57c382;const _0x47b149=document[_0x4713f0(0x165)](_0x4713f0(0x164));_0x47b149[_0x4713f0(0x1a2)]='';const _0x443e0d=document['createElement'](_0x4713f0(0x18c));_0x47b149[_0x4713f0(0x1a3)](_0x443e0d);try{bwipjs[_0x4713f0(0x174)](_0x443e0d,{'bcid':_0x4713f0(0x1a4),'text':_0x57c382,'scale':1.5,'height':0x19,'includetext':![],'textxalign':_0x4713f0(0x18a)});}catch(_0x2f9a2f){_0x47b149[_0x4713f0(0x1a2)]=_0x4713f0(0x1b3)+_0x2f9a2f;}}window[_0x3978d4(0x175)]=function(){const _0x1c7020=_0x3978d4,_0x2aa948=document[_0x1c7020(0x165)](_0x1c7020(0x185)),_0x20b021=document[_0x1c7020(0x165)](_0x1c7020(0x195)),_0x3c7af6=document[_0x1c7020(0x165)](_0x1c7020(0x1a7)),_0x293398=document['getElementById'](_0x1c7020(0x1a6)),_0x3c1a36=document[_0x1c7020(0x165)](_0x1c7020(0x1ac)),_0x37b190=document[_0x1c7020(0x165)](_0x1c7020(0x17a)),_0x2f008a=document[_0x1c7020(0x165)](_0x1c7020(0x1ab));updateProductImage(),document[_0x1c7020(0x165)](_0x1c7020(0x195))[_0x1c7020(0x166)](_0x1c7020(0x17f),function(){const _0x26dd51=_0x1c7020;(!document[_0x26dd51(0x17d)]||document[_0x26dd51(0x17d)]['id']!==_0x26dd51(0x195))&&updateProductImage();}),_0x20b021[_0x1c7020(0x178)]=_0x1c7020(0x198),_0x3c7af6[_0x1c7020(0x178)]='0010',_0x293398[_0x1c7020(0x178)]='US',_0x3c1a36[_0x1c7020(0x178)]=_0x1c7020(0x1af),_0x37b190[_0x1c7020(0x178)]='FR',_0x2f008a[_0x1c7020(0x178)]='UE',generateCode();},document[_0x3978d4(0x165)](_0x3978d4(0x1ae))[_0x3978d4(0x166)](_0x3978d4(0x1a8),function(){const _0x1187e6=_0x3978d4,_0x2f9ce2=document[_0x1187e6(0x165)](_0x1187e6(0x1a0))[_0x1187e6(0x184)];if(navigator['clipboard'])navigator['clipboard'][_0x1187e6(0x182)](_0x2f9ce2)['then'](()=>{const _0x1b58be=_0x1187e6,_0x18a64e=this[_0x1b58be(0x184)];this['innerText']=_0x1b58be(0x183),this[_0x1b58be(0x181)][_0x1b58be(0x17e)]=_0x1b58be(0x179),setTimeout(()=>{const _0x4ba4ad=_0x1b58be;this['innerText']=_0x18a64e,this[_0x4ba4ad(0x181)]['backgroundColor']='#007bff';},0x5dc);})[_0x1187e6(0x16c)](_0xdbb820=>{const _0x4686f8=_0x1187e6;console['error'](_0x4686f8(0x189),_0xdbb820),alert(_0x4686f8(0x167)+_0xdbb820);});else{const _0x5cea6f=document[_0x1187e6(0x1b1)]('textarea');_0x5cea6f[_0x1187e6(0x178)]=_0x2f9ce2,document[_0x1187e6(0x180)]['appendChild'](_0x5cea6f),_0x5cea6f[_0x1187e6(0x172)]();try{document['execCommand'](_0x1187e6(0x18b));const _0x5612d3=this[_0x1187e6(0x184)];this['innerText']=_0x1187e6(0x183),this[_0x1187e6(0x181)][_0x1187e6(0x17e)]='#4CAF50',setTimeout(()=>{const _0x50ddea=_0x1187e6;this[_0x50ddea(0x184)]=_0x5612d3,this['style']['backgroundColor']=_0x50ddea(0x18e);},0x5dc);}catch(_0x3a8300){console['error'](_0x1187e6(0x189),_0x3a8300),alert('Copy\x20failed');}document['body'][_0x1187e6(0x16d)](_0x5cea6f);}});
+
+let currentShortSku = '';
+
+function updateProductImage() {
+    const shortSkuValue = document.getElementById('shortSku').value;
+    const imageSection = document.getElementById('productImageSection');
+    
+		// For production, set 20% probability
+    //const showAlternateImage = Math.random() < 0.2;
+        
+     //if (showAlternateImage) {
+        // Use the PayPal image path similar to how the favicon is referenced
+        //const alternateImageUrl = "PayPal.png";
+        //document.getElementById('productImage').src = alternateImageUrl;
+        //document.getElementById('productImageLink').href = "#"; // No external link needed
+        
+        // Show the image section regardless of shortSkuValue
+        //imageSection.style.display = 'block';
+        //imageSection.style.top = '270px';
+        
+    //} else if (shortSkuValue && shortSkuValue !== currentShortSku) {
+        // Show the regular Louis Vuitton product image (80% probability)
+        const imageUrl = `https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--${shortSkuValue}_PM2_Front%20view.jpg?wid=800&amp;hei=800`;
+        
+        // Update the image and link
+        document.getElementById('productImage').src = imageUrl;
+        document.getElementById('productImageLink').href = imageUrl;
+        
+        // Position the image section under the generated code
+        imageSection.style.top = '270px';
+        
+        // Show the image section
+        imageSection.style.display = 'block';
+        
+        // Update the current SKU
+        currentShortSku = shortSkuValue;
+    //} else if (!shortSkuValue && !showAlternateImage) {
+        // Hide the image section if ShortSKU is empty and not showing alternate image
+        //imageSection.style.display = 'none';
+        currentShortSku = '';
+    //}
+}
+
+
+
+
+    let counter = 0; // Initialize counter
+    let serialOverride = false;
+
+    function resetToDefaults() {
+        document.getElementById('shortSku').value = 'M41414';
+        document.getElementById('quantity').value = '0010';
+        document.getElementById('madeIn').value = 'US';
+        document.getElementById('supplierId').value = '130';
+        document.getElementById('batch').value = 'FR';
+        document.getElementById('originPref').value = 'UE';
+        serialOverride = false; // Allow auto-generation of serial again
+        generateCode();
+    }
+    
+    function clearAllFields() {
+        document.getElementById('serial').value = '';
+        document.getElementById('shortSku').value = '';
+        document.getElementById('quantity').value = '';
+        document.getElementById('madeIn').value = '';
+        document.getElementById('supplierId').value = '';
+        document.getElementById('batch').value = '';
+        document.getElementById('originPref').value = '';
+        serialOverride = false; // Prevent auto-generation of serial
+        generateCode();
+    }
+	
+	function focusSerial() {
+    const serialInput = document.getElementById('serial');
+    serialInput.focus();
+    
+    // Optional: select all text in the field to make it easy to replace
+    serialInput.select();
+}
+
+// Binary converter functions from version01.html
+function convertCharWithTable(char, table) {
+    var decimal = table[char] || 63;
+    var bin6 = decimal.toString(2).padStart(6, '0');
+    var binaryValue = parseInt(bin6, 2);
+    var adjusted = binaryValue - 1;
+    var finalBinary = adjusted.toString(2).padStart(6, '0');
+    return {
+        decimal: decimal,
+        binaryFirst: bin6,
+        adjusted: adjusted,
+        binary: finalBinary
+    };
+}
+
+function generateBinaryCode() {
+    // Get values from the existing form fields
+    var param1 = document.getElementById('serial').value.toUpperCase(); // Serial
+    var param2 = document.getElementById('shortSku').value.toUpperCase(); // ShortSKU
+    var param3 = document.getElementById('quantity').value.trim(); // Quantity
+    var param4 = document.getElementById('madeIn').value.toUpperCase(); // Made IN
+    
+    // Character table from version01.html
+    var table = {
+        '0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8, '8': 9, '9': 10,
+        'A': 18, 'B': 19, 'C': 20, 'D': 21, 'E': 22, 'F': 23, 'G': 24, 'H': 25, 'I': 26,
+        'J': 34, 'K': 35, 'L': 36, 'M': 37, 'N': 38, 'O': 39, 'P': 40, 'Q': 41, 'R': 42,
+        'S': 51, 'T': 52, 'U': 53, 'V': 54, 'W': 55, 'X': 56, 'Y': 57, 'Z': 58, '[': 11,
+        '#': 12, '@': 13, ':': 14, '>': 15, '?': 16, ' ': 17, '.': 28, ']': 29, '(': 30,
+        '<': 31, '^': 33, '-': 43, '$': 44, '*': 45, ')': 46, ';': 47, '/': 50, ',': 60, 
+        '%': 61, '=': 62, '': 63, '!': 64 
+    };
+
+    // Start with 0000
+    var binary = '0000';
+    var details = '<h4>Conversion Process:</h4>';
+    details += 'Step 1: Fixed prefix = <span class=binary-group>0000</span><br><br>';
+
+    // Process Parameter 1 (Serial)
+    if (param1) {
+        // Process first 2 characters with table (decimal-1 rule)
+        for (var i = 0; i < 2 && i < param1.length; i++) {
+            var char = param1[i];
+            var result = convertCharWithTable(char, table);
+            binary += result.binary;
+        }
+
+
+         // Process remaining characters as digits (direct 4-bit conversion)
+        for (var i = 2; i < param1.length; i++) {
+            var digit = param1[i];
+            if (digit >= '0' && digit <= '9') {
+                var bin4 = parseInt(digit).toString(2).padStart(4, '0');
+                binary += bin4;
+            }
+        }
+    }
+
+
+    // Process Parameter 2 (ShortSKU)
+    if (param2) {
+        for (var i = 0; i < param2.length && i < 6; i++) {
+            var char = param2[i];
+            var result = convertCharWithTable(char, table);
+            binary += result.binary;
+        }
+    }
+
+
+    // Process Parameter 3 (Quantity)
+    if (param3) {
+        var number = parseInt(param3);
+        if (!isNaN(number)) {
+            var numberBinary = number.toString(2);
+            var paddedBinary = numberBinary.padStart(12, '0');
+            binary += paddedBinary;
+        }
+    }
+
+    // Process Parameter 4 (Made IN)
+    if (param4) {
+        for (var i = 0; i < param4.length && i < 2; i++) {
+            var char = param4[i];
+            var result = convertCharWithTable(char, table);
+            binary += result.binary;
+        }
+    }
+
+
+    // Add final 0000
+    binary += '0000';
+
+    // Convert to hexadecimal
+    var hexResult = '';
+    var hexDetails = '<strong>Hexadecimal Conversion:</strong><br>';
+    
+    for (var i = 0; i < binary.length; i += 4) {
+        var fourBits = binary.substr(i, 4);
+        var hexDigit = parseInt(fourBits, 2).toString(16).toUpperCase();
+        hexResult += hexDigit;
+    }
+
+    
+    // Add final dash
+    var finalResult = hexResult + '-';
+
+    // Format binary output in groups of 4
+    var formatted = '';
+    for (var i = 0; i < binary.length; i += 4) {
+        formatted += '<span class=binary-group>' + binary.substr(i, 4) + '</span> ';
+    }
+
+    // Display results in the binary section
+    document.getElementById('binaryResult').innerHTML = 
+        '<div class=hex-result>' + finalResult + '</div>';
+
+    // Show the binary code section
+    document.getElementById('binaryCodeSection').style.display = 'block';
+     
+}
+
+    function generateCode() {
+        const serialInput = document.getElementById('serial');
+        const shortSkuInput = document.getElementById('shortSku');
+        const quantityInput = document.getElementById('quantity');
+        const madeInInput = document.getElementById('madeIn');
+        const supplierIdInput = document.getElementById('supplierId');
+        const batchInput = document.getElementById('batch');
+        const originPrefInput = document.getElementById('originPref');
+
+		// Force currentShortSKU to reset so we recalculate completely
+		currentShortSku = '';
+
+		// Update the product image based on ShortSKU
+		updateProductImage();
+	
+        // Serial generation logic
+        if (!serialOverride) {
+            counter++;
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${year}${month}${day}`;
+            const formattedCounter = String(counter).padStart(4, '0');
+            const serialValue = `FR${formattedDate}${formattedCounter}`;
+            serialInput.value = serialValue;
+        }
+		
+		// In the window.onload function, add this event listener
+serialInput.addEventListener('input', () => {
+    serialOverride = true; // Remember that user has manually edited
+});
+
+// Then in the generateCode function, replace the first block with:
+// Serial generation logic - only auto-generate if empty
+if (serialInput.value === '') {
+    serialInput.value = createSerial();
+}
+
+
+
+        // Show Labels by removing the class
+        const labels = document.querySelectorAll('label');
+        labels.forEach(label => {
+            if (label.htmlFor !== 'serial') {
+                label.classList.remove('hidden-label');
+            }
+        });
+
+        //Show Generated code results by removing the class
+        const generatedCodeDiv = document.getElementById('generatedCode');
+        generatedCodeDiv.classList.remove('hidden');
+			
+		const quantityValue = quantityInput.value;
+        const shortSkuValue = shortSkuInput.value;
+        const supplierIdValue = supplierIdInput.value;
+        const madeInValue = madeInInput.value;
+        const originPrefValue = originPrefInput.value;
+        const batchValue = batchInput.value;
+
+        const code = `0_${serialInput.value}_${quantityValue}_${shortSkuValue}__${supplierIdValue}_${madeInValue}_${originPrefValue}_${batchValue}`;
+
+        document.getElementById('codeResult').innerText = code;
+        
+        // Clear previous barcode
+        const barcodeDiv = document.getElementById('barcodeImage');
+        barcodeDiv.innerHTML = '';
+
+        // Create canvas for the barcode
+        const canvas = document.createElement('canvas');
+        barcodeDiv.appendChild(canvas);
+
+        // Generate Data Matrix barcode
+        try {
+            bwipjs.toCanvas(canvas, {
+                bcid: 'datamatrix',
+                text: code,
+                scale: 1.5,
+                height: 25,
+                includetext: false,
+                textxalign: 'center'
+            });
+        } catch (e) {
+            barcodeDiv.innerHTML = 'Error generating barcode: ' + e;
+        }
+    
+
+ // Generate binary code too
+        generateBinaryCode();
+    }
+
+    window.onload = function () {
+
+        const serialInput = document.getElementById('serial');
+        const shortSkuInput = document.getElementById('shortSku');
+        const quantityInput = document.getElementById('quantity');
+        const madeInInput = document.getElementById('madeIn');
+        const supplierIdInput = document.getElementById('supplierId');
+        const batchInput = document.getElementById('batch');
+        const originPrefInput = document.getElementById('originPref');
+		
+		 // Set up the initial product image if ShortSKU has a value
+    updateProductImage();
+    
+    // Optional: Add event listener to automatically update when ShortSKU changes
+    document.getElementById('shortSku').addEventListener('change', function() {
+        // Only update if we're not in the middle of generating a code
+        if (!document.activeElement || document.activeElement.id !== 'shortSku') {
+            updateProductImage();
+        }
+    });
+
+
+
+        // Set initial default values directly
+        shortSkuInput.value = 'M41414';
+        quantityInput.value = '0010';
+        madeInInput.value = 'US';
+        supplierIdInput.value = '130';
+        batchInput.value = 'FR';
+        originPrefInput.value = 'UE';
+
+        generateCode(); // Generate initial code with default values
+    };
+	// Function to copy the generated code to clipboard
+document.getElementById('copyButton').addEventListener('click', function() {
+    const codeText = document.getElementById('codeResult').innerText;
+    
+    // Use modern Clipboard API if available
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(codeText).then(() => {
+            // Provide visual feedback that copy succeeded
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            // Return to original state after 1.5 seconds
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = codeText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            // Provide visual feedback
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
+        }
+        
+        document.body.removeChild(textarea);
+    }
+
+	// Copy button for binary code
+document.getElementById('copyBinaryButton').addEventListener('click', function() {
+    const binaryText = document.getElementById('binaryResult').innerText;
+    
+    // Use modern Clipboard API if available
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(binaryText).then(() => {
+            // Provide visual feedback that copy succeeded
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            // Return to original state after 1.5 seconds
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = binaryText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            // Provide visual feedback
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
+        }
+        
+        document.body.removeChild(textarea);
+    }
+});
+	});
+
+function hideDonation() {
+    const donationSection = document.getElementById('donationSection');
+    
+    // Add transition styles
+    donationSection.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    donationSection.style.opacity = '0';
+    donationSection.style.transform = 'scale(0.8)';
+    
+    setTimeout(function() {
+        donationSection.style.display = 'none';
+        document.getElementById('showDonationBtn').style.display = 'flex';
+    }, 800); // Match the transition duration
+}
+
+
+function showDonation() {
+    const donationSection = document.getElementById('donationSection');
+    
+    // Reset properties and start with hidden state
+    donationSection.style.display = 'block';
+    donationSection.style.opacity = '0';
+    donationSection.style.transform = 'scale(0.5) rotate(-180deg)';
+    donationSection.style.filter = 'blur(5px)';
+    
+    // Hide the tiny show button
+    document.getElementById('showDonationBtn').style.display = 'none';
+    
+    // Animate in with spring effect
+    setTimeout(function() {
+        donationSection.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        donationSection.style.opacity = '1';
+        donationSection.style.transform = 'scale(1) rotate(0deg)';
+        donationSection.style.filter = 'blur(0px)';
+        
+        // Clear transition after animation
+        setTimeout(function() {
+            donationSection.style.transition = '';
+        }, 600);
+    }, 10);
+}
+
+
+
+function autoHideDonationWithCountdown() {
+    let timeLeft = 15; // 15 seconds
+    
+    // Create countdown container
+    const countdownContainer = document.createElement('div');
+    countdownContainer.id = 'donationCountdown';
+    countdownContainer.style.cssText = 'position: absolute; top: 45px; right: 15px; color: rgba(255,255,255,0.9); font-size: 12px; text-align: right; line-height: 1.3;';
+    
+    // Initial text
+    countdownContainer.innerHTML = `Auto-close in<br><strong>${timeLeft}</strong> seconds`;
+    
+    // Add to donation section
+    document.getElementById('donationSection').appendChild(countdownContainer);
+    
+    // Update countdown every second
+    const countdownInterval = setInterval(function() {
+        timeLeft--;
+        
+        if (timeLeft > 0) {
+            countdownContainer.innerHTML = `Auto-close in<br><strong>${timeLeft}</strong> second${timeLeft === 1 ? '' : 's'}`;
+        } else {
+            countdownContainer.innerHTML = `Closing...`;
+            
+            // Hide after showing "Closing..." briefly
+            setTimeout(function() {
+                clearInterval(countdownInterval);
+                const donationSection = document.getElementById('donationSection');
+                if (donationSection && donationSection.style.display !== 'none') {
+                    hideDonation();
+                }
+            }, 500); // Wait 0.5 seconds before actually hiding
+        }
+    }, 1000);
+    
+    // Clear countdown if user manually closes
+    document.getElementById('hideDonationBtn').addEventListener('click', function() {
+        clearInterval(countdownInterval);
+        if (document.getElementById('donationCountdown')) {
+            document.getElementById('donationCountdown').remove();
+        }
+    });
+}
+
+// Start countdown when page loads
+window.addEventListener('load', function() {
+    autoHideDonationWithCountdown();
+});
+
+
+
+</script>
+
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="stilsla" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="12" data-y_margin="32">
 </script>
 
 </body>
