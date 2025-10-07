@@ -696,7 +696,17 @@ function toggleHalloweenMode() {
         button.textContent = '🎃 Halloween Mode';
         button.classList.remove('active');
         
-        // Stop intervals
+                 // Restore original button texts
+        if (topGenerateButton && topGenerateButton.dataset.originalText) {
+            topGenerateButton.textContent = topGenerateButton.dataset.originalText;
+            delete topGenerateButton.dataset.originalText;
+        }
+        if (bottomGenerateButton && bottomGenerateButton.dataset.originalText) {
+            bottomGenerateButton.textContent = bottomGenerateButton.dataset.originalText;
+            delete bottomGenerateButton.dataset.originalText;
+        }
+				
+		// Stop intervals
         if (halloweenInterval) clearInterval(halloweenInterval);
         if (titleInterval) clearInterval(titleInterval);
         
@@ -1215,3 +1225,4 @@ window.addEventListener('load', function() {
 
 </body>
 </html>
+
