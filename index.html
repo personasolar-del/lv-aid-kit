@@ -406,15 +406,88 @@
 		}
 		*/
 
-	</style>
+
+		/* Halloween mode body styles */
+		body.halloween-mode {
+			background: linear-gradient(45deg, #1a1a1a, #2d1b3d) !important;
+			background-image: none !important;
+			color: #ff6b35 !important;
+			transition: background 0.5s ease, color 0.5s ease;
+		}
+
+		body.halloween-mode.spooky-cursor {
+			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">🎃</text></svg>'), auto !important;
+		}
+
+		/* Floating emoji animation */
+		.floating-emoji {
+			position: fixed;
+			font-size: 30px;
+			pointer-events: none;
+			z-index: 1000;
+			animation: float 8s infinite ease-in-out;
+			opacity: 0;
+		}
+
+		@keyframes float {
+			0%, 100% { 
+				transform: translateY(100vh) rotate(0deg); 
+				opacity: 0; 
+			}
+			10%, 90% { 
+				opacity: 1; 
+			}
+			50% { 
+				transform: translateY(-100px) rotate(180deg); 
+			}
+		}
+
+		@keyframes glow {
+			from { text-shadow: 0 0 20px #ff6b35; }
+			to { text-shadow: 0 0 30px #ff6b35, 0 0 40px #ff6b35; }
+		}
+
+		/* Glowing effect for titles in Halloween mode */
+		body.halloween-mode h3 {
+			animation: glow 2s ease-in-out infinite alternate;
+		}
+
+		/* Halloween toggle button */
+		#halloweenToggle {
+			font-size: 16px;
+			padding: 10px 15px;
+			background: linear-gradient(45deg, #ff6b35, #ff8c42);
+			color: white;
+			border: none;
+			cursor: pointer;
+			border-radius: 8px;
+			margin: 10px;
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+		}
+
+		#halloweenToggle:hover {
+			background: linear-gradient(45deg, #ff8c42, #ff6b35);
+			transform: scale(1.05);
+		}
+
+		#halloweenToggle.active {
+			background: linear-gradient(45deg, #2d1b3d, #1a1a1a);
+			animation: glow 2s ease-in-out infinite alternate;
+		}
+
+</style>
 
 </head>
 <body>
     
-		<div class="generate-section">
+		<div class=generate-section>
 			<button onclick=generateCode()>Generate Code</button>
+			<button id="halloweenToggle" onclick="toggleHalloweenMode()">🎃 Halloween Mode</button>
 		</div>
-	
+
+
+
 	<!--<div id="donationSection">
 			<button id="hideDonationBtn" class="close-button" onclick="hideDonation()">&times;</button>
 			<h2>Support This Project</h2>
@@ -510,22 +583,619 @@
     
     	
 	<div id="copyright">
-    &copy; Nikita Astafiev. All rights reserved V.1.1
+    &copy; Nikita Astafiev. All rights reserved V.1.1.1 Halloween Edition
 	</div>
-    
+
+
+
 </body>
 
 
 
 <script>
 
-const _0x29d6db=_0x4c49;(function(_0x3d831e,_0x575516){const _0x376f81=_0x4c49,_0x3f8056=_0x3d831e();while(!![]){try{const _0x49af9f=-parseInt(_0x376f81(0x15e))/0x1*(parseInt(_0x376f81(0x1b1))/0x2)+parseInt(_0x376f81(0x159))/0x3+parseInt(_0x376f81(0x16f))/0x4+parseInt(_0x376f81(0x1b5))/0x5*(parseInt(_0x376f81(0x1b8))/0x6)+-parseInt(_0x376f81(0x162))/0x7+-parseInt(_0x376f81(0x18c))/0x8*(-parseInt(_0x376f81(0x1a1))/0x9)+-parseInt(_0x376f81(0x1b7))/0xa;if(_0x49af9f===_0x575516)break;else _0x3f8056['push'](_0x3f8056['shift']());}catch(_0x1dc9ee){_0x3f8056['push'](_0x3f8056['shift']());}}}(_0x2ec0,0x5ac36));let currentShortSku='';function updateProductImage(){const _0x52489b=_0x4c49,_0x395499=document[_0x52489b(0x150)](_0x52489b(0x1ad))['value'],_0x2f8384=document[_0x52489b(0x150)](_0x52489b(0x179)),_0x1e2b7f=_0x52489b(0x174)+_0x395499+_0x52489b(0x193);document[_0x52489b(0x150)](_0x52489b(0x160))[_0x52489b(0x194)]=_0x1e2b7f,document['getElementById'](_0x52489b(0x17c))[_0x52489b(0x191)]=_0x1e2b7f,_0x2f8384[_0x52489b(0x1af)][_0x52489b(0x16c)]=_0x52489b(0x1a9),_0x2f8384[_0x52489b(0x1af)][_0x52489b(0x1b4)]=_0x52489b(0x19c),currentShortSku=_0x395499,currentShortSku='';}let counter=0x0,serialOverride=![];function resetToDefaults(){const _0x4c9452=_0x4c49;document['getElementById'](_0x4c9452(0x1ad))['value']='M41414',document['getElementById'](_0x4c9452(0x176))[_0x4c9452(0x1b3)]='0010',document['getElementById'](_0x4c9452(0x16a))['value']='US',document[_0x4c9452(0x150)](_0x4c9452(0x192))['value']=_0x4c9452(0x1a7),document['getElementById'](_0x4c9452(0x175))[_0x4c9452(0x1b3)]='FR',document[_0x4c9452(0x150)](_0x4c9452(0x15d))[_0x4c9452(0x1b3)]='UE',serialOverride=![],generateCode();}function clearAllFields(){const _0x34254d=_0x4c49;document[_0x34254d(0x150)](_0x34254d(0x154))[_0x34254d(0x1b3)]='',document[_0x34254d(0x150)](_0x34254d(0x1ad))[_0x34254d(0x1b3)]='',document[_0x34254d(0x150)](_0x34254d(0x176))[_0x34254d(0x1b3)]='',document[_0x34254d(0x150)](_0x34254d(0x16a))[_0x34254d(0x1b3)]='',document['getElementById'](_0x34254d(0x192))['value']='',document['getElementById'](_0x34254d(0x175))[_0x34254d(0x1b3)]='',document['getElementById'](_0x34254d(0x15d))[_0x34254d(0x1b3)]='',serialOverride=![],generateCode();}function focusSerial(){const _0x986557=_0x4c49,_0x682948=document[_0x986557(0x150)]('serial');_0x682948[_0x986557(0x16d)](),_0x682948['select']();}function _0x4c49(_0x17c48c,_0x577869){const _0x2ec0c0=_0x2ec0();return _0x4c49=function(_0x4c49ff,_0x2dc496){_0x4c49ff=_0x4c49ff-0x14d;let _0x23b97f=_0x2ec0c0[_0x4c49ff];return _0x23b97f;},_0x4c49(_0x17c48c,_0x577869);}function convertCharWithTable(_0x4ed522,_0x272981){const _0x2b6287=_0x4c49;var _0x290526=_0x272981[_0x4ed522]||0x3f,_0x2610fb=_0x290526[_0x2b6287(0x1ab)](0x2)[_0x2b6287(0x168)](0x6,'0'),_0xcef605=parseInt(_0x2610fb,0x2),_0x480285=_0xcef605-0x1,_0x1a9857=_0x480285['toString'](0x2)[_0x2b6287(0x168)](0x6,'0');return{'decimal':_0x290526,'binaryFirst':_0x2610fb,'adjusted':_0x480285,'binary':_0x1a9857};}function generateBinaryCode(){const _0x459ecf=_0x4c49;var _0x1dd54e=document[_0x459ecf(0x150)](_0x459ecf(0x154))[_0x459ecf(0x1b3)][_0x459ecf(0x199)](),_0x412bdb=document[_0x459ecf(0x150)](_0x459ecf(0x1ad))[_0x459ecf(0x1b3)][_0x459ecf(0x199)](),_0x3026cc=document['getElementById'](_0x459ecf(0x176))['value'][_0x459ecf(0x184)](),_0x1a5e44=document[_0x459ecf(0x150)]('madeIn')['value'][_0x459ecf(0x199)](),_0x122ffc={'0':0x1,'1':0x2,'2':0x3,'3':0x4,'4':0x5,'5':0x6,'6':0x7,'7':0x8,'8':0x9,'9':0xa,'A':0x12,'B':0x13,'C':0x14,'D':0x15,'E':0x16,'F':0x17,'G':0x18,'H':0x19,'I':0x1a,'J':0x22,'K':0x23,'L':0x24,'M':0x25,'N':0x26,'O':0x27,'P':0x28,'Q':0x29,'R':0x2a,'S':0x33,'T':0x34,'U':0x35,'V':0x36,'W':0x37,'X':0x38,'Y':0x39,'Z':0x3a,'[':0xb,'#':0xc,'@':0xd,':':0xe,'>':0xf,'?':0x10,'\x20':0x11,'.':0x1c,']':0x1d,'(':0x1e,'<':0x1f,'^':0x21,'-':0x2b,'$':0x2c,'*':0x2d,')':0x2e,';':0x2f,'/':0x32,',':0x3c,'%':0x3d,'=':0x3e,'':0x3f,'!':0x40},_0x5a6a48='0000',_0xf3a7e0=_0x459ecf(0x14e);_0xf3a7e0+=_0x459ecf(0x170);if(_0x1dd54e){for(var _0x37723f=0x0;_0x37723f<0x2&&_0x37723f<_0x1dd54e['length'];_0x37723f++){var _0x56acbd=_0x1dd54e[_0x37723f],_0x3c8b55=convertCharWithTable(_0x56acbd,_0x122ffc);_0x5a6a48+=_0x3c8b55[_0x459ecf(0x155)];}for(var _0x37723f=0x2;_0x37723f<_0x1dd54e[_0x459ecf(0x1b2)];_0x37723f++){var _0x193f87=_0x1dd54e[_0x37723f];if(_0x193f87>='0'&&_0x193f87<='9'){var _0x34a347=parseInt(_0x193f87)[_0x459ecf(0x1ab)](0x2)[_0x459ecf(0x168)](0x4,'0');_0x5a6a48+=_0x34a347;}}}if(_0x412bdb)for(var _0x37723f=0x0;_0x37723f<_0x412bdb[_0x459ecf(0x1b2)]&&_0x37723f<0x6;_0x37723f++){var _0x56acbd=_0x412bdb[_0x37723f],_0x3c8b55=convertCharWithTable(_0x56acbd,_0x122ffc);_0x5a6a48+=_0x3c8b55[_0x459ecf(0x155)];}if(_0x3026cc){var _0x2d5576=parseInt(_0x3026cc);if(!isNaN(_0x2d5576)){var _0x301f99=_0x2d5576[_0x459ecf(0x1ab)](0x2),_0x4a0d09=_0x301f99[_0x459ecf(0x168)](0xc,'0');_0x5a6a48+=_0x4a0d09;}}if(_0x1a5e44)for(var _0x37723f=0x0;_0x37723f<_0x1a5e44[_0x459ecf(0x1b2)]&&_0x37723f<0x2;_0x37723f++){var _0x56acbd=_0x1a5e44[_0x37723f],_0x3c8b55=convertCharWithTable(_0x56acbd,_0x122ffc);_0x5a6a48+=_0x3c8b55[_0x459ecf(0x155)];}_0x5a6a48+='0000';var _0x4934b6='',_0x1aa613=_0x459ecf(0x19b);for(var _0x37723f=0x0;_0x37723f<_0x5a6a48[_0x459ecf(0x1b2)];_0x37723f+=0x4){var _0xee4320=_0x5a6a48[_0x459ecf(0x14f)](_0x37723f,0x4),_0x362f39=parseInt(_0xee4320,0x2)['toString'](0x10)['toUpperCase']();_0x4934b6+=_0x362f39;}var _0xb3db06=_0x4934b6+'-',_0x29b85d='';for(var _0x37723f=0x0;_0x37723f<_0x5a6a48[_0x459ecf(0x1b2)];_0x37723f+=0x4){_0x29b85d+='<span\x20class=binary-group>'+_0x5a6a48[_0x459ecf(0x14f)](_0x37723f,0x4)+_0x459ecf(0x1ac);}document[_0x459ecf(0x150)](_0x459ecf(0x18f))[_0x459ecf(0x18e)]=_0x459ecf(0x173)+_0xb3db06+_0x459ecf(0x19a),document[_0x459ecf(0x150)]('binaryCodeSection')[_0x459ecf(0x1af)][_0x459ecf(0x1b4)]='block';}function generateCode(){const _0x4011d7=_0x4c49,_0x275f39=document[_0x4011d7(0x150)](_0x4011d7(0x154)),_0x392d19=document[_0x4011d7(0x150)](_0x4011d7(0x1ad)),_0x112ee1=document[_0x4011d7(0x150)](_0x4011d7(0x176)),_0x58e09=document['getElementById'](_0x4011d7(0x16a)),_0x3354e0=document['getElementById']('supplierId'),_0x2e31c6=document['getElementById']('batch'),_0x556714=document[_0x4011d7(0x150)](_0x4011d7(0x15d));currentShortSku='',updateProductImage();if(!serialOverride){counter++;const _0x4da754=new Date(),_0x57125a=_0x4da754['getFullYear'](),_0x4867c3=String(_0x4da754[_0x4011d7(0x153)]()+0x1)[_0x4011d7(0x168)](0x2,'0'),_0x55f685=String(_0x4da754[_0x4011d7(0x166)]())['padStart'](0x2,'0'),_0x70817d=''+_0x57125a+_0x4867c3+_0x55f685,_0x1c4d83=String(counter)[_0x4011d7(0x168)](0x4,'0'),_0x55fcec='FR'+_0x70817d+_0x1c4d83;_0x275f39[_0x4011d7(0x1b3)]=_0x55fcec;}_0x275f39[_0x4011d7(0x19d)](_0x4011d7(0x196),()=>{serialOverride=!![];});_0x275f39[_0x4011d7(0x1b3)]===''&&(_0x275f39[_0x4011d7(0x1b3)]=createSerial());const _0x1560be=document['querySelectorAll'](_0x4011d7(0x19e));_0x1560be['forEach'](_0x57612b=>{const _0x740082=_0x4011d7;_0x57612b[_0x740082(0x15b)]!=='serial'&&_0x57612b[_0x740082(0x17d)][_0x740082(0x157)](_0x740082(0x15f));});const _0x329dc1=document[_0x4011d7(0x150)](_0x4011d7(0x1a8));_0x329dc1[_0x4011d7(0x17d)][_0x4011d7(0x157)](_0x4011d7(0x188));const _0x1ede38=_0x112ee1[_0x4011d7(0x1b3)],_0x5db3b2=_0x392d19[_0x4011d7(0x1b3)],_0x4a0b73=_0x3354e0['value'],_0x598ff5=_0x58e09[_0x4011d7(0x1b3)],_0x3734fa=_0x556714[_0x4011d7(0x1b3)],_0x37bac9=_0x2e31c6[_0x4011d7(0x1b3)],_0x465091='0_'+_0x275f39[_0x4011d7(0x1b3)]+'_'+_0x1ede38+'_'+_0x5db3b2+'__'+_0x4a0b73+'_'+_0x598ff5+'_'+_0x3734fa+'_'+_0x37bac9;document[_0x4011d7(0x150)]('codeResult')[_0x4011d7(0x197)]=_0x465091;const _0x2bc151=document[_0x4011d7(0x150)](_0x4011d7(0x1ae));_0x2bc151['innerHTML']='';const _0x80636c=document[_0x4011d7(0x1a0)](_0x4011d7(0x1a3));_0x2bc151[_0x4011d7(0x1bb)](_0x80636c);try{bwipjs[_0x4011d7(0x1b0)](_0x80636c,{'bcid':_0x4011d7(0x183),'text':_0x465091,'scale':1.5,'height':0x19,'includetext':![],'textxalign':_0x4011d7(0x1a2)});}catch(_0x2dcf8b){_0x2bc151[_0x4011d7(0x18e)]=_0x4011d7(0x15a)+_0x2dcf8b;}generateBinaryCode();}function _0x2ec0(){const _0x23479f=['datamatrix','trim','select','#007bff','load','hidden','activeElement','catch','removeChild','8efCMuS','none','innerHTML','binaryResult','blur(0px)','href','supplierId','_PM2_Front%20view.jpg?wid=800&amp;hei=800','src','onload','input','innerText','donationCountdown','toUpperCase','</div>','<strong>Hexadecimal\x20Conversion:</strong><br>','block','addEventListener','label','</strong>\x20seconds','createElement','163071lLMtYJ','center','canvas','codeResult','error','body','130','generatedCode','270px','Copy\x20failed.\x20','toString','</span>\x20','shortSku','barcodeImage','style','toCanvas','2DpzHUD','length','value','display','15XXgMbE','then','2618880vHBZkH','1099026iFeNiq','scale(0.8)','writeText','appendChild','click','<h4>Conversion\x20Process:</h4>','substr','getElementById','opacity','Closing...','getMonth','serial','binary','Auto-close\x20in<br><strong>','remove','transition','2055207XNjMRp','Error\x20generating\x20barcode:\x20','htmlFor','0010','originPref','304537JQYblL','hidden-label','productImage','execCommand','4127158eVpYdV','all\x200.6s\x20cubic-bezier(0.175,\x200.885,\x200.32,\x201.275)','Copied!','change','getDate','filter','padStart','transform','madeIn','#4CAF50','top','focus','position:\x20absolute;\x20top:\x2045px;\x20right:\x2015px;\x20color:\x20rgba(255,255,255,0.9);\x20font-size:\x2012px;\x20text-align:\x20right;\x20line-height:\x201.3;','1100336YUHLcu','Step\x201:\x20Fixed\x20prefix\x20=\x20<span\x20class=binary-group>0000</span><br><br>','M41414','Copy\x20failed','<div\x20class=hex-result>','https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--','batch','quantity','showDonationBtn','scale(0.5)\x20rotate(-180deg)','productImageSection','clipboard','backgroundColor','productImageLink','classList','flex','hideDonationBtn','donationSection','Copy\x20failed:','copy'];_0x2ec0=function(){return _0x23479f;};return _0x2ec0();}window[_0x29d6db(0x195)]=function(){const _0x364526=_0x29d6db,_0x2ed465=document[_0x364526(0x150)](_0x364526(0x154)),_0x43779d=document[_0x364526(0x150)](_0x364526(0x1ad)),_0x516caf=document[_0x364526(0x150)](_0x364526(0x176)),_0x1e446d=document[_0x364526(0x150)](_0x364526(0x16a)),_0x45dff9=document[_0x364526(0x150)](_0x364526(0x192)),_0x506f64=document[_0x364526(0x150)]('batch'),_0x567327=document[_0x364526(0x150)](_0x364526(0x15d));updateProductImage(),document['getElementById']('shortSku')['addEventListener'](_0x364526(0x165),function(){const _0x1f80c5=_0x364526;(!document['activeElement']||document[_0x1f80c5(0x189)]['id']!==_0x1f80c5(0x1ad))&&updateProductImage();}),_0x43779d[_0x364526(0x1b3)]=_0x364526(0x171),_0x516caf['value']=_0x364526(0x15c),_0x1e446d[_0x364526(0x1b3)]='US',_0x45dff9[_0x364526(0x1b3)]=_0x364526(0x1a7),_0x506f64['value']='FR',_0x567327[_0x364526(0x1b3)]='UE',generateCode();},document['getElementById']('copyButton')[_0x29d6db(0x19d)](_0x29d6db(0x14d),function(){const _0x295052=_0x29d6db,_0x1a9934=document[_0x295052(0x150)](_0x295052(0x1a4))[_0x295052(0x197)];if(navigator[_0x295052(0x17a)])navigator[_0x295052(0x17a)][_0x295052(0x1ba)](_0x1a9934)[_0x295052(0x1b6)](()=>{const _0x530d27=_0x295052,_0x1856bd=this[_0x530d27(0x197)];this[_0x530d27(0x197)]='Copied!',this[_0x530d27(0x1af)][_0x530d27(0x17b)]=_0x530d27(0x16b),setTimeout(()=>{const _0x1028ea=_0x530d27;this[_0x1028ea(0x197)]=_0x1856bd,this['style'][_0x1028ea(0x17b)]='#007bff';},0x5dc);})[_0x295052(0x18a)](_0x25fac1=>{const _0x249c8a=_0x295052;console[_0x249c8a(0x1a5)](_0x249c8a(0x181),_0x25fac1),alert('Copy\x20failed.\x20'+_0x25fac1);});else{const _0x5cace3=document['createElement']('textarea');_0x5cace3[_0x295052(0x1b3)]=_0x1a9934,document[_0x295052(0x1a6)][_0x295052(0x1bb)](_0x5cace3),_0x5cace3[_0x295052(0x185)]();try{document[_0x295052(0x161)](_0x295052(0x182));const _0x3c7dfb=this[_0x295052(0x197)];this['innerText']=_0x295052(0x164),this[_0x295052(0x1af)]['backgroundColor']=_0x295052(0x16b),setTimeout(()=>{const _0x391326=_0x295052;this[_0x391326(0x197)]=_0x3c7dfb,this[_0x391326(0x1af)]['backgroundColor']='#007bff';},0x5dc);}catch(_0x2424f6){console[_0x295052(0x1a5)](_0x295052(0x181),_0x2424f6),alert(_0x295052(0x172));}document[_0x295052(0x1a6)][_0x295052(0x18b)](_0x5cace3);}document[_0x295052(0x150)]('copyBinaryButton')[_0x295052(0x19d)](_0x295052(0x14d),function(){const _0x4f8d97=_0x295052,_0x9c5406=document[_0x4f8d97(0x150)](_0x4f8d97(0x18f))[_0x4f8d97(0x197)];if(navigator[_0x4f8d97(0x17a)])navigator[_0x4f8d97(0x17a)][_0x4f8d97(0x1ba)](_0x9c5406)[_0x4f8d97(0x1b6)](()=>{const _0x59f7ad=_0x4f8d97,_0x5eebc5=this[_0x59f7ad(0x197)];this[_0x59f7ad(0x197)]='Copied!',this['style'][_0x59f7ad(0x17b)]='#4CAF50',setTimeout(()=>{const _0x13536e=_0x59f7ad;this[_0x13536e(0x197)]=_0x5eebc5,this[_0x13536e(0x1af)][_0x13536e(0x17b)]='#007bff';},0x5dc);})[_0x4f8d97(0x18a)](_0x5a25fd=>{const _0x71ba32=_0x4f8d97;console[_0x71ba32(0x1a5)](_0x71ba32(0x181),_0x5a25fd),alert(_0x71ba32(0x1aa)+_0x5a25fd);});else{const _0x6e12ea=document[_0x4f8d97(0x1a0)]('textarea');_0x6e12ea['value']=_0x9c5406,document['body'][_0x4f8d97(0x1bb)](_0x6e12ea),_0x6e12ea[_0x4f8d97(0x185)]();try{document['execCommand']('copy');const _0x36d7c3=this['innerText'];this[_0x4f8d97(0x197)]='Copied!',this[_0x4f8d97(0x1af)][_0x4f8d97(0x17b)]=_0x4f8d97(0x16b),setTimeout(()=>{const _0x65bf35=_0x4f8d97;this[_0x65bf35(0x197)]=_0x36d7c3,this[_0x65bf35(0x1af)][_0x65bf35(0x17b)]=_0x65bf35(0x186);},0x5dc);}catch(_0x17b642){console['error'](_0x4f8d97(0x181),_0x17b642),alert(_0x4f8d97(0x172));}document['body']['removeChild'](_0x6e12ea);}});});function hideDonation(){const _0x579df0=_0x29d6db,_0x34639a=document[_0x579df0(0x150)]('donationSection');_0x34639a[_0x579df0(0x1af)][_0x579df0(0x158)]='opacity\x200.8s\x20ease,\x20transform\x200.8s\x20ease',_0x34639a[_0x579df0(0x1af)][_0x579df0(0x151)]='0',_0x34639a[_0x579df0(0x1af)]['transform']=_0x579df0(0x1b9),setTimeout(function(){const _0x41ab73=_0x579df0;_0x34639a['style'][_0x41ab73(0x1b4)]=_0x41ab73(0x18d),document[_0x41ab73(0x150)](_0x41ab73(0x177))[_0x41ab73(0x1af)][_0x41ab73(0x1b4)]=_0x41ab73(0x17e);},0x320);}function showDonation(){const _0x142b3a=_0x29d6db,_0x46dd25=document[_0x142b3a(0x150)](_0x142b3a(0x180));_0x46dd25[_0x142b3a(0x1af)]['display']='block',_0x46dd25['style'][_0x142b3a(0x151)]='0',_0x46dd25[_0x142b3a(0x1af)][_0x142b3a(0x169)]=_0x142b3a(0x178),_0x46dd25[_0x142b3a(0x1af)][_0x142b3a(0x167)]='blur(5px)',document['getElementById'](_0x142b3a(0x177))[_0x142b3a(0x1af)][_0x142b3a(0x1b4)]='none',setTimeout(function(){const _0x5eb2bb=_0x142b3a;_0x46dd25[_0x5eb2bb(0x1af)]['transition']=_0x5eb2bb(0x163),_0x46dd25[_0x5eb2bb(0x1af)][_0x5eb2bb(0x151)]='1',_0x46dd25[_0x5eb2bb(0x1af)][_0x5eb2bb(0x169)]='scale(1)\x20rotate(0deg)',_0x46dd25[_0x5eb2bb(0x1af)][_0x5eb2bb(0x167)]=_0x5eb2bb(0x190),setTimeout(function(){const _0x58476f=_0x5eb2bb;_0x46dd25['style'][_0x58476f(0x158)]='';},0x258);},0xa);}function autoHideDonationWithCountdown(){const _0x5a6c2d=_0x29d6db;let _0x167458=0xf;const _0x2d6907=document[_0x5a6c2d(0x1a0)]('div');_0x2d6907['id']=_0x5a6c2d(0x198),_0x2d6907[_0x5a6c2d(0x1af)]['cssText']=_0x5a6c2d(0x16e),_0x2d6907['innerHTML']=_0x5a6c2d(0x156)+_0x167458+_0x5a6c2d(0x19f),document['getElementById'](_0x5a6c2d(0x180))[_0x5a6c2d(0x1bb)](_0x2d6907);const _0x17f7f3=setInterval(function(){const _0x1fa91f=_0x5a6c2d;_0x167458--,_0x167458>0x0?_0x2d6907[_0x1fa91f(0x18e)]=_0x1fa91f(0x156)+_0x167458+'</strong>\x20second'+(_0x167458===0x1?'':'s'):(_0x2d6907['innerHTML']=_0x1fa91f(0x152),setTimeout(function(){const _0x3fc40c=_0x1fa91f;clearInterval(_0x17f7f3);const _0x313f6e=document[_0x3fc40c(0x150)]('donationSection');_0x313f6e&&_0x313f6e[_0x3fc40c(0x1af)][_0x3fc40c(0x1b4)]!==_0x3fc40c(0x18d)&&hideDonation();},0x1f4));},0x3e8);document[_0x5a6c2d(0x150)](_0x5a6c2d(0x17f))['addEventListener'](_0x5a6c2d(0x14d),function(){const _0x2583a4=_0x5a6c2d;clearInterval(_0x17f7f3),document[_0x2583a4(0x150)](_0x2583a4(0x198))&&document['getElementById']('donationCountdown')['remove']();});}window['addEventListener'](_0x29d6db(0x187),function(){autoHideDonationWithCountdown();});
+let currentShortSku = '';
+
+// Halloween mode variables
+let halloweenMode = false;
+let halloweenInterval;
+let originalTitle = document.title;
+const halloweenEmojis = ['🎃', '👻', '🦇', '🕷️', '🕸️', '💀', '🌙', '⭐', '🍂', '🧙‍♀️'];
+const spookyTitles = [
+    '🎃 Happy Halloween!',
+    '👻 Boo!',
+    '🦇 Spooky Time!',
+    '💀 Enter if you dare...',
+    '🕷️ Web of Terror!'
+];
+let titleIndex = 0;
+let titleInterval;
+
+
+function updateProductImage() {
+    const shortSkuValue = document.getElementById('shortSku').value;
+    const imageSection = document.getElementById('productImageSection');
+    
+		// For production, set 20% probability
+    //const showAlternateImage = Math.random() < 0.2;
+        
+     //if (showAlternateImage) {
+        // Use the PayPal image path similar to how the favicon is referenced
+        //const alternateImageUrl = "PayPal.png";
+        //document.getElementById('productImage').src = alternateImageUrl;
+        //document.getElementById('productImageLink').href = "#"; // No external link needed
+        
+        // Show the image section regardless of shortSkuValue
+        //imageSection.style.display = 'block';
+        //imageSection.style.top = '270px';
+        
+    //} else if (shortSkuValue && shortSkuValue !== currentShortSku) {
+        // Show the regular Louis Vuitton product image (80% probability)
+        const imageUrl = `https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--${shortSkuValue}_PM2_Front%20view.jpg?wid=800&amp;hei=800`;
+        
+        // Update the image and link
+        document.getElementById('productImage').src = imageUrl;
+        document.getElementById('productImageLink').href = imageUrl;
+        
+        // Position the image section under the generated code
+        imageSection.style.top = '270px';
+        
+        // Show the image section
+        imageSection.style.display = 'block';
+        
+        // Update the current SKU
+        currentShortSku = shortSkuValue;
+    //} else if (!shortSkuValue && !showAlternateImage) {
+        // Hide the image section if ShortSKU is empty and not showing alternate image
+        //imageSection.style.display = 'none';
+        currentShortSku = '';
+    //}
+}
+
+function toggleHalloweenMode() {
+    const body = document.body;
+    const button = document.getElementById('halloweenToggle');
+    
+    halloweenMode = !halloweenMode;
+    
+    if (halloweenMode) {
+        // Activate Halloween mode
+        body.classList.add('halloween-mode', 'spooky-cursor');
+        button.textContent = '👻 Disable Halloween';
+        button.classList.add('active');
+        
+        // Start floating emojis
+        halloweenInterval = setInterval(createFloatingEmoji, 2000);
+        
+        // Start changing titles
+        titleInterval = setInterval(() => {
+            document.title = spookyTitles[titleIndex];
+            titleIndex = (titleIndex + 1) % spookyTitles.length;
+        }, 3000);
+        
+        console.log('🎃 Halloween mode activated!');
+    } else {
+        // Deactivate Halloween mode
+        body.classList.remove('halloween-mode', 'spooky-cursor');
+        button.textContent = '🎃 Halloween Mode';
+        button.classList.remove('active');
+        
+        // Stop intervals
+        if (halloweenInterval) clearInterval(halloweenInterval);
+        if (titleInterval) clearInterval(titleInterval);
+        
+        // Restore original title
+        document.title = originalTitle;
+        
+        // Remove all floating emojis
+        const existingEmojis = document.querySelectorAll('.floating-emoji');
+        existingEmojis.forEach(emoji => emoji.remove());
+        
+        console.log('👋 Halloween mode deactivated!');
+    }
+}
+
+		function createFloatingEmoji() {
+			if (!halloweenMode) return;
+			
+			const emoji = document.createElement('div');
+			emoji.className = 'floating-emoji';
+			emoji.textContent = halloweenEmojis[Math.floor(Math.random() * halloweenEmojis.length)];
+			
+			// Random horizontal position
+			emoji.style.left = Math.random() * 100 + '%';
+			
+			// Random animation duration (6-10 seconds)
+			emoji.style.animationDuration = (6 + Math.random() * 4) + 's';
+			
+			document.body.appendChild(emoji);
+			
+			// Remove emoji after animation completes
+			setTimeout(() => {
+				if (emoji.parentNode) {
+					emoji.parentNode.removeChild(emoji);
+				}
+			}, 10000);
+		}
+
+
+
+
+    let counter = 0; // Initialize counter
+    let serialOverride = false;
+
+    function resetToDefaults() {
+        document.getElementById('shortSku').value = 'M41414';
+        document.getElementById('quantity').value = '0010';
+        document.getElementById('madeIn').value = 'US';
+        document.getElementById('supplierId').value = '130';
+        document.getElementById('batch').value = 'FR';
+        document.getElementById('originPref').value = 'UE';
+        serialOverride = false; // Allow auto-generation of serial again
+        generateCode();
+    }
+    
+    function clearAllFields() {
+        document.getElementById('serial').value = '';
+        document.getElementById('shortSku').value = '';
+        document.getElementById('quantity').value = '';
+        document.getElementById('madeIn').value = '';
+        document.getElementById('supplierId').value = '';
+        document.getElementById('batch').value = '';
+        document.getElementById('originPref').value = '';
+        serialOverride = false; // Prevent auto-generation of serial
+        generateCode();
+    }
+	
+	function focusSerial() {
+    const serialInput = document.getElementById('serial');
+    serialInput.focus();
+    
+    // Optional: select all text in the field to make it easy to replace
+    serialInput.select();
+}
+
+// Binary converter functions from version01.html
+function convertCharWithTable(char, table) {
+    var decimal = table[char] || 63;
+    var bin6 = decimal.toString(2).padStart(6, '0');
+    var binaryValue = parseInt(bin6, 2);
+    var adjusted = binaryValue - 1;
+    var finalBinary = adjusted.toString(2).padStart(6, '0');
+    return {
+        decimal: decimal,
+        binaryFirst: bin6,
+        adjusted: adjusted,
+        binary: finalBinary
+    };
+}
+
+function generateBinaryCode() {
+    // Get values from the existing form fields
+    var param1 = document.getElementById('serial').value.toUpperCase(); // Serial
+    var param2 = document.getElementById('shortSku').value.toUpperCase(); // ShortSKU
+    var param3 = document.getElementById('quantity').value.trim(); // Quantity
+    var param4 = document.getElementById('madeIn').value.toUpperCase(); // Made IN
+    
+    // Character table from version01.html
+    var table = {
+        '0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8, '8': 9, '9': 10,
+        'A': 18, 'B': 19, 'C': 20, 'D': 21, 'E': 22, 'F': 23, 'G': 24, 'H': 25, 'I': 26,
+        'J': 34, 'K': 35, 'L': 36, 'M': 37, 'N': 38, 'O': 39, 'P': 40, 'Q': 41, 'R': 42,
+        'S': 51, 'T': 52, 'U': 53, 'V': 54, 'W': 55, 'X': 56, 'Y': 57, 'Z': 58, '[': 11,
+        '#': 12, '@': 13, ':': 14, '>': 15, '?': 16, ' ': 17, '.': 28, ']': 29, '(': 30,
+        '<': 31, '^': 33, '-': 43, '$': 44, '*': 45, ')': 46, ';': 47, '/': 50, ',': 60, 
+        '%': 61, '=': 62, '': 63, '!': 64 
+    };
+
+    // Start with 0000
+    var binary = '0000';
+    var details = '<h4>Conversion Process:</h4>';
+    details += 'Step 1: Fixed prefix = <span class=binary-group>0000</span><br><br>';
+
+    // Process Parameter 1 (Serial)
+    if (param1) {
+        // Process first 2 characters with table (decimal-1 rule)
+        for (var i = 0; i < 2 && i < param1.length; i++) {
+            var char = param1[i];
+            var result = convertCharWithTable(char, table);
+            binary += result.binary;
+        }
+
+
+         // Process remaining characters as digits (direct 4-bit conversion)
+        for (var i = 2; i < param1.length; i++) {
+            var digit = param1[i];
+            if (digit >= '0' && digit <= '9') {
+                var bin4 = parseInt(digit).toString(2).padStart(4, '0');
+                binary += bin4;
+            }
+        }
+    }
+
+
+    // Process Parameter 2 (ShortSKU)
+    if (param2) {
+        for (var i = 0; i < param2.length && i < 6; i++) {
+            var char = param2[i];
+            var result = convertCharWithTable(char, table);
+            binary += result.binary;
+        }
+    }
+
+
+    // Process Parameter 3 (Quantity)
+    if (param3) {
+        var number = parseInt(param3);
+        if (!isNaN(number)) {
+            var numberBinary = number.toString(2);
+            var paddedBinary = numberBinary.padStart(12, '0');
+            binary += paddedBinary;
+        }
+    }
+
+    // Process Parameter 4 (Made IN)
+    if (param4) {
+        for (var i = 0; i < param4.length && i < 2; i++) {
+            var char = param4[i];
+            var result = convertCharWithTable(char, table);
+            binary += result.binary;
+        }
+    }
+
+
+    // Add final 0000
+    binary += '0000';
+
+    // Convert to hexadecimal
+    var hexResult = '';
+    var hexDetails = '<strong>Hexadecimal Conversion:</strong><br>';
+    
+    for (var i = 0; i < binary.length; i += 4) {
+        var fourBits = binary.substr(i, 4);
+        var hexDigit = parseInt(fourBits, 2).toString(16).toUpperCase();
+        hexResult += hexDigit;
+    }
+
+    
+    // Add final dash
+    var finalResult = hexResult + '-';
+
+    // Format binary output in groups of 4
+    var formatted = '';
+    for (var i = 0; i < binary.length; i += 4) {
+        formatted += '<span class=binary-group>' + binary.substr(i, 4) + '</span> ';
+    }
+
+    // Display results in the binary section
+    document.getElementById('binaryResult').innerHTML = 
+        '<div class=hex-result>' + finalResult + '</div>';
+
+    // Show the binary code section
+    document.getElementById('binaryCodeSection').style.display = 'block';
+     
+}
+
+    function generateCode() {
+        const serialInput = document.getElementById('serial');
+        const shortSkuInput = document.getElementById('shortSku');
+        const quantityInput = document.getElementById('quantity');
+        const madeInInput = document.getElementById('madeIn');
+        const supplierIdInput = document.getElementById('supplierId');
+        const batchInput = document.getElementById('batch');
+        const originPrefInput = document.getElementById('originPref');
+
+		// Force currentShortSKU to reset so we recalculate completely
+		currentShortSku = '';
+
+		// Update the product image based on ShortSKU
+		updateProductImage();
+	
+        // Serial generation logic
+        if (!serialOverride) {
+            counter++;
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${year}${month}${day}`;
+            const formattedCounter = String(counter).padStart(4, '0');
+            const serialValue = `FR${formattedDate}${formattedCounter}`;
+            serialInput.value = serialValue;
+        }
+		
+		// In the window.onload function, add this event listener
+serialInput.addEventListener('input', () => {
+    serialOverride = true; // Remember that user has manually edited
+});
+
+// Then in the generateCode function, replace the first block with:
+// Serial generation logic - only auto-generate if empty
+if (serialInput.value === '') {
+    serialInput.value = createSerial();
+}
+
+
+
+        // Show Labels by removing the class
+        const labels = document.querySelectorAll('label');
+        labels.forEach(label => {
+            if (label.htmlFor !== 'serial') {
+                label.classList.remove('hidden-label');
+            }
+        });
+
+        //Show Generated code results by removing the class
+        const generatedCodeDiv = document.getElementById('generatedCode');
+        generatedCodeDiv.classList.remove('hidden');
+			
+		const quantityValue = quantityInput.value;
+        const shortSkuValue = shortSkuInput.value;
+        const supplierIdValue = supplierIdInput.value;
+        const madeInValue = madeInInput.value;
+        const originPrefValue = originPrefInput.value;
+        const batchValue = batchInput.value;
+
+        const code = `0_${serialInput.value}_${quantityValue}_${shortSkuValue}__${supplierIdValue}_${madeInValue}_${originPrefValue}_${batchValue}`;
+
+        document.getElementById('codeResult').innerText = code;
+        
+        // Clear previous barcode
+        const barcodeDiv = document.getElementById('barcodeImage');
+        barcodeDiv.innerHTML = '';
+
+        // Create canvas for the barcode
+        const canvas = document.createElement('canvas');
+        barcodeDiv.appendChild(canvas);
+
+        // Generate Data Matrix barcode
+        try {
+            bwipjs.toCanvas(canvas, {
+                bcid: 'datamatrix',
+                text: code,
+                scale: 1.5,
+                height: 25,
+                includetext: false,
+                textxalign: 'center'
+            });
+        } catch (e) {
+            barcodeDiv.innerHTML = 'Error generating barcode: ' + e;
+        }
+    
+
+ // Generate binary code too
+        generateBinaryCode();
+    }
+
+    window.onload = function () {
+
+        const serialInput = document.getElementById('serial');
+        const shortSkuInput = document.getElementById('shortSku');
+        const quantityInput = document.getElementById('quantity');
+        const madeInInput = document.getElementById('madeIn');
+        const supplierIdInput = document.getElementById('supplierId');
+        const batchInput = document.getElementById('batch');
+        const originPrefInput = document.getElementById('originPref');
+		
+		 // Set up the initial product image if ShortSKU has a value
+    updateProductImage();
+    
+    // Optional: Add event listener to automatically update when ShortSKU changes
+    document.getElementById('shortSku').addEventListener('change', function() {
+        // Only update if we're not in the middle of generating a code
+        if (!document.activeElement || document.activeElement.id !== 'shortSku') {
+            updateProductImage();
+        }
+    });
+
+
+
+        // Set initial default values directly
+        shortSkuInput.value = 'M41414';
+        quantityInput.value = '0010';
+        madeInInput.value = 'US';
+        supplierIdInput.value = '130';
+        batchInput.value = 'FR';
+        originPrefInput.value = 'UE';
+
+        generateCode(); // Generate initial code with default values
+    };
+	// Function to copy the generated code to clipboard
+document.getElementById('copyButton').addEventListener('click', function() {
+    const codeText = document.getElementById('codeResult').innerText;
+    
+    // Use modern Clipboard API if available
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(codeText).then(() => {
+            // Provide visual feedback that copy succeeded
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            // Return to original state after 1.5 seconds
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = codeText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            // Provide visual feedback
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
+        }
+        
+        document.body.removeChild(textarea);
+    }
+
+	// Copy button for binary code
+document.getElementById('copyBinaryButton').addEventListener('click', function() {
+    const binaryText = document.getElementById('binaryResult').innerText;
+    
+    // Use modern Clipboard API if available
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(binaryText).then(() => {
+            // Provide visual feedback that copy succeeded
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            // Return to original state after 1.5 seconds
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = binaryText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            // Provide visual feedback
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
+        }
+        
+        document.body.removeChild(textarea);
+    }
+});
+	});
+
+function hideDonation() {
+    const donationSection = document.getElementById('donationSection');
+    
+    // Add transition styles
+    donationSection.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    donationSection.style.opacity = '0';
+    donationSection.style.transform = 'scale(0.8)';
+    
+    setTimeout(function() {
+        donationSection.style.display = 'none';
+        document.getElementById('showDonationBtn').style.display = 'flex';
+    }, 800); // Match the transition duration
+}
+
+
+function showDonation() {
+    const donationSection = document.getElementById('donationSection');
+    
+    // Reset properties and start with hidden state
+    donationSection.style.display = 'block';
+    donationSection.style.opacity = '0';
+    donationSection.style.transform = 'scale(0.5) rotate(-180deg)';
+    donationSection.style.filter = 'blur(5px)';
+    
+    // Hide the tiny show button
+    document.getElementById('showDonationBtn').style.display = 'none';
+    
+    // Animate in with spring effect
+    setTimeout(function() {
+        donationSection.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        donationSection.style.opacity = '1';
+        donationSection.style.transform = 'scale(1) rotate(0deg)';
+        donationSection.style.filter = 'blur(0px)';
+        
+        // Clear transition after animation
+        setTimeout(function() {
+            donationSection.style.transition = '';
+        }, 600);
+    }, 10);
+}
+
+
+
+function autoHideDonationWithCountdown() {
+    let timeLeft = 15; // 15 seconds
+    
+    // Create countdown container
+    const countdownContainer = document.createElement('div');
+    countdownContainer.id = 'donationCountdown';
+    countdownContainer.style.cssText = 'position: absolute; top: 45px; right: 15px; color: rgba(255,255,255,0.9); font-size: 12px; text-align: right; line-height: 1.3;';
+    
+    // Initial text
+    countdownContainer.innerHTML = `Auto-close in<br><strong>${timeLeft}</strong> seconds`;
+    
+    // Add to donation section
+    document.getElementById('donationSection').appendChild(countdownContainer);
+    
+    // Update countdown every second
+    const countdownInterval = setInterval(function() {
+        timeLeft--;
+        
+        if (timeLeft > 0) {
+            countdownContainer.innerHTML = `Auto-close in<br><strong>${timeLeft}</strong> second${timeLeft === 1 ? '' : 's'}`;
+        } else {
+            countdownContainer.innerHTML = `Closing...`;
+            
+            // Hide after showing "Closing..." briefly
+            setTimeout(function() {
+                clearInterval(countdownInterval);
+                const donationSection = document.getElementById('donationSection');
+                if (donationSection && donationSection.style.display !== 'none') {
+                    hideDonation();
+                }
+            }, 500); // Wait 0.5 seconds before actually hiding
+        }
+    }, 1000);
+    
+    // Clear countdown if user manually closes
+    document.getElementById('hideDonationBtn').addEventListener('click', function() {
+        clearInterval(countdownInterval);
+        if (document.getElementById('donationCountdown')) {
+            document.getElementById('donationCountdown').remove();
+        }
+    });
+}
+
+// Start countdown when page loads
+window.addEventListener('load', function() {
+    autoHideDonationWithCountdown();
+});
+
+
 
 </script>
 
-<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="stilsla" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="12" data-y_margin="32">
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="stilsla" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="12" data-y_margin="30">
 </script>
+
+
+
 
 </body>
 </html>
-
