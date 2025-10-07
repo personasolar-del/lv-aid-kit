@@ -455,13 +455,15 @@
 		/* Halloween toggle button */
 		#halloweenToggle {
 			font-size: 16px;
-			padding: 10px 15px;
+			padding: 20px 40px;
+			padding: 20px 40px;
 			background: linear-gradient(45deg, #ff6b35, #ff8c42);
 			color: white;
 			border: none;
 			cursor: pointer;
 			border-radius: 8px;
-			margin: 10px;
+			top: 0px;
+			margin-right: 500px;
 			transition: all 0.3s ease;
 			box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 		}
@@ -483,9 +485,11 @@
     
 		<div class=generate-section>
 			<button onclick=generateCode()>Generate Code</button>
-			<button id="halloweenToggle" onclick="toggleHalloweenMode()">🎃 Halloween Mode</button>
 		</div>
 
+		<div class=halloweensection>
+			<button id="halloweenToggle" onclick="toggleHalloweenMode()">🎃 Halloween Mode</button>
+		</div>
 
 
 	<!--<div id="donationSection">
@@ -583,7 +587,7 @@
     
     	
 	<div id="copyright">
-    &copy; Nikita Astafiev. All rights reserved V.1.1.1 Halloween Edition
+    &copy; Nikita Astafiev. All rights reserved V.1.1.2 Halloween Edition
 	</div>
 
 
@@ -655,6 +659,8 @@ function updateProductImage() {
 function toggleHalloweenMode() {
     const body = document.body;
     const button = document.getElementById('halloweenToggle');
+	const topGenerateButton = document.querySelector('.generate-section button[onclick="generateCode()"]'); // Top button
+    const bottomGenerateButton = document.querySelector('#FormContainer button[onclick="generateCode()"]'); // Bottom button
     
     halloweenMode = !halloweenMode;
     
@@ -664,7 +670,17 @@ function toggleHalloweenMode() {
         button.textContent = '👻 Disable Halloween';
         button.classList.add('active');
         
-        // Start floating emojis
+         // Change specific buttons
+        if (topGenerateButton) {
+            topGenerateButton.dataset.originalText = topGenerateButton.textContent;
+            topGenerateButton.textContent = '🎃 Trick';
+        }
+        if (bottomGenerateButton) {
+            bottomGenerateButton.dataset.originalText = bottomGenerateButton.textContent;
+            bottomGenerateButton.textContent = '👻 Treat';
+        }
+
+		// Start floating emojis
         halloweenInterval = setInterval(createFloatingEmoji, 2000);
         
         // Start changing titles
