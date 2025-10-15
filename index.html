@@ -4,8 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Digital Codes Generator</title>
-    <link rel=icon type=image/x-icon
-          href="C:\Users\astafieni\OneDrive - Louis Vuitton Malletier\Code generator LV\schedule.png">
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>
+		<rect width='32' height='32' fill='%23007bff'/>
+		<g fill='white'>
+		<rect x='2' y='2' width='4' height='4'/>
+		<rect x='8' y='2' width='2' height='4'/>
+		<rect x='12' y='2' width='4' height='4'/>
+		<rect x='18' y='2' width='2' height='4'/>
+		<rect x='22' y='2' width='4' height='4'/>
+		<rect x='28' y='2' width='2' height='4'/>
+		<rect x='2' y='8' width='2' height='4'/>
+		<rect x='6' y='8' width='4' height='4'/>
+		<rect x='12' y='8' width='2' height='4'/>
+		<rect x='16' y='8' width='4' height='4'/>
+		<rect x='22' y='8' width='2' height='4'/>
+		<rect x='26' y='8' width='4' height='4'/>
+		<rect x='2' y='14' width='4' height='4'/>
+		<rect x='8' y='14' width='2' height='4'/>
+		<rect x='12' y='14' width='4' height='4'/>
+		<rect x='18' y='14' width='2' height='4'/>
+		<rect x='22' y='14' width='4' height='4'/>
+		<rect x='28' y='14' width='2' height='4'/>
+		<rect x='2' y='20' width='2' height='4'/>
+		<rect x='6' y='20' width='4' height='4'/>
+		<rect x='12' y='20' width='2' height='4'/>
+		<rect x='16' y='20' width='4' height='4'/>
+		<rect x='22' y='20' width='2' height='4'/>
+		<rect x='26' y='20' width='4' height='4'/>
+		<rect x='2' y='26' width='4' height='4'/>
+		<rect x='8' y='26' width='2' height='4'/>
+		<rect x='12' y='26' width='4' height='4'/>
+		<rect x='18' y='26' width='2' height='4'/>
+		<rect x='22' y='26' width='4' height='4'/>
+		<rect x='28' y='26' width='2' height='4'/>
+		</g>
+		</svg>">
     <script src=https://cdn.jsdelivr.net/npm/bwip-js@3.0.0/dist/bwip-js.min.js></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 <style>
@@ -104,53 +137,114 @@
 			border-radius: 8px;
 		}
 
-		/* Generated code section - FIRST in main container */
+		/* Unified title styling for all sections */
+		#generatedCode h3,
+		#oneDCodeSection h3,
+		#binaryCodeSection h3,
+		#fullBoxCodeSection h3, 
+		#productImageSection h3 {
+			margin-top: 0;
+			margin-bottom: 15px;
+			font-size: 18px;           /* Larger font */
+			color: #007bff;            /* Blue color */
+			font-weight: 600;          /* Semi-bold */
+			text-align: center;        /* Center align */
+			border-bottom: 2px solid #007bff; /* Underline */
+			padding-bottom: 5px;       /* Space above border */
+		}
+
+		/* Remove the old individual title styling */
+		#codeTitle {
+			/* Remove or comment out the old purple styling */
+		}
+
+		#productTitle {
+			/* Remove or comment out the old purple styling */
+		}
+		
+				/* 1D Code section - positioned next to 2D Matrix code */
+		#oneDCodeSection {
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #ddd;    /* Add this line */
+			border-radius: 6px;        /* Add this line */
+			box-sizing: border-box;
+			text-align: left;
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		/* Full Box Code section - positioned next to RFID code */
+		#fullBoxCodeSection {
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #ddd;    /* Add this line */
+			border-radius: 6px;        /* Add this line */
+			box-sizing: border-box;
+			text-align: left;
+			grid-column: 2;
+			grid-row: 2;
+		}
+
+
+
+		/* Update main container to use grid layout for side-by-side positioning */
+		#mainContainer {
+			grid-area: main;
+			display: grid;
+			grid-template-columns: 1fr 1fr; /* Two columns */
+			grid-template-rows: auto auto auto; /* Three rows */
+			gap: 15px;
+			box-sizing: border-box;
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+		}
+
+		/* Update existing sections for grid positioning */
 		#generatedCode {
+			grid-column: 1;
+			grid-row: 1;
 			width: 100%;
 			padding: 15px;
 			border: 1px solid #ddd;
 			border-radius: 6px;
 			box-sizing: border-box;
-			order: 1; /* First position */
 		}
 
-		/* Binary code section - SECOND in main container */
+		#oneDCodeSection {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
 		#binaryCodeSection {
+			grid-column: 1;
+			grid-row: 2;
 			width: 100%;
 			padding: 15px;
 			border: 1px solid #ddd;
 			border-radius: 6px;
 			box-sizing: border-box;
 			text-align: left;
-			order: 2; /* Second position */
 		}
 
-		/* Product image section - THIRD in main container */
+		#fullBoxCodeSection {
+			grid-column: 2;
+			grid-row: 2;
+		}
+
 		#productImageSection {
+			grid-column: 1 / -1; /* Span both columns */
+			grid-row: 3;
 			width: 100%;
 			text-align: center;
 			box-sizing: border-box;
 			padding: 15px;
 			border: 1px solid #ddd;
 			border-radius: 6px;
-			order: 3; /* Third position */
 		}
 
-		.code-result-container {
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			gap: 10px;
-		}
-
-		#productImage {
-			max-width: 100%;            /* Reduced width (adjust as needed) */
-			height: auto;                   /* Auto height */
-			aspect-ratio: 21 / 7;           /* Enforce 16:9 aspect ratio */
-			border-radius: 4px;
-			object-fit: contain;            /* Make sure whole image is visible */
-			object-position: center;        /* Center the image */
-		}
 
 		#copyright {
 			position: fixed;
@@ -205,17 +299,25 @@
 			align-items: center;
 		}
 
-		#barcodeImage {
+				/* Unified barcode styling */
+		#barcodeImage,
+		#oneDBarcode,
+		#fullBoxBarcode {
 			text-align: center;
 			margin-top: 10px;
 		}
 
-		#barcodeImage canvas {
+		#barcodeImage canvas,
+		#oneDBarcode canvas,
+		#fullBoxBarcode canvas {
 			border: 1px solid #ccc;
 			padding: 10px;
 			background-color: white;
 			border-radius: 4px;
+			display: block;
+			margin: 0 auto; /* Center the canvas */
 		}
+
 
 		/* Section titles styling */
 		#codeTitle {
@@ -235,8 +337,7 @@
 		
 		/* For Binary and Product Image titles */
 		#codeTitle h3,
-		#binaryCodeSection h3,
-		#productImageSection h3 {
+		#binaryCodeSection h3 {
 			margin-top: 0;
 			margin-bottom: 15px;
 			font-size: 18px;           /* Larger font */
@@ -246,6 +347,17 @@
 			border-bottom: 2px solid #007bff; /* Underline */
 			padding-bottom: 5px;       /* Space above border */
 		}
+
+		#productImageSection h4{
+			max-width: 70%;
+			height: auto;
+			aspect-ratio: 21 / 7;
+			border-radius: 4px;
+			object-fit: contain;
+			object-position: center;
+			margin: 0 auto;
+			display: block;
+			}
 
 		/* Responsive design */
 		@media (max-width: 1200px) {
@@ -405,8 +517,38 @@
 			}
 		}
 		*/
-
-
+		
+		@media (max-width: 768px) {
+    #mainContainer {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        grid-template-rows: auto auto auto auto auto; /* Five rows */
+    }
+    
+    #generatedCode {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    
+    #oneDCodeSection {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    
+    #binaryCodeSection {
+        grid-column: 1;
+        grid-row: 3;
+    }
+    
+    #fullBoxCodeSection {
+        grid-column: 1;
+        grid-row: 4;
+    }
+    
+    #productImageSection {
+        grid-column: 1;
+        grid-row: 5;
+    }
+}
 		/* Halloween mode body styles */
 		body.halloween-mode {
 			background: linear-gradient(45deg, #1a1a1a, #2d1b3d) !important;
@@ -477,20 +619,21 @@
 			background: linear-gradient(45deg, #2d1b3d, #1a1a1a);
 			animation: glow 2s ease-in-out infinite alternate;
 		}
+	
+
 
 </style>
 
 </head>
 <body>
     
-		<div class=generate-section>
+		<div class="generate-section">
 			<button onclick=generateCode()>Generate Code</button>
 		</div>
 
 		<div class=halloweensection>
 			<button id="halloweenToggle" onclick="toggleHalloweenMode()">🎃 Halloween Mode</button>
 		</div>
-
 
 	<!--<div id="donationSection">
 			<button id="hideDonationBtn" class="close-button" onclick="hideDonation()">&times;</button>
@@ -556,38 +699,60 @@
         <button onclick="generateCode()">Generate code</button>
 </div>
     
-		 <div id="mainContainer">
-			<div id="generatedCode">
-				<div id="codeTitle">
-					<h3>2D Data Matrix code PCE</h3>
-				</div>
-				<div class="code-result-container">
-					<div id="codeResult"></div>
-					<button id="copyButton" class="utility-button">Copy</button>
-				</div>
-				<div id="barcodeImage"></div>
+			 <div id=mainContainer>
+		<!-- 2D Matrix Code (top-left) -->
+		<div id=generatedCode>
+			<h3>2D Data Matrix code PCE</h3>
+			<div class=code-result-container>
+				<div id=codeResult></div>
+				<button id=copyButton class=utility-button>Copy</button>
 			</div>
-			
-			<div id=binaryCodeSection>
-				<h3>RFID code</h3>
-				<div class=code-result-container>
+			<div id=barcodeImage></div>
+		</div>
+
+		
+		<!-- 1D Code (top-right) -->
+		<div id=oneDCodeSection>
+			<h3>1D Code</h3>
+			<div class=code-result-container>
+				<div id=oneDResult></div>
+				<button id=copyOneDButton class=utility-button>Copy</button>
+			</div>
+			<div id=oneDBarcode></div>
+		</div>
+		
+		<!-- RFID Code (middle-left) -->
+		<div id=binaryCodeSection>
+			<h3>RFID code</h3>
+			<div class=code-result-container>
 				<div id=binaryResult></div>
 				<button id=copyBinaryButton class=utility-button>Copy</button>
 			</div>
-			</div>
-
-			<div id="productImageSection">
-			<h3>Product Image</h3>
-			<a id="productImageLink" href="#" target="_blank">
-				<img id="productImage" src="" alt="Product Image">
-			</a>
-			</div>
 		</div>
-</div>
+
+		<!-- Full Box Code (middle-right) -->
+		<div id=fullBoxCodeSection>
+			<h3>Full Box Code (GS1)</h3>
+			<div class=code-result-container>
+				<div id=fullBoxResult></div>
+				<button id=copyFullBoxButton class=utility-button>Copy</button>
+			</div>
+			<div id=fullBoxBarcode></div>
+		</div>
+
+		<!-- Product Image (bottom, spans both columns) -->
+		<div id=productImageSection>
+			<h3>Product Image</h3>
+			<a id=productImageLink href=# target=_blank>
+				<img id=productImage src= alt=Product Image>
+			</a>
+		</div>
+	</div>
+
     
     	
 	<div id="copyright">
-    &copy; Nikita Astafiev. All rights reserved V.1.1.2 Halloween Edition
+    &copy; Nikita Astafiev. All rights reserved V.1.2.2 Halloween Edition
 	</div>
 
 
@@ -615,27 +780,12 @@ const spookyTitles = [
 let titleIndex = 0;
 let titleInterval;
 
-
 function updateProductImage() {
     const shortSkuValue = document.getElementById('shortSku').value;
     const imageSection = document.getElementById('productImageSection');
     
-		// For production, set 20% probability
-    //const showAlternateImage = Math.random() < 0.2;
-        
-     //if (showAlternateImage) {
-        // Use the PayPal image path similar to how the favicon is referenced
-        //const alternateImageUrl = "PayPal.png";
-        //document.getElementById('productImage').src = alternateImageUrl;
-        //document.getElementById('productImageLink').href = "#"; // No external link needed
-        
-        // Show the image section regardless of shortSkuValue
-        //imageSection.style.display = 'block';
-        //imageSection.style.top = '270px';
-        
-    //} else if (shortSkuValue && shortSkuValue !== currentShortSku) {
-        // Show the regular Louis Vuitton product image (80% probability)
-        const imageUrl = `https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--${shortSkuValue}_PM2_Front%20view.jpg?wid=800&amp;hei=800`;
+	   // Show the regular Louis Vuitton product image
+        const imageUrl = `https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--${shortSkuValue}_PM2_Front%20view.jpg?wid=400&amp;hei=400`;
         
         // Update the image and link
         document.getElementById('productImage').src = imageUrl;
@@ -696,7 +846,7 @@ function toggleHalloweenMode() {
         button.textContent = '🎃 Halloween Mode';
         button.classList.remove('active');
         
-                 // Restore original button texts
+		         // Restore original button texts
         if (topGenerateButton && topGenerateButton.dataset.originalText) {
             topGenerateButton.textContent = topGenerateButton.dataset.originalText;
             delete topGenerateButton.dataset.originalText;
@@ -705,8 +855,8 @@ function toggleHalloweenMode() {
             bottomGenerateButton.textContent = bottomGenerateButton.dataset.originalText;
             delete bottomGenerateButton.dataset.originalText;
         }
-				
-		// Stop intervals
+		
+        // Stop intervals
         if (halloweenInterval) clearInterval(halloweenInterval);
         if (titleInterval) clearInterval(titleInterval);
         
@@ -747,6 +897,7 @@ function toggleHalloweenMode() {
 
 
 
+
     let counter = 0; // Initialize counter
     let serialOverride = false;
 
@@ -779,7 +930,7 @@ function toggleHalloweenMode() {
     
     // Optional: select all text in the field to make it easy to replace
     serialInput.select();
-}
+	}
 
 // Binary converter functions from version01.html
 function convertCharWithTable(char, table) {
@@ -902,6 +1053,91 @@ function generateBinaryCode() {
      
 }
 
+	// Generate 1D Code (updated barcode section)
+function generateOneDCode() {
+    const quantityValue = document.getElementById('quantity').value;
+    const shortSkuValue = document.getElementById('shortSku').value;
+    
+    if (quantityValue && shortSkuValue) {
+        // Divide quantity by 10 and pad to 4 digits
+        const quantityNum = parseInt(quantityValue) || 0;
+        const dividedQuantity = Math.floor(quantityNum / 10);
+        const paddedQuantity = dividedQuantity.toString().padStart(4, '0');
+        
+        const oneDCode = paddedQuantity + shortSkuValue;
+        
+        document.getElementById('oneDResult').innerText = oneDCode;
+        
+        // Generate 1D barcode (Code 128) with consistent styling
+        const oneDBarcodeDiv = document.getElementById('oneDBarcode');
+        oneDBarcodeDiv.innerHTML = '';
+        
+        const canvas = document.createElement('canvas');
+        oneDBarcodeDiv.appendChild(canvas);
+        
+        try {
+            bwipjs.toCanvas(canvas, {
+                bcid: 'code128',
+                text: oneDCode,
+                scale: 1.5,        // Same scale as 2D code
+                height: 15,
+                includetext: false, // Same as 2D code
+                textxalign: 'center'
+            });
+        } catch (e) {
+            oneDBarcodeDiv.innerHTML = 'Error generating 1D barcode: ' + e;
+        }
+    } else {
+        document.getElementById('oneDResult').innerText = '';
+        document.getElementById('oneDBarcode').innerHTML = '';
+    }
+}
+
+// Generate Full Box Code (updated barcode section)
+function generateFullBoxCode() {
+    const serialValue = document.getElementById('serial').value;
+    const quantityValue = document.getElementById('quantity').value;
+    const shortSkuValue = document.getElementById('shortSku').value;
+    const batchValue = document.getElementById('batch').value;
+    const originPrefValue = document.getElementById('originPref').value;
+    const madeInValue = document.getElementById('madeIn').value;
+    
+    if (serialValue && quantityValue && shortSkuValue && batchValue && originPrefValue && madeInValue) {
+        const quantityNum = parseInt(quantityValue) || 0;
+        const dividedQuantity = Math.floor(quantityNum / 10);
+        const paddedQuantity = dividedQuantity.toString().padStart(4, '0');
+        
+        const fullBoxCode = `91${serialValue}_37${paddedQuantity}_241${shortSkuValue}_10${batchValue}_94${originPrefValue}_93${madeInValue}`;
+        
+        document.getElementById('fullBoxResult').innerText = fullBoxCode;
+        
+        // Generate Code 128 barcode with consistent styling
+        const fullBoxBarcodeDiv = document.getElementById('fullBoxBarcode');
+        fullBoxBarcodeDiv.innerHTML = '';
+        
+        const canvas = document.createElement('canvas');
+        fullBoxBarcodeDiv.appendChild(canvas);
+        
+        try {
+            bwipjs.toCanvas(canvas, {
+                bcid: 'code128',
+                text: fullBoxCode,
+                scale: 1.2,        // Slightly smaller than others due to longer text
+                height: 15,
+                includetext: false, // Same as 2D code
+                textxalign: 'center'
+            });
+        } catch (e) {
+            fullBoxBarcodeDiv.innerHTML = 'Error generating Full Box barcode: ' + e;
+        }
+    } else {
+        document.getElementById('fullBoxResult').innerText = '';
+        document.getElementById('fullBoxBarcode').innerHTML = '';
+    }
+}
+
+
+
     function generateCode() {
         const serialInput = document.getElementById('serial');
         const shortSkuInput = document.getElementById('shortSku');
@@ -930,67 +1166,72 @@ function generateBinaryCode() {
             serialInput.value = serialValue;
         }
 		
-		// In the window.onload function, add this event listener
-serialInput.addEventListener('input', () => {
-    serialOverride = true; // Remember that user has manually edited
-});
+			// In the window.onload function, add this event listener
+	serialInput.addEventListener('input', () => {
+		serialOverride = true; // Remember that user has manually edited
+	});
 
-// Then in the generateCode function, replace the first block with:
-// Serial generation logic - only auto-generate if empty
-if (serialInput.value === '') {
-    serialInput.value = createSerial();
-}
+	// Then in the generateCode function, replace the first block with:
+	// Serial generation logic - only auto-generate if empty
+	if (serialInput.value === '') {
+		serialInput.value = createSerial();
+	}
 
 
 
-        // Show Labels by removing the class
-        const labels = document.querySelectorAll('label');
-        labels.forEach(label => {
-            if (label.htmlFor !== 'serial') {
-                label.classList.remove('hidden-label');
-            }
-        });
+			// Show Labels by removing the class
+			const labels = document.querySelectorAll('label');
+			labels.forEach(label => {
+				if (label.htmlFor !== 'serial') {
+					label.classList.remove('hidden-label');
+				}
+			});
 
-        //Show Generated code results by removing the class
-        const generatedCodeDiv = document.getElementById('generatedCode');
-        generatedCodeDiv.classList.remove('hidden');
+			//Show Generated code results by removing the class
+			const generatedCodeDiv = document.getElementById('generatedCode');
+			generatedCodeDiv.classList.remove('hidden');
+				
+			const quantityValue = quantityInput.value;
+			const shortSkuValue = shortSkuInput.value;
+			const supplierIdValue = supplierIdInput.value;
+			const madeInValue = madeInInput.value;
+			const originPrefValue = originPrefInput.value;
+			const batchValue = batchInput.value;
+
+			const code = `0_${serialInput.value}_${quantityValue}_${shortSkuValue}__${supplierIdValue}_${madeInValue}_${originPrefValue}_${batchValue}`;
+
+			document.getElementById('codeResult').innerText = code;
 			
-		const quantityValue = quantityInput.value;
-        const shortSkuValue = shortSkuInput.value;
-        const supplierIdValue = supplierIdInput.value;
-        const madeInValue = madeInInput.value;
-        const originPrefValue = originPrefInput.value;
-        const batchValue = batchInput.value;
+			// Clear previous barcode
+			const barcodeDiv = document.getElementById('barcodeImage');
+			barcodeDiv.innerHTML = '';
 
-        const code = `0_${serialInput.value}_${quantityValue}_${shortSkuValue}__${supplierIdValue}_${madeInValue}_${originPrefValue}_${batchValue}`;
+			// Create canvas for the barcode
+			const canvas = document.createElement('canvas');
+			barcodeDiv.appendChild(canvas);
 
-        document.getElementById('codeResult').innerText = code;
-        
-        // Clear previous barcode
-        const barcodeDiv = document.getElementById('barcodeImage');
-        barcodeDiv.innerHTML = '';
+			// Generate Data Matrix barcode
+			try {
+				bwipjs.toCanvas(canvas, {
+					bcid: 'datamatrix',
+					text: code,
+					scale: 1.5,
+					height: 25,
+					includetext: false,
+					textxalign: 'center'
+				});
+			} catch (e) {
+				barcodeDiv.innerHTML = 'Error generating barcode: ' + e;
+			}
+		
 
-        // Create canvas for the barcode
-        const canvas = document.createElement('canvas');
-        barcodeDiv.appendChild(canvas);
+			// Generate binary code too
+			generateBinaryCode();
+			// Generate 1D code
+			generateOneDCode();
 
-        // Generate Data Matrix barcode
-        try {
-            bwipjs.toCanvas(canvas, {
-                bcid: 'datamatrix',
-                text: code,
-                scale: 1.5,
-                height: 25,
-                includetext: false,
-                textxalign: 'center'
-            });
-        } catch (e) {
-            barcodeDiv.innerHTML = 'Error generating barcode: ' + e;
-        }
-    
-
- // Generate binary code too
-        generateBinaryCode();
+			// Generate Full Box code
+			generateFullBoxCode();
     }
 
     window.onload = function () {
@@ -1122,97 +1363,91 @@ document.getElementById('copyBinaryButton').addEventListener('click', function()
 });
 	});
 
-function hideDonation() {
-    const donationSection = document.getElementById('donationSection');
+		// Copy button for 1D code
+document.getElementById('copyOneDButton').addEventListener('click', function() {
+    const oneDText = document.getElementById('oneDResult').innerText;
     
-    // Add transition styles
-    donationSection.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    donationSection.style.opacity = '0';
-    donationSection.style.transform = 'scale(0.8)';
-    
-    setTimeout(function() {
-        donationSection.style.display = 'none';
-        document.getElementById('showDonationBtn').style.display = 'flex';
-    }, 800); // Match the transition duration
-}
-
-
-function showDonation() {
-    const donationSection = document.getElementById('donationSection');
-    
-    // Reset properties and start with hidden state
-    donationSection.style.display = 'block';
-    donationSection.style.opacity = '0';
-    donationSection.style.transform = 'scale(0.5) rotate(-180deg)';
-    donationSection.style.filter = 'blur(5px)';
-    
-    // Hide the tiny show button
-    document.getElementById('showDonationBtn').style.display = 'none';
-    
-    // Animate in with spring effect
-    setTimeout(function() {
-        donationSection.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        donationSection.style.opacity = '1';
-        donationSection.style.transform = 'scale(1) rotate(0deg)';
-        donationSection.style.filter = 'blur(0px)';
-        
-        // Clear transition after animation
-        setTimeout(function() {
-            donationSection.style.transition = '';
-        }, 600);
-    }, 10);
-}
-
-
-
-function autoHideDonationWithCountdown() {
-    let timeLeft = 15; // 15 seconds
-    
-    // Create countdown container
-    const countdownContainer = document.createElement('div');
-    countdownContainer.id = 'donationCountdown';
-    countdownContainer.style.cssText = 'position: absolute; top: 45px; right: 15px; color: rgba(255,255,255,0.9); font-size: 12px; text-align: right; line-height: 1.3;';
-    
-    // Initial text
-    countdownContainer.innerHTML = `Auto-close in<br><strong>${timeLeft}</strong> seconds`;
-    
-    // Add to donation section
-    document.getElementById('donationSection').appendChild(countdownContainer);
-    
-    // Update countdown every second
-    const countdownInterval = setInterval(function() {
-        timeLeft--;
-        
-        if (timeLeft > 0) {
-            countdownContainer.innerHTML = `Auto-close in<br><strong>${timeLeft}</strong> second${timeLeft === 1 ? '' : 's'}`;
-        } else {
-            countdownContainer.innerHTML = `Closing...`;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(oneDText).then(() => {
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
             
-            // Hide after showing "Closing..." briefly
-            setTimeout(function() {
-                clearInterval(countdownInterval);
-                const donationSection = document.getElementById('donationSection');
-                if (donationSection && donationSection.style.display !== 'none') {
-                    hideDonation();
-                }
-            }, 500); // Wait 0.5 seconds before actually hiding
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = oneDText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
         }
-    }, 1000);
-    
-    // Clear countdown if user manually closes
-    document.getElementById('hideDonationBtn').addEventListener('click', function() {
-        clearInterval(countdownInterval);
-        if (document.getElementById('donationCountdown')) {
-            document.getElementById('donationCountdown').remove();
-        }
-    });
-}
-
-// Start countdown when page loads
-window.addEventListener('load', function() {
-    autoHideDonationWithCountdown();
+        
+        document.body.removeChild(textarea);
+    }
 });
 
+// Copy button for Full Box code
+document.getElementById('copyFullBoxButton').addEventListener('click', function() {
+    const fullBoxText = document.getElementById('fullBoxResult').innerText;
+    
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(fullBoxText).then(() => {
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = fullBoxText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
+        }
+        
+        document.body.removeChild(textarea);
+    }
+});
 
 
 </script>
@@ -1225,4 +1460,3 @@ window.addEventListener('load', function() {
 
 </body>
 </html>
-
