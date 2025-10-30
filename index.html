@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-		<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-JZHMD6QT0P"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'G-JZHMD6QT0P');
-	</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Digital Codes Generator</title>
@@ -52,9 +43,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 <style>
 			body {
-			background-color: #f9f7f4;
-			background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8b897' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-			background-attachment: fixed;
+			background-color: #f2e8d5;  /* Papyrus color */
+			background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='egyptian' x='0' y='0' width='120' height='120' patternUnits='userSpaceOnUse'%3E%3Cg fill='%23c9a961' fill-opacity='0.15'%3E%3C!-- Lotus flower --%3E%3Cpath d='M60 20 L55 30 L50 35 L55 40 L60 35 L65 40 L70 35 L65 30 Z'/%3E%3Ccircle cx='60' cy='18' r='3'/%3E%3C!-- Ankh symbol --%3E%3Ccircle cx='20' cy='45' r='4'/%3E%3Crect x='18' y='49' width='4' height='15'/%3E%3Crect x='14' y='56' width='12' height='3'/%3E%3C!-- Eye of Horus --%3E%3Cellipse cx='100' cy='50' rx='8' ry='5'/%3E%3Ccircle cx='100' cy='50' r='2'/%3E%3Cpath d='M92 50 Q95 55 100 55'/%3E%3C!-- Scarab beetle --%3E%3Cellipse cx='60' cy='85' rx='10' ry='8'/%3E%3Ccircle cx='55' cy='83' r='2'/%3E%3Ccircle cx='65' cy='83' r='2'/%3E%3Cpath d='M50 85 L48 90 M70 85 L72 90'/%3E%3C!-- Decorative borders --%3E%3Crect x='0' y='0' width='120' height='2'/%3E%3Crect x='0' y='118' width='120' height='2'/%3E%3Crect x='0' y='0' width='2' height='120'/%3E%3Crect x='118' y='0' width='2' height='120'/%3E%3C!-- Small ornamental dots --%3E%3Ccircle cx='30' cy='100' r='1.5'/%3E%3Ccircle cx='90' cy='100' r='1.5'/%3E%3Ccircle cx='30' cy='20' r='1.5'/%3E%3Ccircle cx='90' cy='20' r='1.5'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23egyptian)'/%3E%3C/svg%3E");
 			min-height: 100vh;
 			margin: 0;
 			padding: 20px;
@@ -62,10 +52,10 @@
 			grid-template-areas: 
 				"header header"
 				"generate generate"
-				"donation donation"
+				"mode mode"
 				"form main"
 				"form main";
-			grid-template-columns: 350px 1fr; /* Only 2 columns now */
+			grid-template-columns: 350px 1fr;
 			grid-template-rows: auto 1fr auto;
 			gap: 20px;
 			align-items: start;
@@ -91,13 +81,17 @@
 			border: none;
 			cursor: pointer;
 			border-radius: 5px;
-			margin-bottom: 20px;
-			margin-top: 10px;
+			margin-bottom: 10px;
+			margin-top: 0px;  
+			width: 20%;
+			min-height: 60px;
 		}
 
-		button:hover {
-			background-color: #3e8e41;
+
+		.utility-button:hover {
+		background-color: #0056b3 !important;  /* Blue hover instead of green */
 		}
+
 
 		.utility-button {
 			font-size: 12px;
@@ -115,7 +109,6 @@
 			background-color: #3e8e41;
 		}
 
-		/* Form container - LEFT COLUMN */
 		#FormContainer {
 			grid-area: form;
 			width: 100%;
@@ -130,6 +123,8 @@
 			position: sticky;
 			top: 20px;
 			gap: 10px;
+			min-height: 600px;
+			transition: none;
 		}
 
 		/* Main content area - RIGHT COLUMN (Contains generated code, binary, and image) */
@@ -162,16 +157,7 @@
 			padding-bottom: 5px;       /* Space above border */
 		}
 
-		/* Remove the old individual title styling */
-		#codeTitle {
-			/* Remove or comment out the old purple styling */
-		}
-
-		#productTitle {
-			/* Remove or comment out the old purple styling */
-		}
-		
-				/* 1D Code section - positioned next to 2D Matrix code */
+		/* 1D Code section - positioned next to 2D Matrix code */
 		#oneDCodeSection {
 			width: 100%;
 			padding: 15px;
@@ -314,6 +300,10 @@
 		#fullBoxBarcode {
 			text-align: center;
 			margin-top: 10px;
+			min-height: 150px;
+			display: flex;  /* ADD THIS */
+			align-items: center;  /* ADD THIS */
+			justify-content: center;  /* ADD THIS */
 		}
 
 		#barcodeImage canvas,
@@ -330,11 +320,44 @@
 
 		/* Section titles styling */
 		#codeTitle {
-			font-size: 18px;
+			font-size: 24px;
 			color: #8e44ad;           /* Purple */
 			font-style: italic;
 			text-decoration: underline;
+			font-weight: bold;
 		}
+
+		#codeResult,
+		#oneDResult,
+		#binaryResult,
+		#fullBoxResult {
+			font-size: 24px;           /* Increased from default ~12-14px */
+			font-weight: bold;         /* Make it bold */
+			font-family: 'Louis Vuitton', monospace;  /* Monospace for code */
+			line-height: 1.6;          /* Better spacing */
+			word-wrap: break-word;     /* Prevent overflow */
+			padding-right: 10px;       /* Space before Copy button */
+			flex: 1;                   /* Take available space */
+		}
+		
+		.code-result-container {
+			display: flex;
+			align-items: center;
+			gap: 15px;                 /* Space between code and button */
+			margin-bottom: 15px;
+			flex-wrap: nowrap;         /* Keep on same line */
+		}
+
+		.code-result-container > div {
+			flex: 1;                   /* Code text takes remaining space */
+			min-width: 0;              /* Allow text to shrink if needed */
+		}
+
+		.code-result-container > button {
+			flex-shrink: 0;            /* Button stays same size */
+		}
+
+
 
 		#productTitle {
 			font-size: 18px;
@@ -344,19 +367,6 @@
 		}
 
 		
-		/* For Binary and Product Image titles */
-		#codeTitle h3,
-		#binaryCodeSection h3 {
-			margin-top: 0;
-			margin-bottom: 15px;
-			font-size: 18px;           /* Larger font */
-			color: #007bff;            /* Blue color */
-			font-weight: 600;          /* Semi-bold */
-			text-align: center;        /* Center align */
-			border-bottom: 2px solid #007bff; /* Underline */
-			padding-bottom: 5px;       /* Space above border */
-		}
-
 		#productImageSection h4{
 			max-width: 70%;
 			height: auto;
@@ -432,203 +442,253 @@
 			transform: scale(1.1);
 		}
 
-				/* Tiny show button styling */
-		.tiny-show-button {
-			position: fixed;
-			top: 20px;
-			right: 20px;
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			color: white;
-			border: none;
-			padding: 8px;
-			border-radius: 50%;
-			cursor: pointer;
-			font-size: 16px;
-			box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-			z-index: 1001;
-			width: 40px;
-			height: 40px;
+			@media (max-width: 768px) {
+			#mainContainer {
+				grid-template-columns: 1fr; /* Single column on mobile */
+				grid-template-rows: auto auto auto auto auto; /* Five rows */
+			}
+			
+			#generatedCode {
+				grid-column: 1;
+				grid-row: 1;
+			}
+			
+			#oneDCodeSection {
+				grid-column: 1;
+				grid-row: 2;
+			}
+			
+			#binaryCodeSection {
+				grid-column: 1;
+				grid-row: 3;
+			}
+			
+			#fullBoxCodeSection {
+				grid-column: 1;
+				grid-row: 4;
+			}
+			
+			#productImageSection {
+				grid-column: 1;
+				grid-row: 5;
+			}
+		}
+			
+			.mode-switcher {
+			grid-area: mode;  /* ADD THIS */
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			transition: all 0.2s ease;
-			border: 2px solid rgba(255,255,255,0.3);
-		}
-
-		.tiny-show-button:hover {
-			transform: scale(1.1);
-			box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-		}
-
-
-	/*	
-		/* Donation Section Styling */
-		#donationSection {
-			grid-area: header;
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			padding: 20px;
-			border-radius: 10px;
-			text-align: center;
-			color: white;
-			box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-		}
-
-		#donationSection h2 {
-			margin-top: 0;
-			margin-bottom: 20px;
-			font-size: 24px;
-			text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-		}
-
-		#donationContent {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 30px;
-			flex-wrap: wrap;
-		}
-
-		#qrCodeContainer {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
 			gap: 10px;
-		}
-
-		#donationQR {
-			border-radius: 10px;
-			border: 3px solid rgba(255,255,255,0.3);
-			background: white;
-			padding: 3px;
-			box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-		}
-
-		#qrCodeContainer p {
-			margin: 0;
-			font-size: 15px;
-			opacity: 0.9;
-		}
-
-		/* Responsive adjustments */
-		@media (max-width: 768px) {
-			#donationContent {
-				flex-direction: column;
-				gap: 10px;
-			}
-			
-			#donationButton {
-				font-size: 9px;
-				padding: 8px 25px;
-			}
-			
-			#donationSection h2 {
-				font-size: 10px;
-			}
-		}
-		*/
-		
-		@media (max-width: 768px) {
-    #mainContainer {
-        grid-template-columns: 1fr; /* Single column on mobile */
-        grid-template-rows: auto auto auto auto auto; /* Five rows */
-    }
-    
-    #generatedCode {
-        grid-column: 1;
-        grid-row: 1;
-    }
-    
-    #oneDCodeSection {
-        grid-column: 1;
-        grid-row: 2;
-    }
-    
-    #binaryCodeSection {
-        grid-column: 1;
-        grid-row: 3;
-    }
-    
-    #fullBoxCodeSection {
-        grid-column: 1;
-        grid-row: 4;
-    }
-    
-    #productImageSection {
-        grid-column: 1;
-        grid-row: 5;
-    }
-}
-		/* Halloween mode body styles */
-		body.halloween-mode {
-			background: linear-gradient(45deg, #1a1a1a, #2d1b3d) !important;
-			background-image: none !important;
-			color: #ff6b35 !important;
-			transition: background 0.5s ease, color 0.5s ease;
-		}
-
-		body.halloween-mode.spooky-cursor {
-			cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">🎃</text></svg>'), auto !important;
-		}
-
-		/* Floating emoji animation */
-		.floating-emoji {
-			position: fixed;
-			font-size: 30px;
-			pointer-events: none;
-			z-index: 1000;
-			animation: float 8s infinite ease-in-out;
-			opacity: 0;
-		}
-
-		@keyframes float {
-			0%, 100% { 
-				transform: translateY(100vh) rotate(0deg); 
-				opacity: 0; 
-			}
-			10%, 90% { 
-				opacity: 1; 
-			}
-			50% { 
-				transform: translateY(-100px) rotate(180deg); 
-			}
-		}
-
-		@keyframes glow {
-			from { text-shadow: 0 0 20px #ff6b35; }
-			to { text-shadow: 0 0 30px #ff6b35, 0 0 40px #ff6b35; }
-		}
-
-		/* Glowing effect for titles in Halloween mode */
-		body.halloween-mode h3 {
-			animation: glow 2s ease-in-out infinite alternate;
-		}
-
-		/* Halloween toggle button */
-		#halloweenToggle {
-			font-size: 16px;
-			padding: 20px 40px;
-			padding: 20px 40px;
-			background: linear-gradient(45deg, #ff6b35, #ff8c42);
+			margin: 20;
+			padding: 10px;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			border-radius: 5px;  /* CHANGED from 15px to match button */
+			box-shadow: 0 8px 5px rgba(0,0,0,0.2);
 			color: white;
-			border: none;
-			cursor: pointer;
-			border-radius: 8px;
-			top: 0px;
-			margin-right: 500px;
-			transition: all 0.3s ease;
-			box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+			max-width: 100%;  /* ADD THIS */
+			box-sizing: border-box;  /* ADD THIS */
 		}
 
-		#halloweenToggle:hover {
-			background: linear-gradient(45deg, #ff8c42, #ff6b35);
-			transform: scale(1.05);
+
+			.toggle-container {
+				position: left-side;
+			}
+
+			.toggle-checkbox {
+				display: none;
+			}
+
+			.toggle-label {
+				display: block;
+				width: 80px;
+				height: 40px;
+				background: rgba(255,255,255,0.2);
+				border-radius: 25px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				position: relative;
+				border: 2px solid rgba(255,255,255,0.3);
+			}
+
+			.toggle-label:hover {
+				background: rgba(255,255,255,0.3);
+				transform: scale(1.05);
+			}
+
+			.toggle-slider {
+				position: absolute;
+				top: 2px;
+				left: 2px;
+				width: 34px;
+				height: 34px;
+				background: white;
+				border-radius: 50%;
+				transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+			}
+
+			.toggle-icon {
+				font-size: 16px;
+				position: absolute;
+				transition: all 0.3s ease;
+			}
+
+			.toggle-icon-left {
+				opacity: 1;
+				transform: scale(1);
+			}
+
+			.toggle-icon-right {
+				opacity: 0;
+				transform: scale(0.5);
+			}
+
+			.toggle-checkbox:checked + .toggle-label .toggle-slider {
+				transform: translateX(40px);
+				background: linear-gradient(135deg, #4CAF50, #45a049);
+			}
+
+			.toggle-checkbox:checked + .toggle-label .toggle-icon-left {
+				opacity: 0;
+				transform: scale(0.5);
+			}
+
+			.toggle-checkbox:checked + .toggle-label .toggle-icon-right {
+				opacity: 1;
+				transform: scale(1);
+			}
+
+			.toggle-checkbox:checked + .toggle-label {
+				background: rgba(76, 175, 80, 0.3);
+				border-color: rgba(76, 175, 80, 0.5);
+			}
+
+			.mode-info {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+			}
+
+			.mode-text {
+				font-size: 18px;
+				font-weight: 600;
+				text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+			}
+
+			.mode-description {
+				font-size: 14px;
+				opacity: 0.9;
+				font-style: italic;
+			}
+
+			/* Error styling for code inputs */
+			.code-input-error {
+				border: 2px solid #ff4444 !important;
+				background-color: #ffe6e6 !important;
+				animation: shake 0.5s ease-in-out;
+			}
+
+			.code-input-disabled {
+				opacity: 0.3 !important;
+				pointer-events: none !important;
+				background-color: #f0f0f0 !important;
+				border-color: #ddd !important;
+			}
+
+			.error-message {
+				color: #ff4444;
+				font-size: 12px;
+				margin-top: 5px;
+				font-weight: bold;
+				display: none;
+			}
+
+			@keyframes shake {
+				0%, 100% { transform: translateX(0); }
+				25% { transform: translateX(-5px); }
+				75% { transform: translateX(5px); }
+			}
+
+			/* Active code input highlight */
+			.code-input-active {
+				border: 2px solid #4CAF50 !important;
+				background-color: #f0fff0 !important;
+				box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+			}
+
+					}
+		
+		.generate-section > button,
+		#FormContainer > button:last-child {
+			font-size: 24px !important;   
+			padding: 20px 40px !important;
+			background-color: #4CAF50 !important;
+			color: white !important;
+			border: none !important;
+			cursor: pointer !important;
+			border-radius: 5px !important;
+			margin-top: 0px !important;   
+			width: auto !important;
+			box-sizing: border-box !important;
+			min-height: 60px !important;  
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			text-align: center !important;
 		}
 
-		#halloweenToggle.active {
-			background: linear-gradient(45deg, #2d1b3d, #1a1a1a);
-			animation: glow 2s ease-in-out infinite alternate;
+
+		.generate-section > button:hover,
+		#FormContainer > button:last-child:hover {
+			background-color: #3e8e41 !important;
 		}
-	
+
+		/* Keep utility buttons unchanged - override any accidental styling */
+		.utility-button {
+			font-size: 14px !important;
+			padding: 10px 18px !important;
+			color: white !important;
+			border: none !important;
+			cursor: pointer !important;
+			border-radius: 4px !important;
+			margin-right: 10px !important;
+			margin-bottom: 10px !important;
+			width: auto !important;
+			min-height: auto !important;
+			display: inline-block !important;
+			margin-left: 15px !important;    /* Add space to the left */
+			margin-top: 10px !important;     /* Add space above */
+		}
+
+		.utility-button:hover {
+			background-color: #0056b3 !important;
+		}
+		
+		button:focus,
+			.utility-button:focus {
+			outline: none !important;
+			border: none !important;
+			box-shadow: none !important;
+		}
+
+		/* Typewriter cursor animation */
+		@keyframes blink-cursor {
+			0%, 49% { opacity: 1; }
+			50%, 100% { opacity: 0; }
+		}
+
+		.typing-cursor {
+			display: inline-block;
+			width: 2px;
+			height: 1em;
+			background-color: #333;
+			margin-left: 2px;
+			animation: blink-cursor 1s infinite;
+		}
 
 
 </style>
@@ -637,30 +697,21 @@
 <body>
     
 		<div class="generate-section">
-			<button onclick=generateCode()>Generate Code</button>
-		</div>
-
-		<div class=halloweensection>
-			<button id="halloweenToggle" onclick="toggleHalloweenMode()">🎃 Halloween Mode</button>
-		</div>
-
-	<!--<div id="donationSection">
-			<button id="hideDonationBtn" class="close-button" onclick="hideDonation()">&times;</button>
-			<h2>Support This Project</h2>
-			<div id="donationContent">
-			<a href="https://www.buymeacoffee.com/stilsla"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=stilsla&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
-			<div id="qrCodeContainer">
-            <img id="donationQR" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://buymeacoffee.com/YOUR_USERNAME" alt="Donation QR Code">
-            <p>Scan to donate</p>
+		<div class="mode-switcher">
+			<div class="toggle-container">
+				<input type="checkbox" id="modeToggle" class="toggle-checkbox">
+				<label for="modeToggle" class="toggle-label">
+					<span class="toggle-slider">
+						<span class="toggle-icon toggle-icon-left">📊</span>
+						<span class="toggle-icon toggle-icon-right">🔍</span>
+					</span>
+				</label>
 			</div>
+			<div class="mode-info">
+				<span id="modeLabel" class="mode-text">Input Mode: Product Data → Codes</span>
 			</div>
-		</div> -->
-
-		<!-- Tiny show button (hidden by default) -->
-<!--<div id="showDonationBtn" class="tiny-show-button" onclick="showDonation()" style="display:none;">
-    💝
-</div> 
--->
+		</div>
+		</div>
 
 		<div id="FormContainer">
         <div class="serial-container">
@@ -691,8 +742,8 @@
         </div>
         
         <div class="input-group">
-            <label for="supplierId">Supplier ID (3 chars):</label>
-            <input type="text" id="supplierId" name="supplierId" maxlength="3">
+            <label for="supplierId">Supplier ID (30 chars):</label>
+            <input type="text" id="supplierId" name="supplierId" maxlength="30">
         </div>
         
         <div class="input-group">
@@ -704,9 +755,35 @@
             <label for="originPref">Origin Pref (3-17 chars):</label>
             <input type="text" id="originPref" name="originPref" minlength="3" maxlength="17">
         </div>
+		
+			<div id="codeInputSection" class="hidden">
+		<h3>Code Input Mode</h3>
+		
+		<div class="input-group">
+			<label for="rfidCodeInput">RFID Code:</label>
+			<input type="text" id="rfidCodeInput" name="rfidCodeInput">
+		</div>
+		
+		<div class="input-group">
+			<label for="oneDCodeInput">1D Code:</label>
+			<input type="text" id="oneDCodeInput" name="oneDCodeInput">
+		</div>
+		
+		<div class="input-group">
+			<label for="fullBoxCodeInput">Full Box Code (GS1):</label>
+			<input type="text" id="fullBoxCodeInput" name="fullBoxCodeInput">
+		</div>
+		
+		<div class="input-group">
+			<label for="matrixCodeInput">2D Matrix Code:</label>
+			<input type="text" id="matrixCodeInput" name="matrixCodeInput">
+		</div>
+	</div>
+
         
-        <button onclick="generateCode()">Generate code</button>
-</div>
+ </div>
+		
+		<button onclick="generateCodeEnhanced()">Generate Code</button>
     
 			 <div id=mainContainer>
 		<!-- 2D Matrix Code (top-left) -->
@@ -758,10 +835,9 @@
 		</div>
 	</div>
 
-    
-    	
+	  	
 	<div id="copyright">
-    &copy; Nikita Astafiev. All rights reserved V.1.3.2 Halloween Edition
+    &copy; Nikita Astafiev. All rights reserved V.1.3
 	</div>
 
 
@@ -773,21 +849,6 @@
 <script>
 
 let currentShortSku = '';
-
-// Halloween mode variables
-let halloweenMode = false;
-let halloweenInterval;
-let originalTitle = document.title;
-const halloweenEmojis = ['🎃', '👻', '🦇', '🕷️', '🕸️', '💀', '🌙', '⭐', '🍂', '🧙‍♀️'];
-const spookyTitles = [
-    '🎃 Happy Halloween!',
-    '👻 Boo!',
-    '🦇 Spooky Time!',
-    '💀 Enter if you dare...',
-    '🕷️ Web of Terror!'
-];
-let titleIndex = 0;
-let titleInterval;
 
 function updateProductImage() {
     const shortSkuValue = document.getElementById('shortSku').value;
@@ -808,101 +869,9 @@ function updateProductImage() {
         
         // Update the current SKU
         currentShortSku = shortSkuValue;
-    //} else if (!shortSkuValue && !showAlternateImage) {
-        // Hide the image section if ShortSKU is empty and not showing alternate image
-        //imageSection.style.display = 'none';
         currentShortSku = '';
     //}
 }
-
-function toggleHalloweenMode() {
-    const body = document.body;
-    const button = document.getElementById('halloweenToggle');
-	const topGenerateButton = document.querySelector('.generate-section button[onclick="generateCode()"]'); // Top button
-    const bottomGenerateButton = document.querySelector('#FormContainer button[onclick="generateCode()"]'); // Bottom button
-    
-    halloweenMode = !halloweenMode;
-    
-    if (halloweenMode) {
-        // Activate Halloween mode
-        body.classList.add('halloween-mode', 'spooky-cursor');
-        button.textContent = '👻 Disable Halloween';
-        button.classList.add('active');
-        
-         // Change specific buttons
-        if (topGenerateButton) {
-            topGenerateButton.dataset.originalText = topGenerateButton.textContent;
-            topGenerateButton.textContent = '🎃 Trick';
-        }
-        if (bottomGenerateButton) {
-            bottomGenerateButton.dataset.originalText = bottomGenerateButton.textContent;
-            bottomGenerateButton.textContent = '👻 Treat';
-        }
-
-		// Start floating emojis
-        halloweenInterval = setInterval(createFloatingEmoji, 2000);
-        
-        // Start changing titles
-        titleInterval = setInterval(() => {
-            document.title = spookyTitles[titleIndex];
-            titleIndex = (titleIndex + 1) % spookyTitles.length;
-        }, 3000);
-        
-        console.log('🎃 Halloween mode activated!');
-    } else {
-        // Deactivate Halloween mode
-        body.classList.remove('halloween-mode', 'spooky-cursor');
-        button.textContent = '🎃 Halloween Mode';
-        button.classList.remove('active');
-        
-		         // Restore original button texts
-        if (topGenerateButton && topGenerateButton.dataset.originalText) {
-            topGenerateButton.textContent = topGenerateButton.dataset.originalText;
-            delete topGenerateButton.dataset.originalText;
-        }
-        if (bottomGenerateButton && bottomGenerateButton.dataset.originalText) {
-            bottomGenerateButton.textContent = bottomGenerateButton.dataset.originalText;
-            delete bottomGenerateButton.dataset.originalText;
-        }
-		
-        // Stop intervals
-        if (halloweenInterval) clearInterval(halloweenInterval);
-        if (titleInterval) clearInterval(titleInterval);
-        
-        // Restore original title
-        document.title = originalTitle;
-        
-        // Remove all floating emojis
-        const existingEmojis = document.querySelectorAll('.floating-emoji');
-        existingEmojis.forEach(emoji => emoji.remove());
-        
-        console.log('👋 Halloween mode deactivated!');
-    }
-}
-
-		function createFloatingEmoji() {
-			if (!halloweenMode) return;
-			
-			const emoji = document.createElement('div');
-			emoji.className = 'floating-emoji';
-			emoji.textContent = halloweenEmojis[Math.floor(Math.random() * halloweenEmojis.length)];
-			
-			// Random horizontal position
-			emoji.style.left = Math.random() * 100 + '%';
-			
-			// Random animation duration (6-10 seconds)
-			emoji.style.animationDuration = (6 + Math.random() * 4) + 's';
-			
-			document.body.appendChild(emoji);
-			
-			// Remove emoji after animation completes
-			setTimeout(() => {
-				if (emoji.parentNode) {
-					emoji.parentNode.removeChild(emoji);
-				}
-			}, 10000);
-		}
-
 
 
 
@@ -1054,8 +1023,14 @@ function generateBinaryCode() {
     }
 
     // Display results in the binary section
-    document.getElementById('binaryResult').innerHTML = 
-        '<div class=hex-result>' + finalResult + '</div>';
+    // Create the div first
+	const binaryResultDiv = document.getElementById('binaryResult');
+	binaryResultDiv.innerHTML = '<div class="hex-result"></div>';
+
+	// Then apply typewriter effect to it
+	const hexResultDiv = binaryResultDiv.querySelector('.hex-result');
+	typewriterEffect(hexResultDiv, finalResult, 5);
+
 
     // Show the binary code section
     document.getElementById('binaryCodeSection').style.display = 'block';
@@ -1075,7 +1050,8 @@ function generateOneDCode() {
         
         const oneDCode = paddedQuantity + shortSkuValue;
         
-        document.getElementById('oneDResult').innerText = oneDCode;
+        typewriterEffect(document.getElementById('oneDResult'), oneDCode, 5);
+
         
         // Generate 1D barcode (Code 128) with consistent styling
         const oneDBarcodeDiv = document.getElementById('oneDBarcode');
@@ -1118,7 +1094,8 @@ function generateFullBoxCode() {
         
         const fullBoxCode = `91${serialValue}_37${paddedQuantity}_241${shortSkuValue}_10${batchValue}_94${originPrefValue}_93${madeInValue}`;
         
-        document.getElementById('fullBoxResult').innerText = fullBoxCode;
+        typewriterEffect(document.getElementById('fullBoxResult'), fullBoxCode, 5);
+
         
         // Generate Code 128 barcode with consistent styling
         const fullBoxBarcodeDiv = document.getElementById('fullBoxBarcode');
@@ -1175,16 +1152,17 @@ function generateFullBoxCode() {
             serialInput.value = serialValue;
         }
 		
-			// In the window.onload function, add this event listener
-	serialInput.addEventListener('input', () => {
-		serialOverride = true; // Remember that user has manually edited
-	});
-
-	// Then in the generateCode function, replace the first block with:
-	// Serial generation logic - only auto-generate if empty
-	if (serialInput.value === '') {
-		serialInput.value = createSerial();
-	}
+		// Serial generation logic
+		if (!serialOverride && serialInput.value === '') {
+			counter++;
+			const today = new Date();
+			const year = today.getFullYear();
+			const month = String(today.getMonth() + 1).padStart(2, '0');
+			const day = String(today.getDate()).padStart(2, '0');
+			const formattedDate = `${year}${month}${day}`;
+			const formattedCounter = String(counter).padStart(4, '0');
+			serialInput.value = `FR${formattedDate}${formattedCounter}`;
+		}
 
 
 
@@ -1209,7 +1187,8 @@ function generateFullBoxCode() {
 
 			const code = `0_${serialInput.value}_${quantityValue}_${shortSkuValue}__${supplierIdValue}_${madeInValue}_${originPrefValue}_${batchValue}`;
 
-			document.getElementById('codeResult').innerText = code;
+			// Use typewriter effect for the main code
+			typewriterEffect(document.getElementById('codeResult'), code, 5);
 			
 			// Clear previous barcode
 			const barcodeDiv = document.getElementById('barcodeImage');
@@ -1241,7 +1220,7 @@ function generateFullBoxCode() {
 
 			// Generate Full Box code
 			generateFullBoxCode();
-    }
+	}
 
     window.onload = function () {
 
@@ -1252,6 +1231,15 @@ function generateFullBoxCode() {
         const supplierIdInput = document.getElementById('supplierId');
         const batchInput = document.getElementById('batch');
         const originPrefInput = document.getElementById('originPref');
+		
+	// Track manual serial edits
+			serialInput.addEventListener('input', () => {
+		if (serialInput.value !== '') {
+			serialOverride = true;
+		}
+	});
+
+		
 		
 		 // Set up the initial product image if ShortSKU has a value
     updateProductImage();
@@ -1276,7 +1264,9 @@ function generateFullBoxCode() {
 
         generateCode(); // Generate initial code with default values
     };
-	// Function to copy the generated code to clipboard
+	
+
+// Function to copy the generated code to clipboard
 document.getElementById('copyButton').addEventListener('click', function() {
     const codeText = document.getElementById('codeResult').innerText;
     
@@ -1456,6 +1446,681 @@ document.getElementById('copyFullBoxButton').addEventListener('click', function(
         document.body.removeChild(textarea);
     }
 });
+
+	let isReverseMode = false;
+
+// Mode switcher functionality
+document.getElementById('modeToggle').addEventListener('change', function() {
+    isReverseMode = this.checked;
+    toggleMode();
+});
+
+function toggleMode() {
+    const productInputSection = document.getElementById('FormContainer');
+    const modeLabel = document.getElementById('modeLabel');
+    const mainContainer = document.getElementById('mainContainer');
+    const generateButtons = document.querySelectorAll('button');
+    
+    if (isReverseMode) {
+        // Switch to reverse mode - convert result divs to input fields
+        productInputSection.style.opacity = '0.5';  /* CHANGE from classList.add */
+        productInputSection.style.pointerEvents = 'none';  /* ADD THIS */
+        mainContainer.classList.add('reverse-mode');
+        modeLabel.textContent = 'Input Mode: Codes → Product Data';
+        
+        // Change button text
+        generateButtons.forEach(button => {
+            if (button.textContent.includes('Generate code') || button.textContent.includes('Generate Code')) {
+                button.textContent = 'Parse Codes';
+            }
+        });
+        
+        // Convert result divs to input fields by replacing their content
+        replaceWithInput('codeResult', 'Paste 2D Matrix code here...');
+        replaceWithInput('oneDResult', 'Paste 1D code here...');
+        replaceWithInput('binaryResult', 'Paste RFID code here...');
+        replaceWithInput('fullBoxResult', 'Paste Full Box code here...');
+        
+        // Hide barcodes
+        hideElement('barcodeImage');
+        hideElement('oneDBarcode');
+        hideElement('fullBoxBarcode');
+        
+        // Make product data fields visually disabled but still allow programmatic updates
+        makeFieldsVisuallyDisabled();
+        
+    } else {
+        // Switch to normal mode - restore original divs
+        productInputSection.style.opacity = '1';  /* CHANGE from classList.remove */
+        productInputSection.style.pointerEvents = 'auto';  /* ADD THIS */
+        mainContainer.classList.remove('reverse-mode');
+        modeLabel.textContent = 'Input Mode: Product Data → Codes';
+        
+        // Change button text back
+        generateButtons.forEach(button => {
+            if (button.textContent.includes('Parse Codes')) {
+                button.textContent = 'Generate Code';
+            }
+        });
+        
+        // Restore original result divs
+        restoreOriginalDiv('codeResult');
+        restoreOriginalDiv('oneDResult');
+        restoreOriginalDiv('binaryResult');
+        restoreOriginalDiv('fullBoxResult');
+        
+        // Show barcodes
+        showElement('barcodeImage');
+        showElement('oneDBarcode');
+        showElement('fullBoxBarcode');
+        
+        // Restore product data fields
+        restoreFieldsNormal();
+        
+        // Regenerate codes with current data
+        generateCode();
+    }
+}
+
+
+function makeFieldsVisuallyDisabled() {
+    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.style.backgroundColor = '#f5f5f5';
+            field.style.color = '#666';
+            field.style.border = '1px solid #ddd';
+            field.setAttribute('readonly', true);
+        }
+    });
+}
+
+function restoreFieldsNormal() {
+    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.style.backgroundColor = '';
+            field.style.color = '';
+            field.style.border = '';
+            field.removeAttribute('readonly');
+        }
+    });
+}
+
+function replaceWithInput(elementId, placeholder) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        // Store original content and structure
+        element.setAttribute('data-original-content', element.innerHTML);
+        element.setAttribute('data-original-class', element.className);
+        
+        // Clear and replace with input
+        element.innerHTML = '';
+        element.className = element.className + ' code-input-container';
+        element.style.padding = '8px';
+        element.style.border = '2px solid #2196F3';
+        element.style.borderRadius = '4px';
+        element.style.backgroundColor = '#f0f8ff';
+        element.style.minHeight = '60px';
+        element.style.display = 'flex';
+        element.style.alignItems = 'center';
+        
+        // Create input element
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'code-input';
+        input.placeholder = placeholder;
+        input.style.width = '100%';
+        input.style.border = 'none';
+        input.style.outline = 'none';
+        input.style.backgroundColor = 'transparent';
+        input.style.fontFamily = 'monospace';
+        input.style.fontSize = '14px';
+        input.style.minHeight = '40px';
+        
+        // ADD ENTER KEY LISTENER HERE
+        input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' || event.keyCode === 13) {
+                event.preventDefault();
+                
+                // Visual feedback
+                const originalBorder = element.style.border;
+                element.style.border = '3px solid #4CAF50';
+                
+                setTimeout(() => {
+                    element.style.border = originalBorder;
+                }, 200);
+                
+                // Trigger parse codes
+                console.log('Enter pressed in code input - Parsing codes...');
+                parseCodestoProductData();
+            }
+        });
+        
+        element.appendChild(input);
+    }
+}
+
+
+function restoreOriginalDiv(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        // Get the input value if it exists
+        const input = element.querySelector('input');
+        const inputValue = input ? input.value : '';
+        
+        // Restore original content and styling
+        const originalContent = element.getAttribute('data-original-content') || '';
+        const originalClass = element.getAttribute('data-original-class') || '';
+        
+        element.innerHTML = inputValue || originalContent;
+        element.className = originalClass;
+        
+        // Reset inline styles
+        element.style.padding = '';
+        element.style.border = '';
+        element.style.borderRadius = '';
+        element.style.backgroundColor = '';
+        
+        // Remove data attributes
+        element.removeAttribute('data-original-content');
+        element.removeAttribute('data-original-class');
+    }
+}
+
+function hideElement(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.style.visibility = 'hidden';  /* CHANGE from display to visibility */
+        element.style.height = '150px';  /* MAINTAIN height */
+    }
+}
+
+function showElement(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.style.visibility = 'visible';  /* CHANGE from display to visibility */
+        element.style.height = '';  /* RESET height */
+    }
+}
+
+
+// Enhanced generateCode function to handle both modes
+function generateCodeEnhanced() {
+    if (isReverseMode) {
+        parseCodestoProductData();
+    } else {
+        generateCode(); // Your existing function
+    }
+}
+
+// Get input value from converted div
+function getInputValue(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        const input = element.querySelector('input');
+        return input ? input.value.trim() : '';
+    }
+    return '';
+}
+
+// New function to parse codes back to product data
+function parseCodestoProductData() {
+    const matrixCode = getInputValue('codeResult');
+    const oneDCode = getInputValue('oneDResult');
+    const rfidCode = getInputValue('binaryResult');
+    const fullBoxCode = getInputValue('fullBoxResult');
+    
+    console.log('Parsing codes:');
+    console.log('Matrix:', matrixCode);
+    console.log('1D:', oneDCode);
+    console.log('RFID:', rfidCode);
+    console.log('FullBox:', fullBoxCode);
+    
+    // Clear existing product data first
+    clearProductData();
+    
+    let parsedAny = false;
+    
+    // Parse Matrix Code first (most complete data)
+    if (matrixCode) {
+        console.log('Attempting to parse Matrix code...');
+        const success = parseMatrixCode(matrixCode);
+        if (success) parsedAny = true;
+    }
+    
+    // Parse Full Box Code (GS1 format) - only fill empty fields
+    if (fullBoxCode) {
+        console.log('Attempting to parse Full Box code...');
+        const success = parseFullBoxCode(fullBoxCode);
+        if (success) parsedAny = true;
+    }
+    
+    // Parse 1D code (format: paddedQuantity + shortSku) - only fill empty fields
+    if (oneDCode && oneDCode.length >= 4) {
+        console.log('Attempting to parse 1D code...');
+        const success = parseOneDCode(oneDCode);
+        if (success) parsedAny = true;
+    }
+    
+    // Parse RFID code (hex format ending with -)
+    if (rfidCode) {
+        console.log('Attempting to parse RFID code...');
+        const success = parseRFIDCode(rfidCode);
+        if (success) parsedAny = true;
+    }
+    
+    if (parsedAny) {
+        // Force update the product image after parsing
+        setTimeout(() => {
+            updateProductImage();
+        }, 100);
+        
+        // Show success message
+        alert('Codes parsed successfully! Product data has been populated in the form fields.');
+        
+        // Highlight the parsed fields briefly
+        highlightParsedFields();
+        
+        // Log final values for debugging
+        logCurrentValues();
+    } else {
+        alert('No valid codes found to parse. Please check your input codes.');
+    }
+}
+
+function clearProductData() {
+    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.value = '';
+        }
+    });
+}
+
+function parseMatrixCode(matrixCode) {
+    try {
+        // Parse format: 0_{serial}_{quantity}_{shortSku}__{supplierId}_{madeIn}_{originPref}_{batch}
+        const parts = matrixCode.split('_');
+        console.log('Matrix parts:', parts);
+        
+        if (parts.length >= 8 && parts[0] === '0') {
+            if (parts[1]) {
+                document.getElementById('serial').value = parts[1];
+                console.log('Set serial:', parts[1]);
+            }
+            if (parts[2]) {
+                document.getElementById('quantity').value = parts[2];
+                console.log('Set quantity:', parts[2]);
+            }
+            if (parts[3]) {
+                document.getElementById('shortSku').value = parts[3];
+                console.log('Set shortSku:', parts[3]);
+            }
+            if (parts[5]) {
+                document.getElementById('supplierId').value = parts[5];
+                console.log('Set supplierId:', parts[5]);
+            }
+            if (parts[6]) {
+                document.getElementById('madeIn').value = parts[6];
+                console.log('Set madeIn:', parts[6]);
+            }
+            if (parts[7]) {
+                document.getElementById('originPref').value = parts[7];
+                console.log('Set originPref:', parts[7]);
+            }
+            if (parts[8]) {
+                document.getElementById('batch').value = parts[8];
+                console.log('Set batch:', parts[8]);
+            }
+            
+            console.log('Matrix code parsed successfully');
+            return true;
+        }
+    } catch (e) {
+        console.error('Error parsing Matrix code:', e);
+    }
+    return false;
+}
+
+function parseFullBoxCode(fullBoxCode) {
+    try {
+        // Parse GS1 format: 91{serial}_37{quantity}_241{shortSku}_10{batch}_94{originPref}_93{madeIn}
+        const parts = fullBoxCode.split('_');
+        console.log('FullBox parts:', parts);
+        let parsed = false;
+        
+        parts.forEach(part => {
+            if (part.startsWith('91') && !document.getElementById('serial').value) {
+                const value = part.substring(2);
+                document.getElementById('serial').value = value;
+                console.log('Set serial from FullBox:', value);
+                parsed = true;
+            } else if (part.startsWith('37') && !document.getElementById('quantity').value) {
+                const qty = parseInt(part.substring(2)) * 10;
+                const value = qty.toString().padStart(4, '0');
+                document.getElementById('quantity').value = value;
+                console.log('Set quantity from FullBox:', value);
+                parsed = true;
+            } else if (part.startsWith('241') && !document.getElementById('shortSku').value) {
+                const value = part.substring(3);
+                document.getElementById('shortSku').value = value;
+                console.log('Set shortSku from FullBox:', value);
+                parsed = true;
+            } else if (part.startsWith('10') && !document.getElementById('batch').value) {
+                const value = part.substring(2);
+                document.getElementById('batch').value = value;
+                console.log('Set batch from FullBox:', value);
+                parsed = true;
+            } else if (part.startsWith('94') && !document.getElementById('originPref').value) {
+                const value = part.substring(2);
+                document.getElementById('originPref').value = value;
+                console.log('Set originPref from FullBox:', value);
+                parsed = true;
+            } else if (part.startsWith('93') && !document.getElementById('madeIn').value) {
+                const value = part.substring(2);
+                document.getElementById('madeIn').value = value;
+                console.log('Set madeIn from FullBox:', value);
+                parsed = true;
+            }
+        });
+        
+        if (parsed) {
+            console.log('Full Box code parsed successfully');
+            return true;
+        }
+    } catch (e) {
+        console.error('Error parsing Full Box code:', e);
+    }
+    return false;
+}
+
+function parseOneDCode(oneDCode) {
+    try {
+        // Parse format: paddedQuantity (4 digits) + shortSku (remaining chars)
+        if (oneDCode.length >= 4) {
+            const quantityPart = oneDCode.substring(0, 4);
+            const shortSkuPart = oneDCode.substring(4);
+            
+            // Convert quantity (multiply by 10 since it was divided by 10)
+            const quantity = parseInt(quantityPart) * 10;
+            
+            if (!document.getElementById('quantity').value) {
+                const value = quantity.toString().padStart(4, '0');
+                document.getElementById('quantity').value = value;
+                console.log('Set quantity from 1D:', value);
+            }
+            if (!document.getElementById('shortSku').value && shortSkuPart) {
+                document.getElementById('shortSku').value = shortSkuPart;
+                console.log('Set shortSku from 1D:', shortSkuPart);
+            }
+            
+            console.log('1D code parsed successfully');
+            return true;
+        }
+    } catch (e) {
+        console.error('Error parsing 1D code:', e);
+    }
+    return false;
+}
+
+function parseRFIDCode(rfidCode) {
+    try {
+        // Remove trailing dash if present
+        const cleanCode = rfidCode.replace(/-$/, '');
+        console.log('Parsing RFID cleanCode:', cleanCode);
+        
+        if (cleanCode.length === 0) {
+            return false;
+        }
+        
+        // Convert hex to binary
+        let binary = '';
+        for (let i = 0; i < cleanCode.length; i++) {
+            const hex = cleanCode[i];
+            const bin = parseInt(hex, 16).toString(2).padStart(4, '0');
+            binary += bin;
+        }
+        
+        console.log('RFID binary:', binary);
+        
+        // Character reverse lookup table
+        const reverseTable = {
+            1: '0', 2: '1', 3: '2', 4: '3', 5: '4', 6: '5', 7: '6', 8: '7', 9: '8', 10: '9',
+            18: 'A', 19: 'B', 20: 'C', 21: 'D', 22: 'E', 23: 'F', 24: 'G', 25: 'H', 26: 'I',
+            34: 'J', 35: 'K', 36: 'L', 37: 'M', 38: 'N', 39: 'O', 40: 'P', 41: 'Q', 42: 'R',
+            51: 'S', 52: 'T', 53: 'U', 54: 'V', 55: 'W', 56: 'X', 57: 'Y', 58: 'Z', 11: '[',
+            12: '#', 13: '@', 14: ':', 15: '>', 16: '?', 17: ' ', 28: '.', 29: ']', 30: '(',
+            31: '<', 33: '^', 43: '-', 44: '$', 45: '*', 46: ')', 47: ';', 50: '/', 60: ',', 
+            61: '%', 62: '=', 63: '', 64: '!'
+        };
+        
+        let pos = 0;
+        
+        // Skip initial 0000
+        pos += 4;
+        
+        // Parse Serial (first 2 chars with table lookup, then digits)
+        let serial = '';
+        
+        // First 2 characters with table lookup (6 bits each, adjusted +1)
+        for (let i = 0; i < 2 && pos + 6 <= binary.length; i++) {
+            const sixBits = binary.substr(pos, 6);
+            const decimal = parseInt(sixBits, 2) + 1; // Add 1 back (reverse of -1 in encoding)
+            const char = reverseTable[decimal] || '?';
+            serial += char;
+            pos += 6;
+            console.log(`Serial char ${i}: ${sixBits} -> ${decimal} -> ${char}`);
+        }
+        
+        // Remaining characters as digits (4 bits each)
+        while (pos + 4 <= binary.length && serial.length < 14) {
+            const fourBits = binary.substr(pos, 4);
+            const digit = parseInt(fourBits, 2);
+            if (digit >= 0 && digit <= 9) {
+                serial += digit.toString();
+                pos += 4;
+                console.log(`Serial digit: ${fourBits} -> ${digit}`);
+            } else {
+                break; // Stop if we encounter non-digit
+            }
+        }
+        
+        // Parse ShortSKU (6 characters with table lookup, 6 bits each)
+        let shortSku = '';
+        for (let i = 0; i < 6 && pos + 6 <= binary.length; i++) {
+            const sixBits = binary.substr(pos, 6);
+            const decimal = parseInt(sixBits, 2) + 1; // Add 1 back
+            const char = reverseTable[decimal] || '?';
+            shortSku += char;
+            pos += 6;
+            console.log(`ShortSKU char ${i}: ${sixBits} -> ${decimal} -> ${char}`);
+        }
+        
+        // Parse Quantity (12 bits)
+        let quantity = '';
+        if (pos + 12 <= binary.length) {
+            const twelveBits = binary.substr(pos, 12);
+            const number = parseInt(twelveBits, 2);
+            quantity = number.toString().padStart(4, '0');
+            pos += 12;
+            console.log(`Quantity: ${twelveBits} -> ${number} -> ${quantity}`);
+        }
+        
+        // Parse Made IN (2 characters with table lookup, 6 bits each)
+        let madeIn = '';
+        for (let i = 0; i < 2 && pos + 6 <= binary.length; i++) {
+            const sixBits = binary.substr(pos, 6);
+            const decimal = parseInt(sixBits, 2) + 1; // Add 1 back
+            const char = reverseTable[decimal] || '?';
+            madeIn += char;
+            pos += 6;
+            console.log(`MadeIn char ${i}: ${sixBits} -> ${decimal} -> ${char}`);
+        }
+        
+        // Set the parsed values if they are valid
+        let parsed = false;
+        
+        if (serial && serial.length >= 2 && !document.getElementById('serial').value) {
+            document.getElementById('serial').value = serial;
+            console.log('Set serial from RFID:', serial);
+            parsed = true;
+        }
+        
+        if (shortSku && shortSku.length === 6 && !document.getElementById('shortSku').value) {
+            document.getElementById('shortSku').value = shortSku;
+            console.log('Set shortSku from RFID:', shortSku);
+            parsed = true;
+        }
+        
+        if (quantity && !document.getElementById('quantity').value) {
+            document.getElementById('quantity').value = quantity;
+            console.log('Set quantity from RFID:', quantity);
+            parsed = true;
+        }
+        
+        if (madeIn && madeIn.length === 2 && !document.getElementById('madeIn').value) {
+            document.getElementById('madeIn').value = madeIn;
+            console.log('Set madeIn from RFID:', madeIn);
+            parsed = true;
+        }
+        
+        if (parsed) {
+            console.log('RFID code parsed successfully');
+            return true;
+        }
+        
+    } catch (e) {
+        console.error('Error parsing RFID code:', e);
+    }
+    return false;
+}
+
+function highlightParsedFields() {
+    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field && field.value) {
+            const originalBorder = field.style.border;
+            const originalBackground = field.style.backgroundColor;
+            
+            field.style.border = '3px solid #4CAF50';
+            field.style.backgroundColor = '#e8f5e8';
+            
+            setTimeout(() => {
+                field.style.border = originalBorder;
+                field.style.backgroundColor = originalBackground;
+            }, 3000);
+        }
+    });
+}
+
+function logCurrentValues() {
+    console.log('Current field values:');
+    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            console.log(fieldId + ':', field.value);
+        }
+    });
+}
+
+
+
+// Override the existing generateCode function calls
+const originalGenerateCode = window.generateCode;
+window.generateCode = function() {
+    if (isReverseMode) {
+        parseCodestoProductData();
+    } else {
+        originalGenerateCode.apply(this, arguments);
+    }
+};
+
+// Enhanced Enter key functionality with visual feedback
+document.addEventListener('DOMContentLoaded', function() {
+    const inputFields = document.querySelectorAll('input[type="text"], input[type="number"]');
+    
+    inputFields.forEach(input => {
+        input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' || event.keyCode === 13) {
+                event.preventDefault();
+                
+                // Visual feedback - flash the input
+                const originalBorder = this.style.border;
+                this.style.border = '2px solid #4CAF50';
+                
+                setTimeout(() => {
+                    this.style.border = originalBorder;
+                }, 200);
+                
+                // Execute appropriate function based on mode
+                if (isReverseMode) {
+                    console.log('Enter pressed - Parsing codes...');
+                    parseCodestoProductData();
+                } else {
+                    console.log('Enter pressed - Generating code...');
+                    generateCode();
+                }
+            }
+        });
+    });
+});
+
+// Typewriter effect function
+function typewriterEffect(element, text, speed = 30, callback) {
+    // Clear the element first
+    element.innerHTML = '';
+    
+    let index = 0;
+    
+    // Add cursor
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    element.appendChild(cursor);
+    
+    const typeInterval = setInterval(() => {
+        if (index < text.length) {
+            // Insert character before cursor
+            const textNode = document.createTextNode(text.charAt(index));
+            element.insertBefore(textNode, cursor);
+            index++;
+        } else {
+            // Finished typing - remove cursor
+            clearInterval(typeInterval);
+            cursor.remove();
+            
+            // Call callback if provided
+            if (callback) callback();
+        }
+    }, speed);
+}
+
+// Enhanced version with multiple elements typing in sequence
+function typewriterSequence(elements, speed = 90) {
+    let currentIndex = 0;
+    
+    function typeNext() {
+        if (currentIndex < elements.length) {
+            const { element, text } = elements[currentIndex];
+            typewriterEffect(element, text, speed, () => {
+                currentIndex++;
+                typeNext();
+            });
+        }
+    }
+    
+    typeNext();
+}
 
 
 </script>
