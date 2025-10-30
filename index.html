@@ -845,6 +845,25 @@
 			animation: pulse-hint 2s ease-in-out 3;
 		}
 
+				/* Mode toggle keyboard hint */
+		.mode-shortcut-hint {
+			font-size: 12px;
+			opacity: 0.8;
+			font-style: normal;
+			margin-top: 3px;
+		}
+
+		.mode-shortcut-hint kbd {
+			background: rgba(255, 255, 255, 0.3);
+			padding: 2px 6px;
+			border-radius: 3px;
+			font-family: monospace;
+			font-size: 11px;
+			font-weight: bold;
+			border: 1px solid rgba(255, 255, 255, 0.4);
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		}
+
 
 </style>
 
@@ -864,6 +883,7 @@
 			</div>
 			<div class="mode-info">
 				<span id="modeLabel" class="mode-text">Input Mode: Product Data → Codes</span>
+				<span class="mode-shortcut-hint">Press <kbd>F3</kbd> to toggle</span>
 			</div>
 		</div>
 		</div>
@@ -941,7 +961,10 @@
         
  </div>
 		
-		<button onclick="generateCodeEnhanced()">Generate Code</button>
+			<button onclick="generateCodeEnhanced()" data-shortcut="Enter">
+				Generate Code <span class="shortcut-badge">Enter ↵</span>
+			</button>
+
     
 			 <div id=mainContainer>
 		<!-- 2D Matrix Code (top-left) -->
@@ -1624,10 +1647,10 @@ function toggleMode() {
         mainContainer.classList.add('reverse-mode');
         modeLabel.textContent = 'Input Mode: Codes → Product Data';
         
-        // Change button text
+        // Change button text - UPDATED to preserve shortcut badge
         generateButtons.forEach(button => {
             if (button.textContent.includes('Generate code') || button.textContent.includes('Generate Code')) {
-                button.textContent = 'Parse Codes';
+                button.innerHTML = 'Parse Codes <span class="shortcut-badge">Enter ↵</span>';
             }
         });
         
@@ -1652,10 +1675,10 @@ function toggleMode() {
         mainContainer.classList.remove('reverse-mode');
         modeLabel.textContent = 'Input Mode: Product Data → Codes';
         
-        // Change button text back
+         // Change button text back - UPDATED to preserve shortcut badge
         generateButtons.forEach(button => {
             if (button.textContent.includes('Parse Codes')) {
-                button.textContent = 'Generate Code';
+                button.innerHTML = 'Generate Code <span class="shortcut-badge">Enter ↵</span>';
             }
         });
         
@@ -2278,6 +2301,38 @@ function typewriterSequence(elements, speed = 90) {
     typeNext();
 }
 
+// Enhanced Enter key functionality with visual feedback
+document.addEventListener('DOMContentLoaded', function() {
+    const inputFields = document.querySelectorAll('input[type=text], input[type=number]');
+    
+    inputFields.forEach(input => {
+        input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' || event.keyCode === 13) {
+                event.preventDefault();
+                
+                // Visual feedback - flash the input
+                const originalBorder = this.style.border;
+                this.style.border = '2px solid #4CAF50';
+                
+                setTimeout(() => {
+                    this.style.border = originalBorder;
+                }, 200);
+                
+                // Execute appropriate function based on mode
+                if (isReverseMode) {
+                    console.log('Enter pressed - Parsing codes...');
+                    parseCodestoProductData();
+                    showShortcutFeedback('Codes parsed!', '🔍'); // Add this line
+                } else {
+                    console.log('Enter pressed - Generating code...');
+                    generateCode();
+                    showShortcutFeedback('Code generated!', '✨'); // Add this line
+                }
+            }
+        });
+    });
+});
+
 // Keyboard shortcuts for Copy buttons (Safest option - Alt+Shift combinations)
 document.addEventListener('keydown', function(event) {
     // Check for Alt+Shift combinations
@@ -2291,6 +2346,20 @@ document.addEventListener('keydown', function(event) {
         showShortcutFeedback('Serial field activated!', '✏️');
     }
     
+		// F3 - Toggle Mode (Generate/Parse)
+    if (event.key === 'F3') {
+        event.preventDefault();
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.checked = !modeToggle.checked;
+        
+        // Trigger the change event to execute toggleMode()
+        modeToggle.dispatchEvent(new Event('change'));
+        
+        // Show feedback based on current mode
+        const modeName = modeToggle.checked ? 'Parse Codes Mode' : 'Generate Code Mode';
+        const modeIcon = modeToggle.checked ? '🔍' : '📊';
+        showShortcutFeedback(`Switched to ${modeName}`, modeIcon);
+    }
 
 		// Prevent default browser behavior for our custom shortcuts
     if (isAlt && isShift) {
