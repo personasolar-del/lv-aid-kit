@@ -700,12 +700,157 @@
 			animation: blink-cursor 1s infinite;
 		}
 
+				/* Keyboard shortcut feedback animation */
+		.shortcut-feedback {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) scale(0.5);
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: white;
+			padding: 25px 45px;
+			border-radius: 15px;
+			font-size: 18px;
+			font-weight: 600;
+			box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+			z-index: 10000;
+			opacity: 0;
+			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			pointer-events: none;
+		}
+
+		.shortcut-feedback.show {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
+		}
+
+		.feedback-icon {
+			font-size: 32px;
+			animation: bounce 0.6s ease-in-out;
+		}
+
+		.feedback-message {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			letter-spacing: 0.5px;
+		}
+
+		@keyframes bounce {
+			0%, 100% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+		}
+
+		/* Enhanced Copy button styling with keyboard shortcut hint */
+		.utility-button {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.utility-button::after {
+			content: attr(data-shortcut);
+			position: absolute;
+			bottom: -25px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(0, 0, 0, 0.8);
+			color: white;
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 10px;
+			white-space: nowrap;
+			opacity: 0;
+			transition: all 0.3s ease;
+			pointer-events: none;
+		}
+
+		.utility-button:hover::after {
+			bottom: -30px;
+			opacity: 1;
+		}
+
+		/* Keyboard shortcut badge on buttons */
+		.shortcut-badge {
+			display: inline-block;
+			background: rgba(255, 255, 255, 0.2);
+			padding: 2px 6px;
+			border-radius: 3px;
+			font-size: 10px;
+			margin-left: 5px;
+			font-weight: normal;
+			opacity: 0.8;
+		}
+
+		/* Help section for keyboard shortcuts */
+		.keyboard-shortcuts-help {
+			background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+			padding: 15px 20px;
+			border-radius: 8px;
+			margin: 15px 0;
+			border-left: 4px solid #667eea;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		}
+
+		.keyboard-shortcuts-help h4 {
+			margin: 0 0 10px 0;
+			color: #667eea;
+			font-size: 16px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.shortcut-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 8px;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.shortcut-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 13px;
+			color: #333;
+		}
+
+		.shortcut-key {
+			background: white;
+			padding: 3px 8px;
+			border-radius: 4px;
+			font-family: monospace;
+			font-size: 11px;
+			font-weight: bold;
+			color: #667eea;
+			border: 1px solid #ddd;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+		}
+
+		.shortcut-description {
+			color: #555;
+			font-weight: 500;
+		}
+
+		/* Pulse animation for first-time users */
+		@keyframes pulse-hint {
+			0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+			50% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+		}
+
+		.utility-button.hint-pulse {
+			animation: pulse-hint 2s ease-in-out 3;
+		}
+
 
 </style>
 
 </head>
 <body>
-    
+
 		<div class="generate-section">
 		<div class="mode-switcher">
 			<div class="toggle-container">
@@ -728,7 +873,10 @@
             <div class="input-group">
                 <label for="serial" class="hidden-label">Serial (13-14 chars):</label>
                 <input type="text" id="serial" name="serial" maxlength="14">
-                <button type="button" class="utility-button" onclick="focusSerial()">Edit Serial</button>
+                <button type="button" class="utility-button" onclick="focusSerial()" data-shortcut="F2">
+				Edit Serial <span class="shortcut-badge">F2</span>
+				</button>
+
             </div>
         </div>
          <div class="utility-buttons">
@@ -801,7 +949,8 @@
 			<h3>2D Data Matrix code PCE</h3>
 			<div class=code-result-container>
 				<div id=codeResult></div>
-				<button id=copyButton class=utility-button>Copy</button>
+				<button id="copyButton" class="utility-button" data-shortcut="Alt+Shift+C">
+				Copy <span class="shortcut-badge">Alt+Shift+C</span>
 			</div>
 			<div id=barcodeImage></div>
 		</div>
@@ -812,7 +961,8 @@
 			<h3>1D Code</h3>
 			<div class=code-result-container>
 				<div id=oneDResult></div>
-				<button id=copyOneDButton class=utility-button>Copy</button>
+				<button id="copyOneDButton" class="utility-button" data-shortcut="Alt+Shift+1">
+				Copy <span class="shortcut-badge">Alt+Shift+1</span>
 			</div>
 			<div id=oneDBarcode></div>
 		</div>
@@ -822,7 +972,8 @@
 			<h3>RFID code</h3>
 			<div class=code-result-container>
 				<div id=binaryResult></div>
-				<button id=copyBinaryButton class=utility-button>Copy</button>
+				<button id="copyBinaryButton" class="utility-button" data-shortcut="Alt+Shift+R">
+				Copy <span class="shortcut-badge">Alt+Shift+R</span>
 			</div>
 		</div>
 
@@ -831,7 +982,8 @@
 			<h3>Full Box Code (GS1)</h3>
 			<div class=code-result-container>
 				<div id=fullBoxResult></div>
-				<button id=copyFullBoxButton class=utility-button>Copy</button>
+				<button id="copyFullBoxButton" class="utility-button" data-shortcut="Alt+Shift+F">
+				Copy <span class="shortcut-badge">Alt+Shift+F</span>
 			</div>
 			<div id=fullBoxBarcode></div>
 		</div>
@@ -844,10 +996,10 @@
 			</a>
 		</div>
 	</div>
-
+	
 	  	
 	<div id="copyright">
-    &copy; Nikita Astafiev. All rights reserved V.1.3
+		&copy; Nikita Astafiev. All rights reserved V.1.4
 	</div>
 
 
@@ -1276,21 +1428,19 @@ function generateFullBoxCode() {
     };
 	
 
-// Function to copy the generated code to clipboard
+// Copy button for 2D Matrix code (UPDATED)
 document.getElementById('copyButton').addEventListener('click', function() {
     const codeText = document.getElementById('codeResult').innerText;
     
-    // Use modern Clipboard API if available
     if (navigator.clipboard) {
         navigator.clipboard.writeText(codeText).then(() => {
-            // Provide visual feedback that copy succeeded
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
+            // Store original HTML instead of just text
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
             this.style.backgroundColor = '#4CAF50';
             
-            // Return to original state after 1.5 seconds
             setTimeout(() => {
-                this.innerText = originalText;
+                this.innerHTML = originalHTML; // Restore full HTML including badge
                 this.style.backgroundColor = '#007bff';
             }, 1500);
         }).catch(err => {
@@ -1306,60 +1456,12 @@ document.getElementById('copyButton').addEventListener('click', function() {
         
         try {
             document.execCommand('copy');
-            // Provide visual feedback
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
             this.style.backgroundColor = '#4CAF50';
             
             setTimeout(() => {
-                this.innerText = originalText;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        } catch (err) {
-            console.error('Copy failed:', err);
-            alert('Copy failed');
-        }
-        
-        document.body.removeChild(textarea);
-    }});
-
-	// Copy button for binary code
-document.getElementById('copyBinaryButton').addEventListener('click', function() {
-    const binaryText = document.getElementById('binaryResult').innerText;
-    
-    // Use modern Clipboard API if available
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(binaryText).then(() => {
-            // Provide visual feedback that copy succeeded
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
-            this.style.backgroundColor = '#4CAF50';
-            
-            // Return to original state after 1.5 seconds
-            setTimeout(() => {
-                this.innerText = originalText;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        }).catch(err => {
-            console.error('Copy failed:', err);
-            alert('Copy failed. ' + err);
-        });
-    } else {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = binaryText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            document.execCommand('copy');
-            // Provide visual feedback
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
-            this.style.backgroundColor = '#4CAF50';
-            
-            setTimeout(() => {
-                this.innerText = originalText;
+                this.innerHTML = originalHTML;
                 this.style.backgroundColor = '#007bff';
             }, 1500);
         } catch (err) {
@@ -1371,18 +1473,61 @@ document.getElementById('copyBinaryButton').addEventListener('click', function()
     }
 });
 
-		// Copy button for 1D code
+// Copy button for binary/RFID code (UPDATED)
+document.getElementById('copyBinaryButton').addEventListener('click', function() {
+    const binaryText = document.getElementById('binaryResult').innerText;
+    
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(binaryText).then(() => {
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerHTML = originalHTML;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            alert('Copy failed. ' + err);
+        });
+    } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = binaryText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
+            this.style.backgroundColor = '#4CAF50';
+            
+            setTimeout(() => {
+                this.innerHTML = originalHTML;
+                this.style.backgroundColor = '#007bff';
+            }, 1500);
+        } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed');
+        }
+        
+        document.body.removeChild(textarea);
+    }
+});
+
+// Copy button for 1D code (UPDATED)
 document.getElementById('copyOneDButton').addEventListener('click', function() {
     const oneDText = document.getElementById('oneDResult').innerText;
     
     if (navigator.clipboard) {
         navigator.clipboard.writeText(oneDText).then(() => {
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
             this.style.backgroundColor = '#4CAF50';
             
             setTimeout(() => {
-                this.innerText = originalText;
+                this.innerHTML = originalHTML;
                 this.style.backgroundColor = '#007bff';
             }, 1500);
         }).catch(err => {
@@ -1397,12 +1542,12 @@ document.getElementById('copyOneDButton').addEventListener('click', function() {
         
         try {
             document.execCommand('copy');
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
             this.style.backgroundColor = '#4CAF50';
             
             setTimeout(() => {
-                this.innerText = originalText;
+                this.innerHTML = originalHTML;
                 this.style.backgroundColor = '#007bff';
             }, 1500);
         } catch (err) {
@@ -1414,18 +1559,18 @@ document.getElementById('copyOneDButton').addEventListener('click', function() {
     }
 });
 
-// Copy button for Full Box code
+// Copy button for Full Box code (UPDATED)
 document.getElementById('copyFullBoxButton').addEventListener('click', function() {
     const fullBoxText = document.getElementById('fullBoxResult').innerText;
     
     if (navigator.clipboard) {
         navigator.clipboard.writeText(fullBoxText).then(() => {
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
             this.style.backgroundColor = '#4CAF50';
             
             setTimeout(() => {
-                this.innerText = originalText;
+                this.innerHTML = originalHTML;
                 this.style.backgroundColor = '#007bff';
             }, 1500);
         }).catch(err => {
@@ -1440,12 +1585,12 @@ document.getElementById('copyFullBoxButton').addEventListener('click', function(
         
         try {
             document.execCommand('copy');
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
+            const originalHTML = this.innerHTML;
+            this.innerHTML = 'Copied! ✓';
             this.style.backgroundColor = '#4CAF50';
             
             setTimeout(() => {
-                this.innerText = originalText;
+                this.innerHTML = originalHTML;
                 this.style.backgroundColor = '#007bff';
             }, 1500);
         } catch (err) {
@@ -1456,6 +1601,7 @@ document.getElementById('copyFullBoxButton').addEventListener('click', function(
         document.body.removeChild(textarea);
     }
 });
+
 
 	let isReverseMode = false;
 
@@ -2131,6 +2277,101 @@ function typewriterSequence(elements, speed = 90) {
     
     typeNext();
 }
+
+// Keyboard shortcuts for Copy buttons (Safest option - Alt+Shift combinations)
+document.addEventListener('keydown', function(event) {
+    // Check for Alt+Shift combinations
+    const isAlt = event.altKey;
+    const isShift = event.shiftKey;
+		
+  // F2 - Edit Serial (Focus on serial input)
+    if (event.key === 'F2') {
+        event.preventDefault();
+        focusSerial();
+        showShortcutFeedback('Serial field activated!', '✏️');
+    }
+    
+
+		// Prevent default browser behavior for our custom shortcuts
+    if (isAlt && isShift) {
+        // Alt+Shift+C - Copy 2D Matrix Code
+        if (event.key === 'C' || event.key === 'c') {
+            event.preventDefault();
+            document.getElementById('copyButton').click();
+            showShortcutFeedback('2D Matrix Code copied!', '⬜');
+        }
+        
+        // Alt+Shift+1 - Copy 1D Code
+        if (event.key === '1' || event.key === '!') {
+            event.preventDefault();
+            document.getElementById('copyOneDButton').click();
+            showShortcutFeedback('1D Code copied!', '📊');
+        }
+        
+        // Alt+Shift+R - Copy RFID Code
+        if (event.key === 'R' || event.key === 'r') {
+            event.preventDefault();
+            document.getElementById('copyBinaryButton').click();
+            showShortcutFeedback('RFID Code copied!', '📡');
+        }
+        
+        // Alt+Shift+F - Copy Full Box Code
+        if (event.key === 'F' || event.key === 'f') {
+            event.preventDefault();
+            document.getElementById('copyFullBoxButton').click();
+            showShortcutFeedback('Full Box Code copied!', '📦');
+        }
+    }
+});
+
+// Visual feedback function for keyboard shortcuts
+function showShortcutFeedback(message, icon = '✓') {
+    // Remove any existing feedback
+    const existing = document.querySelector('.shortcut-feedback');
+    if (existing) {
+        existing.remove();
+    }
+    
+    // Create feedback element
+    const feedback = document.createElement('div');
+    feedback.className = 'shortcut-feedback';
+    feedback.innerHTML = `
+        <div class="feedback-icon">${icon}</div>
+        <div class="feedback-message">${message}</div>
+    `;
+    
+    document.body.appendChild(feedback);
+    
+    // Trigger animation
+    setTimeout(() => {
+        feedback.classList.add('show');
+    }, 10);
+    
+    // Remove after animation
+    setTimeout(() => {
+        feedback.classList.remove('show');
+        setTimeout(() => {
+            feedback.remove();
+        }, 300);
+    }, 1500);
+}
+
+// Optional: Add keyboard shortcut indicator on hover
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = [
+        { id: 'copyButton', shortcut: 'Alt+Shift+C' },
+        { id: 'copyOneDButton', shortcut: 'Alt+Shift+1' },
+        { id: 'copyBinaryButton', shortcut: 'Alt+Shift+R' },
+        { id: 'copyFullBoxButton', shortcut: 'Alt+Shift+F' }
+    ];
+    
+    buttons.forEach(btn => {
+        const button = document.getElementById(btn.id);
+        if (button) {
+            button.setAttribute('title', `Click or press ${btn.shortcut}`);
+        }
+    });
+});
 
 
 </script>
