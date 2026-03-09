@@ -464,14 +464,73 @@
 
 		#copyright {
 			position: fixed;
-			bottom: 10px;
-			right: 10px;
+			bottom: 15px;
+			right: 15px;
 			font-size: 12px;
-			color: #666;
-			padding: 5px;
-			background-color: rgba(255, 255, 255, 0.7);
-			border-radius: 3px;
+			color: #00ff88;
+			padding: 8px 12px;
+			background: linear-gradient(135deg, rgba(0, 20, 40, 0.9) 0%, rgba(10, 0, 30, 0.9) 100%);
+			border: 1px solid #00d4ff;
+			border-radius: 6px;
 			z-index: 1000;
+			cursor: help;
+			transition: all 0.3s ease;
+			box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+			font-weight: 600;
+			text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+		}
+
+		#copyright:hover {
+			background: linear-gradient(135deg, rgba(0, 20, 40, 0.95) 0%, rgba(10, 0, 30, 0.95) 100%);
+			border-color: #00ff88;
+			box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+			transform: scale(1.05);
+		}
+
+		.help-tooltip-copyright {
+			position: absolute;
+			bottom: 40px;
+			right: 0;
+			width: 420px;
+			background: linear-gradient(135deg, rgba(10, 14, 39, 0.98) 0%, rgba(26, 0, 51, 0.98) 100%);
+			border: 2px solid #00d4ff;
+			border-radius: 12px;
+			padding: 20px;
+			box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), inset 0 0 20px rgba(0, 255, 136, 0.1);
+			color: #e8e8ff;
+			font-size: 13px;
+			line-height: 1.7;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s ease;
+			pointer-events: none;
+			z-index: 1001;
+			max-height: 400px;
+			overflow-y: auto;
+		}
+
+		#copyright:hover .help-tooltip-copyright {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+		}
+
+		.help-title-copyright {
+			font-size: 16px;
+			font-weight: 700;
+			color: #00ff88;
+			margin-bottom: 15px;
+			text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+		}
+
+		.help-content-copyright p {
+			margin: 8px 0;
+			color: #d0d0ff;
+		}
+
+		.help-content-copyright strong {
+			color: #00ff88;
+			font-weight: 700;
 		}
 
 		/* Input and form styling */
@@ -808,6 +867,125 @@
 				opacity: 0.9;
 				font-style: italic;
 			}
+
+			/* Gravity Switcher - Compact Version */
+			.gravity-switcher {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 8px;
+				margin: 5px 20px;
+				padding: 8px 15px;
+				background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 255, 136, 0.08) 100%);
+				border: 1px solid rgba(0, 212, 255, 0.3);
+				border-radius: 8px;
+				box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+				color: #e8e8ff;
+				max-width: 100%;
+				box-sizing: border-box;
+			}
+
+			.gravity-info {
+				display: flex;
+				flex-direction: column;
+				gap: 0px;
+			}
+
+			.gravity-text {
+				font-size: 12px;
+				font-weight: 600;
+				text-shadow: none;
+				color: #00ff88;
+				white-space: nowrap;
+			}
+
+			/* Smaller toggle for gravity */
+			.gravity-switcher .toggle-label {
+				width: 50px;
+				height: 24px;
+				border: 1.5px solid #00d4ff;
+			}
+
+			.gravity-switcher .toggle-slider {
+				width: 20px;
+				height: 20px;
+			}
+
+			.gravity-switcher .toggle-icon {
+				font-size: 10px;
+			}
+
+			/* Floating Gravity Toggle - Outside frame */
+			.gravity-switcher-floating {
+				position: fixed;
+				bottom: 100px;
+				left: 20px;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				padding: 8px 12px;
+				background: rgba(0, 20, 40, 0.8);
+				border: 1px solid #00d4ff;
+				border-radius: 8px;
+				z-index: 500;
+				transition: left 0.3s ease;
+			}
+
+			.gravity-switcher-floating.hidden {
+				left: -200px;
+			}
+
+			.gravity-hide-btn {
+				background: transparent;
+				border: 1px solid #00ff88;
+				color: #00ff88;
+				width: 24px;
+				height: 24px;
+				padding: 0;
+				cursor: pointer;
+				border-radius: 4px;
+				font-size: 12px;
+				transition: all 0.2s ease;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.gravity-hide-btn:hover {
+				background: rgba(0, 255, 136, 0.2);
+				box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+			}
+
+			.gravity-show-btn {
+				position: fixed;
+				bottom: 100px;
+				left: 8px;
+				width: 40px;
+				height: 40px;
+				background: rgba(0, 20, 40, 0.9);
+				border: 2px solid #00d4ff;
+				border-radius: 8px;
+				color: #00d4ff;
+				font-size: 20px;
+				cursor: pointer;
+				z-index: 499;
+				transition: all 0.3s ease;
+				display: none;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.gravity-show-btn:hover {
+				background: rgba(0, 212, 255, 0.2);
+				box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+				transform: scale(1.1);
+			}
+
+			.gravity-show-btn.visible {
+				display: flex;
+			}
+
+			
 
 			/* Error styling for code inputs */
 			.code-input-error {
@@ -1153,6 +1331,25 @@
 	<div id="particleContainer"></div>
 	
 
+	<!-- Gravity Toggle - Outside main frame with hide/show button -->
+	<div class="gravity-switcher-floating" id="gravityPanel">
+		<button class="gravity-hide-btn" id="gravityHideBtn" title="Hide gravity toggle">◀</button>
+		<div class="toggle-container">
+			<input type="checkbox" id="gravityToggle" class="toggle-checkbox">
+			<label for="gravityToggle" class="toggle-label">
+				<span class="toggle-slider">
+					<span class="toggle-icon toggle-icon-left">🌌</span>
+					<span class="toggle-icon toggle-icon-right">🕳️</span>
+				</span>
+			</label>
+		</div>
+		<span id="gravityLabel" class="gravity-text">Gravity</span>
+	</div>
+
+	<!-- Show Gravity Button (hidden by default) -->
+	<button class="gravity-show-btn" id="gravityShowBtn" title="Show gravity toggle">🕳️</button>
+
+	
 	<div class="generate-section">
 		<div class="mode-switcher">
 			<div class="toggle-container">
@@ -1303,7 +1500,18 @@
 	
 	  	
 	<div id="copyright">
-		&copy; Nikita Astafiev. All rights reserved V.1.5
+		© Nikita Astafiev V.1.5
+		<div class="help-tooltip-copyright">
+			<div class="help-title-copyright">🌌 Digital Codes Generator - Space Edition</div>
+			<div class="help-content-copyright">
+				<p><strong>Code Generation:</strong> Input serial, SKU, quantity, and origin to generate 2D matrix, 1D linear, and RFID codes.</p>
+				<p><strong>🌌/🔭 Mode Toggle:</strong> Switch between Generate (Product Data → Codes) and Parse (Scan Codes) modes. Press F3 or click the toggle.</p>
+				<p><strong>🌌/🕳️ Gravity Toggle:</strong> Enable/disable black hole gravity effect on background galaxies.</p>
+				<p><strong>🕳️ Cosmic Black Hole:</strong> Drag the "Enter" button to move the black hole. When gravity is ON, stars accelerate toward it using realistic inverse-square-law physics. Stars vanish when they cross the event horizon. At 80% consumption, new galaxies respawn.</p>
+				<p><strong>📋 Copy Buttons:</strong> Alt+Shift+C (2D), Alt+Shift+1 (1D), Alt+Shift+R (RFID), Alt+Shift+F (Full Box). Or click the "Copy" button next to each code.</p>
+				<p><strong>F2:</strong> Focus Serial field. <strong>F3:</strong> Toggle mode.</p>
+			</div>
+		</div>
 	</div>
 
 
@@ -2861,7 +3069,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     animateParticles();
 
-    // 4. 3D ROTATING GALAXIES WITH THREE.JS - WITH GRAVITATIONAL INFLUENCE
+    // 4. 3D ROTATING GALAXIES WITH REALISTIC BLACK HOLE PHYSICS
     try {
         const canvas = document.getElementById('canvas3d');
         const scene = new THREE.Scene();
@@ -2872,25 +3080,105 @@ document.addEventListener('DOMContentLoaded', function() {
         renderer.setClearColor(0x000000, 0);
         camera.position.z = 5;
         
+        // BLACK HOLE PARAMETERS (Theoretical Physics)
+        const BLACK_HOLE_MASS = 1.0; // Relative mass
+        const EVENT_HORIZON_RADIUS = 0.4; // Schwarzschild radius
+        const GRAVITATIONAL_CONSTANT = 0.0008; // G (adjusted for visual effect)
+        
+        // Gravity toggle state
+        let gravityEnabled = false;
+        const gravityToggle = document.getElementById('gravityToggle');
+        const gravityLabel = document.getElementById('gravityLabel');
+        const gravityPanel = document.getElementById('gravityPanel');
+        const gravityHideBtn = document.getElementById('gravityHideBtn');
+        const gravityShowBtn = document.getElementById('gravityShowBtn');
+        
+        let gravityAutoHideTimeout;
+        
+        // Handle gravity toggle
+        gravityToggle.addEventListener('change', function() {
+            gravityEnabled = this.checked;
+            gravityLabel.textContent = gravityEnabled ? 'Gravity: ON' : 'Gravity: OFF';
+            console.log(gravityEnabled ? '🕳️ Black Hole Activated!' : '🌌 Gravity Disabled - Free floating');
+        });
+
+        // Handle gravity panel hide button
+        gravityHideBtn.addEventListener('click', function() {
+            gravityPanel.classList.add('hidden');
+            gravityShowBtn.classList.add('visible');
+        });
+
+        // Handle gravity panel show button
+        gravityShowBtn.addEventListener('click', function() {
+            gravityPanel.classList.remove('hidden');
+            gravityShowBtn.classList.remove('visible');
+            resetGravityAutoHide();
+        });
+
+        // Auto-hide gravity panel after 5 seconds of no hover
+        function resetGravityAutoHide() {
+            clearTimeout(gravityAutoHideTimeout);
+            gravityAutoHideTimeout = setTimeout(function() {
+                if (!gravityPanel.classList.contains('hidden')) {
+                    gravityPanel.classList.add('hidden');
+                    gravityShowBtn.classList.add('visible');
+                }
+            }, 5000); // 5 seconds
+        }
+
+        // Reset timer on mouse enter
+        gravityPanel.addEventListener('mouseenter', function() {
+            clearTimeout(gravityAutoHideTimeout);
+        });
+
+        // Start timer on mouse leave
+        gravityPanel.addEventListener('mouseleave', function() {
+            resetGravityAutoHide();
+        });
+
+        // Start auto-hide timer on page load
+        resetGravityAutoHide();
+        
+        // Track consumed stars for respawning
+        let totalStars = 0;
+        let consumedStars = 0;
+        let galaxyData = [];
+        
         // Create galaxy particles
         function createGalaxy(x, y, z, color) {
             const geometry = new THREE.BufferGeometry();
             const starCount = 1000;
             const positions = new Float32Array(starCount * 3);
             const colors = new Float32Array(starCount * 3);
-            const velocities = new Float32Array(starCount * 3); // Add velocities for gravity
+            const velocities = new Float32Array(starCount * 3);
+            const initialPositions = new Float32Array(starCount * 3); // Store initial positions for respawn
+            const alive = new Uint8Array(starCount); // Track which stars are alive
+            
+            totalStars += starCount;
             
             for (let i = 0; i < starCount * 3; i += 3) {
                 const angle = Math.random() * Math.PI * 2;
                 const distance = Math.random() * 2;
-                positions[i] = Math.cos(angle) * distance + x;
-                positions[i + 1] = Math.sin(angle) * distance + y;
-                positions[i + 2] = (Math.random() - 0.5) * 0.5 + z;
+                const px = Math.cos(angle) * distance + x;
+                const py = Math.sin(angle) * distance + y;
+                const pz = (Math.random() - 0.5) * 0.5 + z;
                 
-                // Initialize velocities to zero
+                positions[i] = px;
+                positions[i + 1] = py;
+                positions[i + 2] = pz;
+                
+                // Store initial positions for respawning
+                initialPositions[i] = px;
+                initialPositions[i + 1] = py;
+                initialPositions[i + 2] = pz;
+                
+                // Initialize velocities
                 velocities[i] = 0;
                 velocities[i + 1] = 0;
                 velocities[i + 2] = 0;
+                
+                // All stars start alive
+                alive[i / 3] = 1;
                 
                 colors[i] = color.r;
                 colors[i + 1] = color.g;
@@ -2901,15 +3189,25 @@ document.addEventListener('DOMContentLoaded', function() {
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             
             const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, sizeAttenuation: true });
-            const galaxy = new THREE.Points(geometry, material);
+            const galaxyMesh = new THREE.Points(geometry, material);
             
-            return { 
-                mesh: galaxy, 
+            const galaxy = {
+                mesh: galaxyMesh,
                 rotationSpeed: (Math.random() - 0.5) * 0.001,
-                initialPositions: positions.slice(), // Store original positions
+                geometry: geometry,
+                positions: positions,
                 velocities: velocities,
-                geometry: geometry
+                initialPositions: initialPositions,
+                alive: alive,
+                colors: colors,
+                color: color,
+                baseX: x,
+                baseY: y,
+                baseZ: z
             };
+            
+            galaxyData.push(galaxy);
+            return galaxy;
         }
         
         // Create multiple galaxies
@@ -2921,74 +3219,172 @@ document.addEventListener('DOMContentLoaded', function() {
         
         galaxies.forEach(g => scene.add(g.mesh));
         
-        // Convert screen coordinates to 3D world coordinates
-        function screenToWorld(screenX, screenY) {
-            const rect = canvas.getBoundingClientRect();
-            const x = (screenX - rect.left) / rect.width * 2 - 1;
-            const y = -(screenY - rect.top) / rect.height * 2 + 1;
-            
-            // Unproject to 3D space at camera distance
-            const vector = new THREE.Vector3(x, y, 0.5);
-            vector.unproject(camera);
-            
-            return vector;
-        }
         
-        // Get black hole position in 3D space
+        // Get black hole position in 3D world space (more accurate)
         function getBlackHolePosition3D() {
             const btn = document.getElementById('blackHoleButton');
             const rect = btn.getBoundingClientRect();
+            
+            // Get screen center of button
             const screenX = rect.left + rect.width / 2;
             const screenY = rect.top + rect.height / 2;
-            return screenToWorld(screenX, screenY);
+            
+            // Convert screen coordinates to normalized device coordinates
+            const canvas = document.getElementById('canvas3d');
+            const canvasRect = canvas.getBoundingClientRect();
+            
+            const ndcX = ((screenX - canvasRect.left) / canvasRect.width) * 2 - 1;
+            const ndcY = -((screenY - canvasRect.top) / canvasRect.height) * 2 + 1;
+            
+            // Create a vector at the near plane
+            const vector = new THREE.Vector3(ndcX, ndcY, 0.1); // Closer to camera
+            
+            // Unproject to world space
+            vector.unproject(camera);
+            
+            // Get the direction from camera to that point
+            const direction = vector.sub(camera.position).normalize();
+            
+            // Place black hole at a fixed distance along that direction
+            // This ensures stars converge toward the actual button location
+            const blackHoleDistance = 3.0;
+            const bhPos = camera.position.clone().add(direction.multiplyScalar(blackHoleDistance));
+            
+            return bhPos;
         }
         
-        // Animation loop with gravity simulation
+        // Respawn dead stars from other part of universe
+        function respawnGalaxy(galaxy) {
+            const positions = galaxy.positions;
+            const velocities = galaxy.velocities;
+            const alive = galaxy.alive;
+            const initialPositions = galaxy.initialPositions;
+            
+            // Respawn stars that were consumed
+            for (let i = 0; i < positions.length; i += 3) {
+                if (!alive[i / 3]) {
+                    // Respawn from a random location far from black hole
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 2;
+                    const px = Math.cos(angle) * distance + galaxy.baseX;
+                    const py = Math.sin(angle) * distance + galaxy.baseY;
+                    const pz = (Math.random() - 0.5) * 0.5 + galaxy.baseZ;
+                    
+                    positions[i] = px;
+                    positions[i + 1] = py;
+                    positions[i + 2] = pz;
+                    
+                    velocities[i] = 0;
+                    velocities[i + 1] = 0;
+                    velocities[i + 2] = 0;
+                    
+                    alive[i / 3] = 1;
+                    consumedStars--;
+                }
+            }
+        }
+        
+        // Animation loop with realistic black hole physics
         function animate() {
             requestAnimationFrame(animate);
             
             const blackHolePos = getBlackHolePosition3D();
-            const gravitationalForce = 0.0005; // Slow gravity for non-distracting effect
             
             galaxies.forEach(g => {
-                // Apply gravity to all stars in the galaxy
-                const positions = g.geometry.attributes.position.array;
+                const positions = g.positions;
                 const velocities = g.velocities;
+                const alive = g.alive;
+                
+                let aliveCount = 0;
                 
                 for (let i = 0; i < positions.length; i += 3) {
-                    const starX = positions[i];
-                    const starY = positions[i + 1];
-                    const starZ = positions[i + 2];
+                    const starIndex = i / 3;
                     
-                    // Calculate distance to black hole
-                    const dx = blackHolePos.x - starX;
-                    const dy = blackHolePos.y - starY;
-                    const dz = blackHolePos.z - starZ;
-                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                    
-                    // Apply gravitational force (inverse square law, but dampened)
-                    if (distance > 0.1) {
-                        const force = gravitationalForce / (distance * distance);
+                    if (alive[starIndex]) {
+                        const starX = positions[i];
+                        const starY = positions[i + 1];
+                        const starZ = positions[i + 2];
                         
-                        // Apply velocity changes
-                        velocities[i] += (dx / distance) * force;
-                        velocities[i + 1] += (dy / distance) * force;
-                        velocities[i + 2] += (dz / distance) * force;
+                        // Calculate distance to black hole
+                        const dx = blackHolePos.x - starX;
+                        const dy = blackHolePos.y - starY;
+                        const dz = blackHolePos.z - starZ;
+                        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        
+                        // ONLY APPLY GRAVITY IF ENABLED
+                        if (gravityEnabled) {
+                            // CHECK EVENT HORIZON - Star disappears when it touches the black hole
+                            if (distance < EVENT_HORIZON_RADIUS) {
+                                // Star touches event horizon - DISAPPEAR INSTANTLY!
+                                alive[starIndex] = 0;
+                                consumedStars++;
+                                
+                                // Hide the star immediately by moving it far away
+                                positions[i] = 10000;
+                                positions[i + 1] = 10000;
+                                positions[i + 2] = 10000;
+                                
+                                // Optional: Flash the star white before it disappears (visual effect)
+                                // Make it briefly brighter
+                                const colorIntensity = 1.5;
+                                g.colors[i] = Math.min(g.color.r * colorIntensity, 1);
+                                g.colors[i + 1] = Math.min(g.color.g * colorIntensity, 1);
+                                g.colors[i + 2] = Math.min(g.color.b * colorIntensity, 1);
+                            } else {
+                                // Apply REALISTIC gravitational force (inverse square law)
+                                // F = G * M * m / r^2
+                                if (distance > 0.01) {
+                                    const force = (GRAVITATIONAL_CONSTANT * BLACK_HOLE_MASS) / (distance * distance);
+                                    
+                                    // Normalize direction and apply force
+                                    const forceX = (dx / distance) * force;
+                                    const forceY = (dy / distance) * force;
+                                    const forceZ = (dz / distance) * force;
+                                    
+                                    // Update velocities (acceleration)
+                                    velocities[i] += forceX;
+                                    velocities[i + 1] += forceY;
+                                    velocities[i + 2] += forceZ;
+                                }
+                                
+                                // Apply damping to stabilize orbits
+                                velocities[i] *= 0.985;
+                                velocities[i + 1] *= 0.985;
+                                velocities[i + 2] *= 0.985;
+                                
+                                // Update positions
+                                positions[i] += velocities[i];
+                                positions[i + 1] += velocities[i + 1];
+                                positions[i + 2] += velocities[i + 2];
+                                
+                                aliveCount++;
+                            }
+                        } else {
+                            // GRAVITY DISABLED - Just update positions with current velocities (coasting)
+                            // Apply slight damping to prevent infinite acceleration from previous motion
+                            velocities[i] *= 0.99;
+                            velocities[i + 1] *= 0.99;
+                            velocities[i + 2] *= 0.99;
+                            
+                            positions[i] += velocities[i];
+                            positions[i + 1] += velocities[i + 1];
+                            positions[i + 2] += velocities[i + 2];
+                            
+                            aliveCount++;
+                        }
                     }
-                    
-                    // Apply damping to prevent runaway velocities
-                    velocities[i] *= 0.98;
-                    velocities[i + 1] *= 0.98;
-                    velocities[i + 2] *= 0.98;
-                    
-                    // Update positions
-                    positions[i] += velocities[i];
-                    positions[i + 1] += velocities[i + 1];
-                    positions[i + 2] += velocities[i + 2];
                 }
                 
-                // Mark positions as needing update
+                // Check if 80% of stars consumed - RESPAWN NEW GALAXIES
+                const consumptionRatio = (totalStars - aliveCount) / totalStars;
+                if (consumptionRatio > 0.8) {
+                    console.log(`🕳️ Black Hole Critical! ${Math.round(consumptionRatio * 100)}% of stars consumed. Respawning galaxies from other dimensions...`);
+                    respawnGalaxy(g);
+                }
+                
+                // Mark positions and colors as needing update
                 g.geometry.attributes.position.needsUpdate = true;
+                g.geometry.attributes.color.needsUpdate = true;
                 
                 // Continue rotation
                 g.mesh.rotation.z += g.rotationSpeed;
