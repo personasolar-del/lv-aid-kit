@@ -49,12 +49,16 @@
     </script>
     <!-- End Google tag -->
     <script src=https://cdn.jsdelivr.net/npm/bwip-js@3.0.0/dist/bwip-js.min.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 
 <style>
 			body {
-			background-color: #f2e8d5;  /* Papyrus color */
-			background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='egyptian' x='0' y='0' width='120' height='120' patternUnits='userSpaceOnUse'%3E%3Cg fill='%23c9a961' fill-opacity='0.15'%3E%3C!-- Lotus flower --%3E%3Cpath d='M60 20 L55 30 L50 35 L55 40 L60 35 L65 40 L70 35 L65 30 Z'/%3E%3Ccircle cx='60' cy='18' r='3'/%3E%3C!-- Ankh symbol --%3E%3Ccircle cx='20' cy='45' r='4'/%3E%3Crect x='18' y='49' width='4' height='15'/%3E%3Crect x='14' y='56' width='12' height='3'/%3E%3C!-- Eye of Horus --%3E%3Cellipse cx='100' cy='50' rx='8' ry='5'/%3E%3Ccircle cx='100' cy='50' r='2'/%3E%3Cpath d='M92 50 Q95 55 100 55'/%3E%3C!-- Scarab beetle --%3E%3Cellipse cx='60' cy='85' rx='10' ry='8'/%3E%3Ccircle cx='55' cy='83' r='2'/%3E%3Ccircle cx='65' cy='83' r='2'/%3E%3Cpath d='M50 85 L48 90 M70 85 L72 90'/%3E%3C!-- Decorative borders --%3E%3Crect x='0' y='0' width='120' height='2'/%3E%3Crect x='0' y='118' width='120' height='2'/%3E%3Crect x='0' y='0' width='2' height='120'/%3E%3Crect x='118' y='0' width='2' height='120'/%3E%3C!-- Small ornamental dots --%3E%3Ccircle cx='30' cy='100' r='1.5'/%3E%3Ccircle cx='90' cy='100' r='1.5'/%3E%3Ccircle cx='30' cy='20' r='1.5'/%3E%3Ccircle cx='90' cy='20' r='1.5'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23egyptian)'/%3E%3C/svg%3E");
+			background: linear-gradient(135deg, #0a0e27 0%, #1a0033 25%, #0d1b2d 50%, #000814 75%, #0a0e27 100%);
+			background-attachment: fixed;
+			background-size: 400% 400%;
+			animation: cosmicFlow 20s ease infinite;
+			color: #e8e8ff;
 			min-height: 100vh;
 			margin: 0;
 			padding: 20px;
@@ -69,7 +73,72 @@
 			grid-template-rows: auto 1fr auto;
 			gap: 20px;
 			align-items: start;
+			position: relative;
+			overflow-x: hidden;
 		}
+
+		/* 3D Canvas Background */
+		#canvas3d {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		/* Particle container */
+		#particleContainer {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+			pointer-events: none;
+		}
+
+		.particle {
+			position: absolute;
+			border-radius: 50%;
+			pointer-events: none;
+		}
+
+		/* Mute button */
+		@keyframes cosmicFlow {
+			0% { background-position: 0% 50%; }
+			50% { background-position: 100% 50%; }
+			100% { background-position: 0% 50%; }
+		}
+
+		/* Starfield background */
+		body::before {
+			content: '';
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: 
+				radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+				radial-gradient(2px 2px at 60px 70px, #fff, rgba(0,0,0,0)),
+				radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
+				radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+				radial-gradient(2px 2px at 90px 10px, #fff, rgba(0,0,0,0));
+			background-repeat: repeat;
+			background-size: 200px 200px;
+			animation: twinkle 5s infinite;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		@keyframes twinkle {
+			0%, 100% { opacity: 0.5; }
+			50% { opacity: 1; }
+		}
+
+
 
 		/* Header area for buttons */
 		.header-section {
@@ -79,44 +148,64 @@
 			gap: 0px;
 			font-size: 24px;
 			padding: 20px 40px;
-			background-color: #4CAF50;
-		
+			background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
+			border: 2px solid #00d4ff;
+			border-radius: 10px;
+			box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
 		}
 
 		button {
-			font-size: 24px;
-			padding: 20px 40px;
-			background-color: #4CAF50;
-			color: white;
-			border: none;
+			font-size: 16px;
+			padding: 12px 28px;
+			background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+			color: #0a0e27;
+			border: 2px solid #00d4ff;
 			cursor: pointer;
-			border-radius: 5px;
+			border-radius: 8px;
 			margin-bottom: 10px;
 			margin-top: 0px;  
-			width: 20%;
-			min-height: 60px;
+			width: auto;
+			min-height: auto;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transition: all 0.3s ease;
+			box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
 		}
 
-
-		.utility-button:hover {
-		background-color: #0056b3 !important;  /* Blue hover instead of green */
+		button:hover {
+			background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+			box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 5px 15px rgba(0, 0, 0, 0.5);
+			transform: translateY(-2px);
 		}
 
+		button:active {
+			transform: translateY(0);
+		}
 
 		.utility-button {
 			font-size: 12px;
-			padding: 6px 12px;
-			background-color: #007bff;
+			padding: 8px 16px;
+			background: linear-gradient(135deg, #b600ff 0%, #ff0080 100%);
 			color: white;
-			border: none;
+			border: 1px solid #ff0080;
 			cursor: pointer;
-			border-radius: 4px;
+			border-radius: 6px;
 			margin-right: 10px;
 			margin-bottom: 10px;
+			font-weight: bold;
+			transition: all 0.3s ease;
+			box-shadow: 0 0 10px rgba(255, 0, 128, 0.3);
 		}
 
 		.utility-button:hover {
-			background-color: #3e8e41;
+			background: linear-gradient(135deg, #ff0080 0%, #b600ff 100%);
+			box-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
+			transform: translateY(-2px);
+		}
+
+		.utility-button:active {
+			transform: translateY(0);
 		}
 
 		#FormContainer {
@@ -205,6 +294,128 @@
 			padding: 15px;
 			border: 1px solid #ccc;
 			border-radius: 8px;
+			position: relative;
+		}
+
+		/* Black hole center button */
+		#blackHoleButton {
+			position: fixed;
+			top: 30px;
+			left: 400px;
+			transform: none;
+			width: 90px;
+			height: 90px;
+			border-radius: 50%;
+			background: radial-gradient(circle at 30% 30%, rgba(255, 0, 128, 0.6), rgba(10, 14, 39, 0.98));
+			border: none;
+			box-shadow: 
+				0 0 40px #ff0080,
+				0 0 80px rgba(255, 0, 128, 0.5),
+				inset 0 0 30px rgba(0, 0, 0, 0.9),
+				inset 0 0 50px rgba(255, 0, 128, 0.2);
+			cursor: grab;
+			z-index: 100;
+			animation: blackHolePulse 2s infinite;
+			transition: box-shadow 0.3s ease;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+		}
+
+		#blackHoleButton:active {
+			cursor: grabbing;
+		}
+
+		#blackHoleButton:hover {
+			width: 110px;
+			height: 110px;
+			box-shadow: 
+				0 0 60px #ff0080,
+				0 0 120px rgba(255, 0, 128, 0.8),
+				inset 0 0 40px rgba(0, 0, 0, 0.9),
+				inset 0 0 60px rgba(255, 0, 128, 0.3);
+		}
+
+		#blackHoleText {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+			color: #1a1a1a;
+			font-size: 14px;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+			animation: slowFadeInOut 8s ease-in-out infinite;
+			position: relative;
+			content: 'Enter';
+		}
+
+		@keyframes slowFadeInOut {
+			0%, 100% {
+				opacity: 0;
+			}
+			50% {
+				opacity: 1;
+			}
+		}
+
+		/* Random interference animations */
+		#blackHoleText.glitch {
+			animation: glitchEffect 0.3s steps(1);
+		}
+
+		@keyframes glitchEffect {
+			0% {
+				content: 'Enter';
+				color: #1a1a1a;
+				transform: translate(0, 0);
+			}
+			20% {
+				content: 'Ent3r';
+				color: #2a2a2a;
+				transform: translate(-1px, 1px);
+			}
+			40% {
+				content: 'En7er';
+				color: #1a1a1a;
+				transform: translate(1px, -1px);
+			}
+			60% {
+				content: 'E@ter';
+				color: #2a2a2a;
+				transform: translate(-1px, 0);
+			}
+			80% {
+				content: 'En!er';
+				color: #1a1a1a;
+				transform: translate(1px, 1px);
+			}
+			100% {
+				content: 'Enter';
+				color: #1a1a1a;
+				transform: translate(0, 0);
+			}
+		}
+
+		@keyframes blackHolePulse {
+			0%, 100% {
+				box-shadow: 
+					0 0 40px #ff0080,
+					0 0 80px rgba(255, 0, 128, 0.5),
+					inset 0 0 30px rgba(0, 0, 0, 0.9),
+					inset 0 0 50px rgba(255, 0, 128, 0.2);
+			}
+			50% {
+				box-shadow: 
+					0 0 60px #ff0080,
+					0 0 100px rgba(255, 0, 128, 0.8),
+					inset 0 0 30px rgba(0, 0, 0, 0.9),
+					inset 0 0 50px rgba(255, 0, 128, 0.3);
+			}
 		}
 
 		/* Update existing sections for grid positioning */
@@ -491,11 +702,12 @@
 			justify-content: center;
 			gap: 10px;
 			margin: 20;
-			padding: 10px;
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			border-radius: 5px;  /* CHANGED from 15px to match button */
-			box-shadow: 0 8px 5px rgba(0,0,0,0.2);
-			color: white;
+			padding: 15px;
+			background: linear-gradient(135deg, rgba(182, 0, 255, 0.1) 0%, rgba(255, 0, 128, 0.1) 100%);
+			border: 2px solid #b600ff;
+			border-radius: 10px;
+			box-shadow: 0 0 20px rgba(182, 0, 255, 0.2);
+			color: #e8e8ff;
 			max-width: 100%;  /* ADD THIS */
 			box-sizing: border-box;  /* ADD THIS */
 		}
@@ -513,17 +725,18 @@
 				display: block;
 				width: 80px;
 				height: 40px;
-				background: rgba(255,255,255,0.2);
+				background: rgba(0, 212, 255, 0.1);
 				border-radius: 25px;
 				cursor: pointer;
 				transition: all 0.3s ease;
 				position: relative;
-				border: 2px solid rgba(255,255,255,0.3);
+				border: 2px solid #00d4ff;
 			}
 
 			.toggle-label:hover {
-				background: rgba(255,255,255,0.3);
+				background: rgba(0, 212, 255, 0.2);
 				transform: scale(1.05);
+				box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 			}
 
 			.toggle-slider {
@@ -532,13 +745,13 @@
 				left: 2px;
 				width: 34px;
 				height: 34px;
-				background: white;
+				background: linear-gradient(135deg, #00d4ff, #00ff88);
 				border-radius: 50%;
 				transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+				box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 			}
 
 			.toggle-icon {
@@ -559,7 +772,8 @@
 
 			.toggle-checkbox:checked + .toggle-label .toggle-slider {
 				transform: translateX(40px);
-				background: linear-gradient(135deg, #4CAF50, #45a049);
+				background: linear-gradient(135deg, #ff0080, #b600ff);
+				box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
 			}
 
 			.toggle-checkbox:checked + .toggle-label .toggle-icon-left {
@@ -573,8 +787,8 @@
 			}
 
 			.toggle-checkbox:checked + .toggle-label {
-				background: rgba(76, 175, 80, 0.3);
-				border-color: rgba(76, 175, 80, 0.5);
+				background: rgba(255, 0, 128, 0.1);
+				border-color: #ff0080;
 			}
 
 			.mode-info {
@@ -625,46 +839,100 @@
 
 			/* Active code input highlight */
 			.code-input-active {
-				border: 2px solid #4CAF50 !important;
+				border: 2px solid #00ff88 !important;
 				background-color: #f0fff0 !important;
 				box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 			}
 
 					}
 		
+		.generate-section {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+			width: 100%;
+			max-width: 100%;
+			box-sizing: border-box;
+		}
+
+		.generate-section > button {
+			width: 100% !important;
+			padding: 15px 30px !important;
+			font-size: 16px !important;
+			background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%) !important;
+			color: #0a0e27 !important;
+			border: 2px solid #00d4ff !important;
+			cursor: pointer !important;
+			border-radius: 8px !important;
+			margin: 0 !important;
+			box-sizing: border-box !important;
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			text-align: center !important;
+			font-weight: bold !important;
+			text-transform: uppercase !important;
+			letter-spacing: 1px !important;
+			transition: all 0.3s ease !important;
+			box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
+		}
+
+		.generate-section > button:hover {
+			background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%) !important;
+			box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+			transform: translateY(-2px) !important;
+		}
+
+		.shortcut-badge {
+			font-size: 12px;
+			opacity: 0.8;
+			margin-left: 5px;
+			padding: 2px 8px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 4px;
+		}
+		
 		.generate-section > button,
 		#FormContainer > button:last-child {
-			font-size: 24px !important;   
-			padding: 20px 40px !important;
-			background-color: #4CAF50 !important;
-			color: white !important;
-			border: none !important;
+			font-size: 18px !important;   
+			padding: 12px 28px !important;
+			background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%) !important;
+			color: #0a0e27 !important;
+			border: 2px solid #00d4ff !important;
 			cursor: pointer !important;
-			border-radius: 5px !important;
+			border-radius: 8px !important;
 			margin-top: 0px !important;   
 			width: auto !important;
 			box-sizing: border-box !important;
-			min-height: 60px !important;  
+			min-height: auto !important;  
 			display: inline-flex !important;
 			align-items: center !important;
 			justify-content: center !important;
 			text-align: center !important;
+			font-weight: bold !important;
+			text-transform: uppercase !important;
+			letter-spacing: 1px !important;
+			transition: all 0.3s ease !important;
+			box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
 		}
 
 
 		.generate-section > button:hover,
 		#FormContainer > button:last-child:hover {
-			background-color: #3e8e41 !important;
+			background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%) !important;
+			box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+			transform: translateY(-2px) !important;
 		}
 
 		/* Keep utility buttons unchanged - override any accidental styling */
 		.utility-button {
-			font-size: 14px !important;
-			padding: 10px 18px !important;
+			font-size: 12px !important;
+			padding: 8px 16px !important;
+			background: linear-gradient(135deg, #b600ff 0%, #ff0080 100%) !important;
 			color: white !important;
-			border: none !important;
+			border: 1px solid #ff0080 !important;
 			cursor: pointer !important;
-			border-radius: 4px !important;
+			border-radius: 6px !important;
 			margin-right: 10px !important;
 			margin-bottom: 10px !important;
 			width: auto !important;
@@ -672,10 +940,15 @@
 			display: inline-block !important;
 			margin-left: 15px !important;    /* Add space to the left */
 			margin-top: 10px !important;     /* Add space above */
+			font-weight: bold !important;
+			transition: all 0.3s ease !important;
+			box-shadow: 0 0 10px rgba(255, 0, 128, 0.3) !important;
 		}
 
 		.utility-button:hover {
-			background-color: #0056b3 !important;
+			background: linear-gradient(135deg, #ff0080 0%, #b600ff 100%) !important;
+			box-shadow: 0 0 20px rgba(255, 0, 128, 0.6) !important;
+			transform: translateY(-2px) !important;
 		}
 		
 		button:focus,
@@ -869,15 +1142,25 @@
 
 </head>
 <body>
+	<!-- Black Hole Button -->
+	<button id="blackHoleButton" onclick="generateCodeEnhanced()" title="Generate Code">
+		<span id="blackHoleText">Enter</span>
+	</button>
+	<!-- 3D Canvas for rotating galaxies -->
+	<canvas id="canvas3d"></canvas>
+	
+	<!-- Particle container for cosmic particles around black hole -->
+	<div id="particleContainer"></div>
+	
 
-		<div class="generate-section">
+	<div class="generate-section">
 		<div class="mode-switcher">
 			<div class="toggle-container">
 				<input type="checkbox" id="modeToggle" class="toggle-checkbox">
 				<label for="modeToggle" class="toggle-label">
 					<span class="toggle-slider">
-						<span class="toggle-icon toggle-icon-left">📊</span>
-						<span class="toggle-icon toggle-icon-right">🔍</span>
+						<span class="toggle-icon toggle-icon-left">✨</span>
+						<span class="toggle-icon toggle-icon-right">🔭</span>
 					</span>
 				</label>
 			</div>
@@ -961,12 +1244,10 @@
         
  </div>
 		
-			<button onclick="generateCodeEnhanced()" data-shortcut="Enter">
-				Generate Code <span class="shortcut-badge">Enter ↵</span>
-			</button>
-
     
 			 <div id=mainContainer>
+			<!-- Black Hole Center Button -->
+			
 		<!-- 2D Matrix Code (top-left) -->
 		<div id=generatedCode>
 			<h3>2D Data Matrix code PCE</h3>
@@ -1022,7 +1303,7 @@
 	
 	  	
 	<div id="copyright">
-		&copy; Nikita Astafiev. All rights reserved V.1.4
+		&copy; Nikita Astafiev. All rights reserved V.1.5
 	</div>
 
 
@@ -1063,13 +1344,27 @@ function updateProductImage() {
 
     let counter = 0; // Initialize counter
     let serialOverride = false;
+    let counterIncrementedThisCall = false;
+
+    // Country codes for random selection
+    const countryCodes = ['FR', 'IT', 'ES'];
+    const countryMap = {
+        'FR': 'FR',
+        'IT': 'IT',
+        'ES': 'ES'
+    };
+
+    function getRandomCountryCode() {
+        return countryCodes[Math.floor(Math.random() * countryCodes.length)];
+    }
 
     function resetToDefaults() {
         document.getElementById('shortSku').value = 'M41414';
         document.getElementById('quantity').value = '0010';
-        document.getElementById('madeIn').value = 'US';
+        const randomCountry = getRandomCountryCode();
+        document.getElementById('batch').value = randomCountry;
+        document.getElementById('madeIn').value = countryMap[randomCountry];
         document.getElementById('supplierId').value = '130';
-        document.getElementById('batch').value = 'FR';
         document.getElementById('originPref').value = 'UE';
         serialOverride = false; // Allow auto-generation of serial again
         generateCode();
@@ -1321,32 +1616,29 @@ function generateFullBoxCode() {
 		// Force currentShortSKU to reset so we recalculate completely
 		currentShortSku = '';
 
+		// Reset counter increment flag at start of function
+		counterIncrementedThisCall = false;
+
 		// Update the product image based on ShortSKU
 		updateProductImage();
-	
-        // Serial generation logic
-        if (!serialOverride) {
-            counter++;
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            const formattedDate = `${year}${month}${day}`;
-            const formattedCounter = String(counter).padStart(4, '0');
-            const serialValue = `FR${formattedDate}${formattedCounter}`;
-            serialInput.value = serialValue;
-        }
-		
-		// Serial generation logic
-		if (!serialOverride && serialInput.value === '') {
+			
+		// Serial generation logic - only increment once per call
+		if (!serialOverride && !counterIncrementedThisCall) {
 			counter++;
+			counterIncrementedThisCall = true;
 			const today = new Date();
 			const year = today.getFullYear();
 			const month = String(today.getMonth() + 1).padStart(2, '0');
 			const day = String(today.getDate()).padStart(2, '0');
 			const formattedDate = `${year}${month}${day}`;
 			const formattedCounter = String(counter).padStart(4, '0');
-			serialInput.value = `FR${formattedDate}${formattedCounter}`;
+			const randomCountry = getRandomCountryCode();
+			// Save and restore serialOverride to prevent input event from triggering it
+			const wasOverride = serialOverride;
+			serialInput.value = `${randomCountry}${formattedDate}${formattedCounter}`;
+			serialOverride = wasOverride;
+			// Auto-update Made IN field when serial is generated
+			document.getElementById('madeIn').value = countryMap[randomCountry];
 		}
 
 
@@ -1421,6 +1713,11 @@ function generateFullBoxCode() {
 			serialInput.addEventListener('input', () => {
 		if (serialInput.value !== '') {
 			serialOverride = true;
+			// Auto-update Made IN based on first 2 characters of Serial
+			const countryCode = serialInput.value.substring(0, 2).toUpperCase();
+			if (countryMap[countryCode]) {
+				document.getElementById('madeIn').value = countryMap[countryCode];
+			}
 		}
 	});
 
@@ -1442,9 +1739,10 @@ function generateFullBoxCode() {
         // Set initial default values directly
         shortSkuInput.value = 'M41414';
         quantityInput.value = '0010';
-        madeInInput.value = 'US';
+        const initialCountry = getRandomCountryCode();
+        batchInput.value = initialCountry;
+        madeInInput.value = countryMap[initialCountry];
         supplierIdInput.value = '130';
-        batchInput.value = 'FR';
         originPrefInput.value = 'UE';
 
         generateCode(); // Generate initial code with default values
@@ -1460,7 +1758,7 @@ document.getElementById('copyButton').addEventListener('click', function() {
             // Store original HTML instead of just text
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML; // Restore full HTML including badge
@@ -1481,7 +1779,7 @@ document.getElementById('copyButton').addEventListener('click', function() {
             document.execCommand('copy');
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1504,7 +1802,7 @@ document.getElementById('copyBinaryButton').addEventListener('click', function()
         navigator.clipboard.writeText(binaryText).then(() => {
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1524,7 +1822,7 @@ document.getElementById('copyBinaryButton').addEventListener('click', function()
             document.execCommand('copy');
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1547,7 +1845,7 @@ document.getElementById('copyOneDButton').addEventListener('click', function() {
         navigator.clipboard.writeText(oneDText).then(() => {
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1567,7 +1865,7 @@ document.getElementById('copyOneDButton').addEventListener('click', function() {
             document.execCommand('copy');
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1590,7 +1888,7 @@ document.getElementById('copyFullBoxButton').addEventListener('click', function(
         navigator.clipboard.writeText(fullBoxText).then(() => {
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1610,7 +1908,7 @@ document.getElementById('copyFullBoxButton').addEventListener('click', function(
             document.execCommand('copy');
             const originalHTML = this.innerHTML;
             this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#4CAF50';
+            this.style.backgroundColor = '#00ff88';
             
             setTimeout(() => {
                 this.innerHTML = originalHTML;
@@ -1768,7 +2066,7 @@ function replaceWithInput(elementId, placeholder) {
                 
                 // Visual feedback
                 const originalBorder = element.style.border;
-                element.style.border = '3px solid #4CAF50';
+                element.style.border = '3px solid #00ff88';
                 
                 setTimeout(() => {
                     element.style.border = originalBorder;
@@ -2190,7 +2488,7 @@ function highlightParsedFields() {
             const originalBorder = field.style.border;
             const originalBackground = field.style.backgroundColor;
             
-            field.style.border = '3px solid #4CAF50';
+            field.style.border = '3px solid #00ff88';
             field.style.backgroundColor = '#e8f5e8';
             
             setTimeout(() => {
@@ -2236,11 +2534,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Visual feedback - flash the input
                 const originalBorder = this.style.border;
-                this.style.border = '2px solid #4CAF50';
+                this.style.border = '2px solid #00ff88';
                 
                 setTimeout(() => {
                     this.style.border = originalBorder;
                 }, 200);
+
+                // Check if ShortSKU starts with 'L' and validate Batch field
+                const shortSkuValue = document.getElementById('shortSku').value.toUpperCase();
+                const batchInput = document.getElementById('batch');
+                const batchErrorMsg = document.getElementById('batchErrorMsg');
+                
+                if (shortSkuValue.startsWith('L')) {
+                    // Batch must be at least 4 characters for perfume/beauty products
+                    if (batchInput.value.length < 4) {
+                        // Highlight batch box in red
+                        batchInput.style.border = '2px solid red';
+                        batchInput.style.backgroundColor = '#ffe6e6';
+                        
+                        // Show error message
+                        if (!batchErrorMsg) {
+                            const errorDiv = document.createElement('div');
+                            errorDiv.id = 'batchErrorMsg';
+                            errorDiv.style.color = 'red';
+                            errorDiv.style.fontSize = '12px';
+                            errorDiv.style.marginTop = '5px';
+                            errorDiv.style.fontWeight = 'bold';
+                            errorDiv.textContent = 'Perfume/Beauty - incorrect batch format XXXX';
+                            batchInput.parentNode.insertBefore(errorDiv, batchInput.nextSibling);
+                        }
+                        return; // Don't generate code
+                    } else {
+                        // Reset batch styling if valid
+                        batchInput.style.border = '';
+                        batchInput.style.backgroundColor = '';
+                        if (batchErrorMsg) {
+                            batchErrorMsg.remove();
+                        }
+                    }
+                } else {
+                    // Reset batch styling if ShortSKU doesn't start with L
+                    batchInput.style.border = '';
+                    batchInput.style.backgroundColor = '';
+                    if (batchErrorMsg) {
+                        batchErrorMsg.remove();
+                    }
+                }
                 
                 // Execute appropriate function based on mode
                 if (isReverseMode) {
@@ -2300,38 +2639,6 @@ function typewriterSequence(elements, speed = 90) {
     
     typeNext();
 }
-
-// Enhanced Enter key functionality with visual feedback
-document.addEventListener('DOMContentLoaded', function() {
-    const inputFields = document.querySelectorAll('input[type=text], input[type=number]');
-    
-    inputFields.forEach(input => {
-        input.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter' || event.keyCode === 13) {
-                event.preventDefault();
-                
-                // Visual feedback - flash the input
-                const originalBorder = this.style.border;
-                this.style.border = '2px solid #4CAF50';
-                
-                setTimeout(() => {
-                    this.style.border = originalBorder;
-                }, 200);
-                
-                // Execute appropriate function based on mode
-                if (isReverseMode) {
-                    console.log('Enter pressed - Parsing codes...');
-                    parseCodestoProductData();
-                    showShortcutFeedback('Codes parsed!', '🔍'); // Add this line
-                } else {
-                    console.log('Enter pressed - Generating code...');
-                    generateCode();
-                    showShortcutFeedback('Code generated!', '✨'); // Add this line
-                }
-            }
-        });
-    });
-});
 
 // Keyboard shortcuts for Copy buttons (Safest option - Alt+Shift combinations)
 document.addEventListener('keydown', function(event) {
@@ -2440,6 +2747,269 @@ document.addEventListener('DOMContentLoaded', function() {
             button.setAttribute('title', `Click or press ${btn.shortcut}`);
         }
     });
+
+    // Make black hole button draggable
+    const blackHoleBtn = document.getElementById('blackHoleButton');
+    const blackHoleText = document.getElementById('blackHoleText');
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Random interference for "Enter" text
+    function triggerRandomGlitch() {
+        // Random chance: 30% chance of glitch every 2-4 seconds
+        const randomDelay = Math.random() * 2000 + 2000; // 2-4 seconds
+        
+        setTimeout(() => {
+            if (Math.random() < 0.3) { // 30% chance
+                blackHoleText.classList.add('glitch');
+                
+                // Remove glitch class after animation completes
+                setTimeout(() => {
+                    blackHoleText.classList.remove('glitch');
+                }, 300);
+            }
+            triggerRandomGlitch(); // Loop
+        }, randomDelay);
+    }
+    
+    // Start random glitch
+    triggerRandomGlitch();
+
+    blackHoleBtn.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        const rect = blackHoleBtn.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        blackHoleBtn.style.cursor = 'grabbing';
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            blackHoleBtn.style.top = (e.clientY - offsetY) + 'px';
+            blackHoleBtn.style.right = 'auto';
+            blackHoleBtn.style.left = (e.clientX - offsetX) + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        if (isDragging) {
+            isDragging = false;
+            blackHoleBtn.style.cursor = 'grab';
+        }
+    });
+
+    // ========== CREATIVE EFFECTS ==========
+    
+    // 3. COSMIC PARTICLES AROUND BLACK HOLE
+    class Particle {
+        constructor() {
+            this.x = Math.random() * window.innerWidth;
+            this.y = Math.random() * window.innerHeight;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = (Math.random() - 0.5) * 2;
+            this.speedY = (Math.random() - 0.5) * 2;
+            this.element = document.createElement('div');
+            this.element.className = 'particle';
+            this.element.style.width = this.size + 'px';
+            this.element.style.height = this.size + 'px';
+            this.element.style.backgroundColor = ['#00ff88', '#ff0080', '#00d4ff'][Math.floor(Math.random() * 3)];
+            this.element.style.boxShadow = `0 0 ${this.size * 2}px currentColor`;
+            document.getElementById('particleContainer').appendChild(this.element);
+        }
+        
+        update(blackHoleBtn) {
+            // Gravity towards black hole
+            const rect = blackHoleBtn.getBoundingClientRect();
+            const bhX = rect.left + rect.width / 2;
+            const bhY = rect.top + rect.height / 2;
+            
+            const dx = bhX - this.x;
+            const dy = bhY - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Apply gravity pull towards black hole
+            if (distance < 300) {
+                const force = 1000 / (distance * distance);
+                this.speedX += (dx / distance) * force * 0.001;
+                this.speedY += (dy / distance) * force * 0.001;
+            }
+            
+            this.x += this.speedX;
+            this.y += this.speedY;
+            
+            // Bounce off edges
+            if (this.x < 0 || this.x > window.innerWidth) this.speedX *= -1;
+            if (this.y < 0 || this.y > window.innerHeight) this.speedY *= -1;
+            
+            this.element.style.left = this.x + 'px';
+            this.element.style.top = this.y + 'px';
+        }
+    }
+    
+    // Create particles
+    const particles = [];
+    for (let i = 0; i < 30; i++) {
+        particles.push(new Particle());
+    }
+    
+    // Animate particles
+    function animateParticles() {
+        particles.forEach(p => p.update(blackHoleBtn));
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // 4. 3D ROTATING GALAXIES WITH THREE.JS - WITH GRAVITATIONAL INFLUENCE
+    try {
+        const canvas = document.getElementById('canvas3d');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        camera.position.z = 5;
+        
+        // Create galaxy particles
+        function createGalaxy(x, y, z, color) {
+            const geometry = new THREE.BufferGeometry();
+            const starCount = 1000;
+            const positions = new Float32Array(starCount * 3);
+            const colors = new Float32Array(starCount * 3);
+            const velocities = new Float32Array(starCount * 3); // Add velocities for gravity
+            
+            for (let i = 0; i < starCount * 3; i += 3) {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 2;
+                positions[i] = Math.cos(angle) * distance + x;
+                positions[i + 1] = Math.sin(angle) * distance + y;
+                positions[i + 2] = (Math.random() - 0.5) * 0.5 + z;
+                
+                // Initialize velocities to zero
+                velocities[i] = 0;
+                velocities[i + 1] = 0;
+                velocities[i + 2] = 0;
+                
+                colors[i] = color.r;
+                colors[i + 1] = color.g;
+                colors[i + 2] = color.b;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, sizeAttenuation: true });
+            const galaxy = new THREE.Points(geometry, material);
+            
+            return { 
+                mesh: galaxy, 
+                rotationSpeed: (Math.random() - 0.5) * 0.001,
+                initialPositions: positions.slice(), // Store original positions
+                velocities: velocities,
+                geometry: geometry
+            };
+        }
+        
+        // Create multiple galaxies
+        const galaxies = [
+            createGalaxy(-2, 1.5, -1, { r: 1, g: 0.2, b: 0.8 }),
+            createGalaxy(2, -1, -1.5, { r: 0, g: 1, b: 0.8 }),
+            createGalaxy(0, -2, -0.5, { r: 1, g: 0.5, b: 0 })
+        ];
+        
+        galaxies.forEach(g => scene.add(g.mesh));
+        
+        // Convert screen coordinates to 3D world coordinates
+        function screenToWorld(screenX, screenY) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (screenX - rect.left) / rect.width * 2 - 1;
+            const y = -(screenY - rect.top) / rect.height * 2 + 1;
+            
+            // Unproject to 3D space at camera distance
+            const vector = new THREE.Vector3(x, y, 0.5);
+            vector.unproject(camera);
+            
+            return vector;
+        }
+        
+        // Get black hole position in 3D space
+        function getBlackHolePosition3D() {
+            const btn = document.getElementById('blackHoleButton');
+            const rect = btn.getBoundingClientRect();
+            const screenX = rect.left + rect.width / 2;
+            const screenY = rect.top + rect.height / 2;
+            return screenToWorld(screenX, screenY);
+        }
+        
+        // Animation loop with gravity simulation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const blackHolePos = getBlackHolePosition3D();
+            const gravitationalForce = 0.0005; // Slow gravity for non-distracting effect
+            
+            galaxies.forEach(g => {
+                // Apply gravity to all stars in the galaxy
+                const positions = g.geometry.attributes.position.array;
+                const velocities = g.velocities;
+                
+                for (let i = 0; i < positions.length; i += 3) {
+                    const starX = positions[i];
+                    const starY = positions[i + 1];
+                    const starZ = positions[i + 2];
+                    
+                    // Calculate distance to black hole
+                    const dx = blackHolePos.x - starX;
+                    const dy = blackHolePos.y - starY;
+                    const dz = blackHolePos.z - starZ;
+                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    
+                    // Apply gravitational force (inverse square law, but dampened)
+                    if (distance > 0.1) {
+                        const force = gravitationalForce / (distance * distance);
+                        
+                        // Apply velocity changes
+                        velocities[i] += (dx / distance) * force;
+                        velocities[i + 1] += (dy / distance) * force;
+                        velocities[i + 2] += (dz / distance) * force;
+                    }
+                    
+                    // Apply damping to prevent runaway velocities
+                    velocities[i] *= 0.98;
+                    velocities[i + 1] *= 0.98;
+                    velocities[i + 2] *= 0.98;
+                    
+                    // Update positions
+                    positions[i] += velocities[i];
+                    positions[i + 1] += velocities[i + 1];
+                    positions[i + 2] += velocities[i + 2];
+                }
+                
+                // Mark positions as needing update
+                g.geometry.attributes.position.needsUpdate = true;
+                
+                // Continue rotation
+                g.mesh.rotation.z += g.rotationSpeed;
+                g.mesh.rotation.y += g.rotationSpeed * 0.5;
+            });
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        console.log('✓ 3D Galaxies with gravitational black hole influence loaded');
+    } catch(e) {
+        console.log('Three.js not loaded, skipping 3D effects');
+    }
 });
 
 
