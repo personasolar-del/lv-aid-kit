@@ -1,3421 +1,2388 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Digital Codes Generator</title>
-	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>
-		<rect width='32' height='32' fill='%23007bff'/>
-		<g fill='white'>
-		<rect x='2' y='2' width='4' height='4'/>
-		<rect x='8' y='2' width='2' height='4'/>
-		<rect x='12' y='2' width='4' height='4'/>
-		<rect x='18' y='2' width='2' height='4'/>
-		<rect x='22' y='2' width='4' height='4'/>
-		<rect x='28' y='2' width='2' height='4'/>
-		<rect x='2' y='8' width='2' height='4'/>
-		<rect x='6' y='8' width='4' height='4'/>
-		<rect x='12' y='8' width='2' height='4'/>
-		<rect x='16' y='8' width='4' height='4'/>
-		<rect x='22' y='8' width='2' height='4'/>
-		<rect x='26' y='8' width='4' height='4'/>
-		<rect x='2' y='14' width='4' height='4'/>
-		<rect x='8' y='14' width='2' height='4'/>
-		<rect x='12' y='14' width='4' height='4'/>
-		<rect x='18' y='14' width='2' height='4'/>
-		<rect x='22' y='14' width='4' height='4'/>
-		<rect x='28' y='14' width='2' height='4'/>
-		<rect x='2' y='20' width='2' height='4'/>
-		<rect x='6' y='20' width='4' height='4'/>
-		<rect x='12' y='20' width='2' height='4'/>
-		<rect x='16' y='20' width='4' height='4'/>
-		<rect x='22' y='20' width='2' height='4'/>
-		<rect x='26' y='20' width='4' height='4'/>
-		<rect x='2' y='26' width='4' height='4'/>
-		<rect x='8' y='26' width='2' height='4'/>
-		<rect x='12' y='26' width='4' height='4'/>
-		<rect x='18' y='26' width='2' height='4'/>
-		<rect x='22' y='26' width='4' height='4'/>
-		<rect x='28' y='26' width='2' height='4'/>
-		</g>
-		</svg>">
- <!-- Google tag (gtag.js) - ADD IT HERE -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZHMD6QT0P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-JZHMD6QT0P');
-    </script>
-    <!-- End Google tag -->
-    <script src=https://cdn.jsdelivr.net/npm/bwip-js@3.0.0/dist/bwip-js.min.js></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Codes Generator</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0e27'/><circle cx='16' cy='16' r='8' fill='none' stroke='%2300d4ff' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23ff0080'/></svg>">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JZHMD6QT0P"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JZHMD6QT0P');</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/bwip-js@3.0.0/dist/bwip-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
-			body {
-			background: linear-gradient(135deg, #0a0e27 0%, #1a0033 25%, #0d1b2d 50%, #000814 75%, #0a0e27 100%);
-			background-attachment: fixed;
-			background-size: 400% 400%;
-			animation: cosmicFlow 20s ease infinite;
-			color: #e8e8ff;
-			min-height: 100vh;
-			margin: 0;
-			padding: 20px;
-			display: grid;
-			grid-template-areas: 
-				"header header"
-				"generate generate"
-				"mode mode"
-				"form main"
-				"form main";
-			grid-template-columns: 350px 1fr;
-			grid-template-rows: auto 1fr auto;
-			gap: 20px;
-			align-items: start;
-			position: relative;
-			overflow-x: hidden;
-		}
-
-		/* 3D Canvas Background */
-		#canvas3d {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			z-index: 0;
-			pointer-events: none;
-		}
-
-		/* Particle container */
-		#particleContainer {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			z-index: 1;
-			pointer-events: none;
-		}
-
-		.particle {
-			position: absolute;
-			border-radius: 50%;
-			pointer-events: none;
-		}
-
-		/* Mute button */
-		@keyframes cosmicFlow {
-			0% { background-position: 0% 50%; }
-			50% { background-position: 100% 50%; }
-			100% { background-position: 0% 50%; }
-		}
-
-		/* Starfield background */
-		body::before {
-			content: '';
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-image: 
-				radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
-				radial-gradient(2px 2px at 60px 70px, #fff, rgba(0,0,0,0)),
-				radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
-				radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
-				radial-gradient(2px 2px at 90px 10px, #fff, rgba(0,0,0,0));
-			background-repeat: repeat;
-			background-size: 200px 200px;
-			animation: twinkle 5s infinite;
-			z-index: 0;
-			pointer-events: none;
-		}
-
-		@keyframes twinkle {
-			0%, 100% { opacity: 0.5; }
-			50% { opacity: 1; }
-		}
-
-
-
-		/* Header area for buttons */
-		.header-section {
-			grid-area: header;
-			display: flex;
-			flex-direction: column;
-			gap: 0px;
-			font-size: 24px;
-			padding: 20px 40px;
-			background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
-			border: 2px solid #00d4ff;
-			border-radius: 10px;
-			box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-		}
-
-		button {
-			font-size: 16px;
-			padding: 12px 28px;
-			background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
-			color: #0a0e27;
-			border: 2px solid #00d4ff;
-			cursor: pointer;
-			border-radius: 8px;
-			margin-bottom: 10px;
-			margin-top: 0px;  
-			width: auto;
-			min-height: auto;
-			font-weight: bold;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			transition: all 0.3s ease;
-			box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
-		}
-
-		button:hover {
-			background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
-			box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 5px 15px rgba(0, 0, 0, 0.5);
-			transform: translateY(-2px);
-		}
-
-		button:active {
-			transform: translateY(0);
-		}
-
-		.utility-button {
-			font-size: 12px;
-			padding: 8px 16px;
-			background: linear-gradient(135deg, #b600ff 0%, #ff0080 100%);
-			color: white;
-			border: 1px solid #ff0080;
-			cursor: pointer;
-			border-radius: 6px;
-			margin-right: 10px;
-			margin-bottom: 10px;
-			font-weight: bold;
-			transition: all 0.3s ease;
-			box-shadow: 0 0 10px rgba(255, 0, 128, 0.3);
-		}
-
-		.utility-button:hover {
-			background: linear-gradient(135deg, #ff0080 0%, #b600ff 100%);
-			box-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
-			transform: translateY(-2px);
-		}
-
-		.utility-button:active {
-			transform: translateY(0);
-		}
-
-		#FormContainer {
-			grid-area: form;
-			width: 100%;
-			padding: 20px;
-			border: 1px solid #ccc;
-			box-sizing: border-box;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			border-radius: 8px;
-			align-self: start;
-			position: sticky;
-			top: 20px;
-			gap: 10px;
-			min-height: 600px;
-			transition: none;
-		}
-
-		/* Main content area - RIGHT COLUMN (Contains generated code, binary, and image) */
-		#mainContainer {
-			grid-area: main;
-			display: flex;
-			flex-direction: column; /* Stack all three vertically */
-			align-items: stretch; /* Full width for child elements */
-			box-sizing: border-box;
-			width: 100%;
-			gap: 15px; /* Space between all sections */
-			padding: 15px;
-			border: 1px solid #ccc;
-			border-radius: 8px;
-		}
-
-		/* Unified title styling for all sections */
-		#generatedCode h3,
-		#oneDCodeSection h3,
-		#binaryCodeSection h3,
-		#fullBoxCodeSection h3, 
-		#productImageSection h3 {
-			margin-top: 0;
-			margin-bottom: 15px;
-			font-size: 18px;           /* Larger font */
-			color: #007bff;            /* Blue color */
-			font-weight: 600;          /* Semi-bold */
-			text-align: center;        /* Center align */
-			border-bottom: 2px solid #007bff; /* Underline */
-			padding-bottom: 5px;       /* Space above border */
-		}
-
-		/* 1D Code section - positioned next to 2D Matrix code */
-		#oneDCodeSection {
-			width: 100%;
-			padding: 15px;
-			border: 1px solid #ddd;    /* Add this line */
-			border-radius: 6px;        /* Add this line */
-			box-sizing: border-box;
-			text-align: left;
-			grid-column: 2;
-			grid-row: 1;
-		}
-
-		/* Full Box Code section - positioned next to RFID code */
-		#fullBoxCodeSection {
-			width: 100%;
-			padding: 15px;
-			border: 1px solid #ddd;    /* Add this line */
-			border-radius: 6px;        /* Add this line */
-			box-sizing: border-box;
-			text-align: left;
-			grid-column: 2;
-			grid-row: 2;
-		}
-
-
-
-		/* Update main container to use grid layout for side-by-side positioning */
-		#mainContainer {
-			grid-area: main;
-			display: grid;
-			grid-template-columns: 1fr 1fr; /* Two columns */
-			grid-template-rows: auto auto auto; /* Three rows */
-			gap: 15px;
-			box-sizing: border-box;
-			width: 100%;
-			padding: 15px;
-			border: 1px solid #ccc;
-			border-radius: 8px;
-			position: relative;
-		}
-
-		/* Black hole center button */
-		#blackHoleButton {
-			position: fixed;
-			top: 30px;
-			left: 400px;
-			transform: none;
-			width: 90px;
-			height: 90px;
-			border-radius: 50%;
-			background: radial-gradient(circle at 30% 30%, rgba(255, 0, 128, 0.6), rgba(10, 14, 39, 0.98));
-			border: none;
-			box-shadow: 
-				0 0 40px #ff0080,
-				0 0 80px rgba(255, 0, 128, 0.5),
-				inset 0 0 30px rgba(0, 0, 0, 0.9),
-				inset 0 0 50px rgba(255, 0, 128, 0.2);
-			cursor: grab;
-			z-index: 100;
-			animation: blackHolePulse 2s infinite;
-			transition: box-shadow 0.3s ease;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 0;
-		}
-
-		#blackHoleButton:active {
-			cursor: grabbing;
-		}
-
-		#blackHoleButton:hover {
-			width: 110px;
-			height: 110px;
-			box-shadow: 
-				0 0 60px #ff0080,
-				0 0 120px rgba(255, 0, 128, 0.8),
-				inset 0 0 40px rgba(0, 0, 0, 0.9),
-				inset 0 0 60px rgba(255, 0, 128, 0.3);
-		}
-
-		#blackHoleText {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 100%;
-			color: #1a1a1a;
-			font-size: 14px;
-			font-weight: bold;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-			text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-			animation: slowFadeInOut 8s ease-in-out infinite;
-			position: relative;
-			content: 'Enter';
-		}
-
-		@keyframes slowFadeInOut {
-			0%, 100% {
-				opacity: 0;
-			}
-			50% {
-				opacity: 1;
-			}
-		}
-
-		/* Random interference animations */
-		#blackHoleText.glitch {
-			animation: glitchEffect 0.3s steps(1);
-		}
-
-		@keyframes glitchEffect {
-			0% {
-				content: 'Enter';
-				color: #1a1a1a;
-				transform: translate(0, 0);
-			}
-			20% {
-				content: 'Ent3r';
-				color: #2a2a2a;
-				transform: translate(-1px, 1px);
-			}
-			40% {
-				content: 'En7er';
-				color: #1a1a1a;
-				transform: translate(1px, -1px);
-			}
-			60% {
-				content: 'E@ter';
-				color: #2a2a2a;
-				transform: translate(-1px, 0);
-			}
-			80% {
-				content: 'En!er';
-				color: #1a1a1a;
-				transform: translate(1px, 1px);
-			}
-			100% {
-				content: 'Enter';
-				color: #1a1a1a;
-				transform: translate(0, 0);
-			}
-		}
-
-		@keyframes blackHolePulse {
-			0%, 100% {
-				box-shadow: 
-					0 0 40px #ff0080,
-					0 0 80px rgba(255, 0, 128, 0.5),
-					inset 0 0 30px rgba(0, 0, 0, 0.9),
-					inset 0 0 50px rgba(255, 0, 128, 0.2);
-			}
-			50% {
-				box-shadow: 
-					0 0 60px #ff0080,
-					0 0 100px rgba(255, 0, 128, 0.8),
-					inset 0 0 30px rgba(0, 0, 0, 0.9),
-					inset 0 0 50px rgba(255, 0, 128, 0.3);
-			}
-		}
-
-		/* Update existing sections for grid positioning */
-		#generatedCode {
-			grid-column: 1;
-			grid-row: 1;
-			width: 100%;
-			padding: 15px;
-			border: 1px solid #ddd;
-			border-radius: 6px;
-			box-sizing: border-box;
-		}
-
-		#oneDCodeSection {
-			grid-column: 2;
-			grid-row: 1;
-		}
-
-		#binaryCodeSection {
-			grid-column: 1;
-			grid-row: 2;
-			width: 100%;
-			padding: 15px;
-			border: 1px solid #ddd;
-			border-radius: 6px;
-			box-sizing: border-box;
-			text-align: left;
-		}
-
-		#fullBoxCodeSection {
-			grid-column: 2;
-			grid-row: 2;
-		}
-
-		#productImageSection {
-			grid-column: 1 / -1; /* Span both columns */
-			grid-row: 3;
-			width: 100%;
-			text-align: center;
-			box-sizing: border-box;
-			padding: 15px;
-			border: 1px solid #ddd;
-			border-radius: 6px;
-		}
-
-
-		#copyright {
-			position: fixed;
-			bottom: 15px;
-			right: 15px;
-			font-size: 12px;
-			color: #00ff88;
-			padding: 8px 12px;
-			background: linear-gradient(135deg, rgba(0, 20, 40, 0.9) 0%, rgba(10, 0, 30, 0.9) 100%);
-			border: 1px solid #00d4ff;
-			border-radius: 6px;
-			z-index: 1000;
-			cursor: help;
-			transition: all 0.3s ease;
-			box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
-			font-weight: 600;
-			text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
-		}
-
-		#copyright:hover {
-			background: linear-gradient(135deg, rgba(0, 20, 40, 0.95) 0%, rgba(10, 0, 30, 0.95) 100%);
-			border-color: #00ff88;
-			box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
-			transform: scale(1.05);
-		}
-
-		.help-tooltip-copyright {
-			position: absolute;
-			bottom: 40px;
-			right: 0;
-			width: 420px;
-			background: linear-gradient(135deg, rgba(10, 14, 39, 0.98) 0%, rgba(26, 0, 51, 0.98) 100%);
-			border: 2px solid #00d4ff;
-			border-radius: 12px;
-			padding: 20px;
-			box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), inset 0 0 20px rgba(0, 255, 136, 0.1);
-			color: #e8e8ff;
-			font-size: 13px;
-			line-height: 1.7;
-			opacity: 0;
-			visibility: hidden;
-			transition: all 0.3s ease;
-			pointer-events: none;
-			z-index: 1001;
-			max-height: 400px;
-			overflow-y: auto;
-		}
-
-		#copyright:hover .help-tooltip-copyright {
-			opacity: 1;
-			visibility: visible;
-			pointer-events: auto;
-		}
-
-		.help-title-copyright {
-			font-size: 16px;
-			font-weight: 700;
-			color: #00ff88;
-			margin-bottom: 15px;
-			text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-		}
-
-		.help-content-copyright p {
-			margin: 8px 0;
-			color: #d0d0ff;
-		}
-
-		.help-content-copyright strong {
-			color: #00ff88;
-			font-weight: 700;
-		}
-
-		/* Input and form styling */
-		.input-group {
-			width: 100%;
-			margin-bottom: 10px;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-		}
-
-		label {
-			display: block;
-			margin-bottom: 5px;
-			font-weight: bold;
-			text-align: left;
-			width: 100%;
-		}
-
-		input[type="text"], 
-		input[type="number"] {
-			padding: 8px;
-			font-size: 16px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			width: 100%;
-			box-sizing: border-box;
-		}
-
-		.hidden-label {
-			display: none;
-		}
-
-		.hidden {
-			display: none;
-		}
-
-		.serial-container {
-			width: 100%;
-			display: flex;
-			align-items: center;
-		}
-
-				/* Unified barcode styling */
-		#barcodeImage,
-		#oneDBarcode,
-		#fullBoxBarcode {
-			text-align: center;
-			margin-top: 10px;
-			min-height: 150px;
-			display: flex;  /* ADD THIS */
-			align-items: center;  /* ADD THIS */
-			justify-content: center;  /* ADD THIS */
-		}
-
-		#barcodeImage canvas,
-		#oneDBarcode canvas,
-		#fullBoxBarcode canvas {
-			border: 1px solid #ccc;
-			padding: 10px;
-			background-color: white;
-			border-radius: 4px;
-			display: block;
-			margin: 0 auto; /* Center the canvas */
-		}
-
-
-		/* Section titles styling */
-		#codeTitle {
-			font-size: 24px;
-			color: #8e44ad;           /* Purple */
-			font-style: italic;
-			text-decoration: underline;
-			font-weight: bold;
-		}
-
-		#codeResult,
-		#oneDResult,
-		#binaryResult,
-		#fullBoxResult {
-			font-size: 24px;           /* Increased from default ~12-14px */
-			font-weight: bold;         /* Make it bold */
-			font-family: 'Louis Vuitton', monospace;  /* Monospace for code */
-			line-height: 1.6;          /* Better spacing */
-			word-wrap: break-word;     /* Prevent overflow */
-			padding-right: 10px;       /* Space before Copy button */
-			flex: 1;                   /* Take available space */
-		}
-		
-		.code-result-container {
-			display: flex;
-			align-items: center;
-			gap: 15px;                 /* Space between code and button */
-			margin-bottom: 15px;
-			flex-wrap: nowrap;         /* Keep on same line */
-		}
-
-		.code-result-container > div {
-			flex: 1;                   /* Code text takes remaining space */
-			min-width: 0;              /* Allow text to shrink if needed */
-		}
-
-		.code-result-container > button {
-			flex-shrink: 0;            /* Button stays same size */
-		}
-
-
-
-		#productTitle {
-			font-size: 18px;
-			color: #8e44ad;           /* Purple */
-			font-style: italic;
-			text-decoration: underline;
-		}
-
-		
-		#productImageSection h4{
-			max-width: 70%;
-			height: auto;
-			aspect-ratio: 21 / 7;
-			border-radius: 4px;
-			object-fit: contain;
-			object-position: center;
-			margin: 0 auto;
-			display: block;
-			}
-
-		/* Responsive design */
-		@media (max-width: 1200px) {
-			body {
-				grid-template-areas: 
-					"header"
-					"form"
-					"main";
-				grid-template-columns: 1fr;
-				grid-template-rows: auto auto 1fr;
-				gap: 20px;
-			}
-			
-			#FormContainer {
-				position: static;
-			}
-		}
-
-		/* Mobile responsive design */
-		@media (max-width: 768px) {
-			body {
-				grid-template-areas: 
-					"header"
-					"form"  
-					"main";
-				grid-template-columns: 1fr;
-				grid-template-rows: auto auto 1fr;
-				padding: 10px;
-			}
-			
-			#FormContainer {
-				position: static;
-			}
-			
-			#mainContainer {
-				flex-direction: column;
-			}
-
-			#generatedCode,
-			#binaryCodeSection,
-			#productImageSection {
-				width: 100%;
-			}
-		}
-
-		.close-button {
-			position: absolute;
-			top: 10px;
-			right: 15px;
-			background: rgba(255,255,255,0.2);
-			color: white;
-			border: none;
-			font-size: 24px;
-			cursor: pointer;
-			padding: 5px 10px;
-			border-radius: 50%;
-			font-weight: bold;
-			transition: background 0.2s ease;
-		}
-
-		.close-button:hover {
-			background: rgba(255,255,255,0.3);
-			transform: scale(1.1);
-		}
-
-			@media (max-width: 768px) {
-			#mainContainer {
-				grid-template-columns: 1fr; /* Single column on mobile */
-				grid-template-rows: auto auto auto auto auto; /* Five rows */
-			}
-			
-			#generatedCode {
-				grid-column: 1;
-				grid-row: 1;
-			}
-			
-			#oneDCodeSection {
-				grid-column: 1;
-				grid-row: 2;
-			}
-			
-			#binaryCodeSection {
-				grid-column: 1;
-				grid-row: 3;
-			}
-			
-			#fullBoxCodeSection {
-				grid-column: 1;
-				grid-row: 4;
-			}
-			
-			#productImageSection {
-				grid-column: 1;
-				grid-row: 5;
-			}
-		}
-			
-			.mode-switcher {
-			grid-area: mode;  /* ADD THIS */
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
-			margin: 20;
-			padding: 15px;
-			background: linear-gradient(135deg, rgba(182, 0, 255, 0.1) 0%, rgba(255, 0, 128, 0.1) 100%);
-			border: 2px solid #b600ff;
-			border-radius: 10px;
-			box-shadow: 0 0 20px rgba(182, 0, 255, 0.2);
-			color: #e8e8ff;
-			max-width: 100%;  /* ADD THIS */
-			box-sizing: border-box;  /* ADD THIS */
-		}
-
-
-			.toggle-container {
-				position: left-side;
-			}
-
-			.toggle-checkbox {
-				display: none;
-			}
-
-			.toggle-label {
-				display: block;
-				width: 80px;
-				height: 40px;
-				background: rgba(0, 212, 255, 0.1);
-				border-radius: 25px;
-				cursor: pointer;
-				transition: all 0.3s ease;
-				position: relative;
-				border: 2px solid #00d4ff;
-			}
-
-			.toggle-label:hover {
-				background: rgba(0, 212, 255, 0.2);
-				transform: scale(1.05);
-				box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-			}
-
-			.toggle-slider {
-				position: absolute;
-				top: 2px;
-				left: 2px;
-				width: 34px;
-				height: 34px;
-				background: linear-gradient(135deg, #00d4ff, #00ff88);
-				border-radius: 50%;
-				transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-			}
-
-			.toggle-icon {
-				font-size: 16px;
-				position: absolute;
-				transition: all 0.3s ease;
-			}
-
-			.toggle-icon-left {
-				opacity: 1;
-				transform: scale(1);
-			}
-
-			.toggle-icon-right {
-				opacity: 0;
-				transform: scale(0.5);
-			}
-
-			.toggle-checkbox:checked + .toggle-label .toggle-slider {
-				transform: translateX(40px);
-				background: linear-gradient(135deg, #ff0080, #b600ff);
-				box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
-			}
-
-			.toggle-checkbox:checked + .toggle-label .toggle-icon-left {
-				opacity: 0;
-				transform: scale(0.5);
-			}
-
-			.toggle-checkbox:checked + .toggle-label .toggle-icon-right {
-				opacity: 1;
-				transform: scale(1);
-			}
-
-			.toggle-checkbox:checked + .toggle-label {
-				background: rgba(255, 0, 128, 0.1);
-				border-color: #ff0080;
-			}
-
-			.mode-info {
-				display: flex;
-				flex-direction: column;
-				gap: 5px;
-			}
-
-			.mode-text {
-				font-size: 18px;
-				font-weight: 600;
-				text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-			}
-
-			.mode-description {
-				font-size: 14px;
-				opacity: 0.9;
-				font-style: italic;
-			}
-
-			/* Gravity Switcher - Compact Version */
-			.gravity-switcher {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				gap: 8px;
-				margin: 5px 20px;
-				padding: 8px 15px;
-				background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 255, 136, 0.08) 100%);
-				border: 1px solid rgba(0, 212, 255, 0.3);
-				border-radius: 8px;
-				box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
-				color: #e8e8ff;
-				max-width: 100%;
-				box-sizing: border-box;
-			}
-
-			.gravity-info {
-				display: flex;
-				flex-direction: column;
-				gap: 0px;
-			}
-
-			.gravity-text {
-				font-size: 12px;
-				font-weight: 600;
-				text-shadow: none;
-				color: #00ff88;
-				white-space: nowrap;
-			}
-
-			/* Smaller toggle for gravity */
-			.gravity-switcher .toggle-label {
-				width: 50px;
-				height: 24px;
-				border: 1.5px solid #00d4ff;
-			}
-
-			.gravity-switcher .toggle-slider {
-				width: 20px;
-				height: 20px;
-			}
-
-			.gravity-switcher .toggle-icon {
-				font-size: 10px;
-			}
-
-			/* Floating Gravity Toggle - Outside frame */
-			.gravity-switcher-floating {
-				position: fixed;
-				bottom: 100px;
-				left: 20px;
-				display: flex;
-				align-items: center;
-				gap: 8px;
-				padding: 8px 12px;
-				background: rgba(0, 20, 40, 0.8);
-				border: 1px solid #00d4ff;
-				border-radius: 8px;
-				z-index: 500;
-				transition: left 0.3s ease;
-			}
-
-			.gravity-switcher-floating.hidden {
-				left: -200px;
-			}
-
-			.gravity-hide-btn {
-				background: transparent;
-				border: 1px solid #00ff88;
-				color: #00ff88;
-				width: 24px;
-				height: 24px;
-				padding: 0;
-				cursor: pointer;
-				border-radius: 4px;
-				font-size: 12px;
-				transition: all 0.2s ease;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-
-			.gravity-hide-btn:hover {
-				background: rgba(0, 255, 136, 0.2);
-				box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
-			}
-
-			.gravity-show-btn {
-				position: fixed;
-				bottom: 100px;
-				left: 8px;
-				width: 40px;
-				height: 40px;
-				background: rgba(0, 20, 40, 0.9);
-				border: 2px solid #00d4ff;
-				border-radius: 8px;
-				color: #00d4ff;
-				font-size: 20px;
-				cursor: pointer;
-				z-index: 499;
-				transition: all 0.3s ease;
-				display: none;
-				align-items: center;
-				justify-content: center;
-			}
-
-			.gravity-show-btn:hover {
-				background: rgba(0, 212, 255, 0.2);
-				box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
-				transform: scale(1.1);
-			}
-
-			.gravity-show-btn.visible {
-				display: flex;
-			}
-
-			
-
-			/* Error styling for code inputs */
-			.code-input-error {
-				border: 2px solid #ff4444 !important;
-				background-color: #ffe6e6 !important;
-				animation: shake 0.5s ease-in-out;
-			}
-
-			.code-input-disabled {
-				opacity: 0.3 !important;
-				pointer-events: none !important;
-				background-color: #f0f0f0 !important;
-				border-color: #ddd !important;
-			}
-
-			.error-message {
-				color: #ff4444;
-				font-size: 12px;
-				margin-top: 5px;
-				font-weight: bold;
-				display: none;
-			}
-
-			@keyframes shake {
-				0%, 100% { transform: translateX(0); }
-				25% { transform: translateX(-5px); }
-				75% { transform: translateX(5px); }
-			}
-
-			/* Active code input highlight */
-			.code-input-active {
-				border: 2px solid #00ff88 !important;
-				background-color: #f0fff0 !important;
-				box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-			}
-
-					}
-		
-		.generate-section {
-			display: flex;
-			flex-direction: column;
-			gap: 15px;
-			width: 100%;
-			max-width: 100%;
-			box-sizing: border-box;
-		}
-
-		.generate-section > button {
-			width: 100% !important;
-			padding: 15px 30px !important;
-			font-size: 16px !important;
-			background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%) !important;
-			color: #0a0e27 !important;
-			border: 2px solid #00d4ff !important;
-			cursor: pointer !important;
-			border-radius: 8px !important;
-			margin: 0 !important;
-			box-sizing: border-box !important;
-			display: flex !important;
-			align-items: center !important;
-			justify-content: center !important;
-			text-align: center !important;
-			font-weight: bold !important;
-			text-transform: uppercase !important;
-			letter-spacing: 1px !important;
-			transition: all 0.3s ease !important;
-			box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
-		}
-
-		.generate-section > button:hover {
-			background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%) !important;
-			box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 5px 15px rgba(0, 0, 0, 0.5) !important;
-			transform: translateY(-2px) !important;
-		}
-
-		.shortcut-badge {
-			font-size: 12px;
-			opacity: 0.8;
-			margin-left: 5px;
-			padding: 2px 8px;
-			background: rgba(255, 255, 255, 0.1);
-			border-radius: 4px;
-		}
-		
-		.generate-section > button,
-		#FormContainer > button:last-child {
-			font-size: 18px !important;   
-			padding: 12px 28px !important;
-			background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%) !important;
-			color: #0a0e27 !important;
-			border: 2px solid #00d4ff !important;
-			cursor: pointer !important;
-			border-radius: 8px !important;
-			margin-top: 0px !important;   
-			width: auto !important;
-			box-sizing: border-box !important;
-			min-height: auto !important;  
-			display: inline-flex !important;
-			align-items: center !important;
-			justify-content: center !important;
-			text-align: center !important;
-			font-weight: bold !important;
-			text-transform: uppercase !important;
-			letter-spacing: 1px !important;
-			transition: all 0.3s ease !important;
-			box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
-		}
-
-
-		.generate-section > button:hover,
-		#FormContainer > button:last-child:hover {
-			background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%) !important;
-			box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), 0 5px 15px rgba(0, 0, 0, 0.5) !important;
-			transform: translateY(-2px) !important;
-		}
-
-		/* Keep utility buttons unchanged - override any accidental styling */
-		.utility-button {
-			font-size: 12px !important;
-			padding: 8px 16px !important;
-			background: linear-gradient(135deg, #b600ff 0%, #ff0080 100%) !important;
-			color: white !important;
-			border: 1px solid #ff0080 !important;
-			cursor: pointer !important;
-			border-radius: 6px !important;
-			margin-right: 10px !important;
-			margin-bottom: 10px !important;
-			width: auto !important;
-			min-height: auto !important;
-			display: inline-block !important;
-			margin-left: 15px !important;    /* Add space to the left */
-			margin-top: 10px !important;     /* Add space above */
-			font-weight: bold !important;
-			transition: all 0.3s ease !important;
-			box-shadow: 0 0 10px rgba(255, 0, 128, 0.3) !important;
-		}
-
-		.utility-button:hover {
-			background: linear-gradient(135deg, #ff0080 0%, #b600ff 100%) !important;
-			box-shadow: 0 0 20px rgba(255, 0, 128, 0.6) !important;
-			transform: translateY(-2px) !important;
-		}
-		
-		button:focus,
-			.utility-button:focus {
-			outline: none !important;
-			border: none !important;
-			box-shadow: none !important;
-		}
-
-		/* Typewriter cursor animation */
-		@keyframes blink-cursor {
-			0%, 49% { opacity: 1; }
-			50%, 100% { opacity: 0; }
-		}
-
-		.typing-cursor {
-			display: inline-block;
-			width: 2px;
-			height: 1em;
-			background-color: #333;
-			margin-left: 2px;
-			animation: blink-cursor 1s infinite;
-		}
-
-				/* Keyboard shortcut feedback animation */
-		.shortcut-feedback {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%) scale(0.5);
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			color: white;
-			padding: 25px 45px;
-			border-radius: 15px;
-			font-size: 18px;
-			font-weight: 600;
-			box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
-			z-index: 10000;
-			opacity: 0;
-			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			display: flex;
-			align-items: center;
-			gap: 15px;
-			pointer-events: none;
-		}
-
-		.shortcut-feedback.show {
-			opacity: 1;
-			transform: translate(-50%, -50%) scale(1);
-		}
-
-		.feedback-icon {
-			font-size: 32px;
-			animation: bounce 0.6s ease-in-out;
-		}
-
-		.feedback-message {
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			letter-spacing: 0.5px;
-		}
-
-		@keyframes bounce {
-			0%, 100% { transform: scale(1); }
-			50% { transform: scale(1.2); }
-		}
-
-		/* Enhanced Copy button styling with keyboard shortcut hint */
-		.utility-button {
-			position: relative;
-			overflow: hidden;
-		}
-
-		.utility-button::after {
-			content: attr(data-shortcut);
-			position: absolute;
-			bottom: -25px;
-			left: 50%;
-			transform: translateX(-50%);
-			background: rgba(0, 0, 0, 0.8);
-			color: white;
-			padding: 4px 8px;
-			border-radius: 4px;
-			font-size: 10px;
-			white-space: nowrap;
-			opacity: 0;
-			transition: all 0.3s ease;
-			pointer-events: none;
-		}
-
-		.utility-button:hover::after {
-			bottom: -30px;
-			opacity: 1;
-		}
-
-		/* Keyboard shortcut badge on buttons */
-		.shortcut-badge {
-			display: inline-block;
-			background: rgba(255, 255, 255, 0.2);
-			padding: 2px 6px;
-			border-radius: 3px;
-			font-size: 10px;
-			margin-left: 5px;
-			font-weight: normal;
-			opacity: 0.8;
-		}
-
-		/* Help section for keyboard shortcuts */
-		.keyboard-shortcuts-help {
-			background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-			padding: 15px 20px;
-			border-radius: 8px;
-			margin: 15px 0;
-			border-left: 4px solid #667eea;
-			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-		}
-
-		.keyboard-shortcuts-help h4 {
-			margin: 0 0 10px 0;
-			color: #667eea;
-			font-size: 16px;
-			display: flex;
-			align-items: center;
-			gap: 8px;
-		}
-
-		.shortcut-list {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-			gap: 8px;
-			margin: 0;
-			padding: 0;
-			list-style: none;
-		}
-
-		.shortcut-item {
-			display: flex;
-			align-items: center;
-			gap: 8px;
-			font-size: 13px;
-			color: #333;
-		}
-
-		.shortcut-key {
-			background: white;
-			padding: 3px 8px;
-			border-radius: 4px;
-			font-family: monospace;
-			font-size: 11px;
-			font-weight: bold;
-			color: #667eea;
-			border: 1px solid #ddd;
-			box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-		}
-
-		.shortcut-description {
-			color: #555;
-			font-weight: 500;
-		}
-
-		/* Pulse animation for first-time users */
-		@keyframes pulse-hint {
-			0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
-			50% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
-		}
-
-		.utility-button.hint-pulse {
-			animation: pulse-hint 2s ease-in-out 3;
-		}
-
-				/* Mode toggle keyboard hint */
-		.mode-shortcut-hint {
-			font-size: 12px;
-			opacity: 0.8;
-			font-style: normal;
-			margin-top: 3px;
-		}
-
-		.mode-shortcut-hint kbd {
-			background: rgba(255, 255, 255, 0.3);
-			padding: 2px 6px;
-			border-radius: 3px;
-			font-family: monospace;
-			font-size: 11px;
-			font-weight: bold;
-			border: 1px solid rgba(255, 255, 255, 0.4);
-			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-		}
-
-
+/* =============================================
+   CSS VARIABLES
+============================================= */
+:root {
+  --bg:         #020510;
+  --cyan:       #00d4ff;
+  --green:      #00ff88;
+  --purple:     #b600ff;
+  --pink:       #ff0080;
+  --orange:     #ff9f43;
+  --gold:       #ffd700;
+  --glass:      rgba(8,12,35,0.65);
+  --glass-b:    rgba(0,212,255,0.18);
+  --text:       #e8eaff;
+  --muted:      #7a85a8;
+  --f-display:  'Orbitron', monospace;
+  --f-mono:     'Space Mono', monospace;
+  --f-body:     'Rajdhani', sans-serif;
+  --r:          14px;
+}
+
+/* =============================================
+   RESET & BASE
+============================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-body);
+  font-size: 15px;
+  min-height: 100vh;
+  padding: 18px;
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "mode   mode"
+    "form   main";
+  grid-template-columns: 340px 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: 14px;
+  align-items: start;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   COSMIC BACKGROUND
+============================================= */
+#canvas3d {
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+}
+
+#particleContainer {
+  position: fixed; inset: 0;
+  z-index: 1; pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px,  rgba(255,255,255,.8), transparent),
+    radial-gradient(1px 1px at 60px 70px,  rgba(255,255,255,.5), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,.7), transparent),
+    radial-gradient(2px 2px at 90px 10px,  rgba(200,220,255,.4), transparent),
+    radial-gradient(1px 1px at 170px 140px,rgba(255,255,255,.5), transparent),
+    radial-gradient(1px 1px at 40px 120px, rgba(255,255,255,.4), transparent);
+  background-size: 200px 200px;
+  animation: twinkle 7s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+
+@keyframes twinkle {
+  0%,100% { opacity: .4; }
+  50%      { opacity: .9; }
+}
+
+/* =============================================
+   GLASS PANEL
+============================================= */
+.panel {
+  background: var(--glass);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--glass-b);
+  border-radius: var(--r);
+  box-shadow: 0 0 30px rgba(0,212,255,.06), inset 0 1px 0 rgba(255,255,255,.04);
+  position: relative;
+  z-index: 10;
+}
+
+/* Colored top accent per section */
+
+/* Gravity-active: make panels transparent so galaxy shows through */
+body.gravity-active .panel {
+  background: rgba(8,12,35,0.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-color: rgba(0,212,255,0.10);
+  transition: background 0.6s ease, backdrop-filter 0.6s ease, border-color 0.6s ease;
+}
+
+body.gravity-active .panel::before {
+  opacity: 0.4;
+}
+
+body.gravity-active input[type="text"],
+body.gravity-active input[type="number"] {
+  background: rgba(0,5,20,0.35);
+  border-color: rgba(0,212,255,0.12);
+  transition: background 0.6s ease;
+}
+
+.panel {
+  transition: background 0.6s ease, backdrop-filter 0.6s ease, border-color 0.6s ease;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+
+.panel-cyan::before   { background: linear-gradient(90deg,var(--cyan),transparent); }
+.panel-green::before  { background: linear-gradient(90deg,var(--green),transparent); }
+.panel-orange::before { background: linear-gradient(90deg,var(--orange),transparent); }
+.panel-purple::before { background: linear-gradient(90deg,var(--purple),transparent); }
+.panel-gold::before   { background: linear-gradient(90deg,var(--gold),transparent); }
+.panel-slate::before  { background: linear-gradient(90deg,#9b8fcc,transparent); }
+
+/* =============================================
+   HEADER
+============================================= */
+.header-section {
+  grid-area: header;
+  padding: 18px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-title {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--cyan), var(--green) 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-sub {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.badge {
+  background: rgba(0,212,255,.1);
+  border: 1px solid rgba(0,212,255,.3);
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-count {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* =============================================
+   BUTTONS
+============================================= */
+.btn {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all .22s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  line-height: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--cyan), var(--green));
+  color: #020510;
+  box-shadow: 0 0 18px rgba(0,212,255,.3);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(0,212,255,.7), 0 4px 14px rgba(0,0,0,.5);
+  transform: translateY(-2px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  background: rgba(182,0,255,.1);
+  color: #c880ff;
+  border: 1px solid rgba(182,0,255,.35);
+}
+.btn-outline:hover {
+  background: rgba(182,0,255,.22);
+  box-shadow: 0 0 16px rgba(182,0,255,.4);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: rgba(0,212,255,.07);
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,255,.22);
+  font-size: 10px;
+  padding: 6px 12px;
+}
+.btn-ghost:hover {
+  background: rgba(0,212,255,.18);
+  box-shadow: 0 0 12px rgba(0,212,255,.3);
+}
+
+.btn-copy {
+  background: rgba(0,255,136,.08);
+  color: var(--green);
+  border: 1px solid rgba(0,255,136,.28);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+.btn-copy:hover {
+  background: rgba(0,255,136,.22);
+  box-shadow: 0 0 10px rgba(0,255,136,.35);
+}
+.btn-copy.copied {
+  background: rgba(0,255,136,.28);
+  color: #fff;
+}
+
+.btn-full { width: 100%; }
+
+.btn-generate {
+  width: 100%;
+  padding: 13px 24px;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.kbd {
+  font-size: 9px;
+  background: rgba(255,255,255,.14);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: var(--f-mono);
+  font-weight: 400;
+  letter-spacing: 0;
+  opacity: .8;
+}
+
+button:focus { outline: none; }
+
+/* =============================================
+   BLACK HOLE BUTTON (REWORKED)
+============================================= */
+#blackHoleButton {
+  position: fixed;
+  top: 26px;
+  left: 370px;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 32%, rgba(255,60,160,.45) 0%, transparent 55%),
+    radial-gradient(circle at center, #04010d 35%, #1a0015 100%);
+  border: none;
+  cursor: grab;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: visible;
+  box-shadow:
+    0 0 0 2px rgba(255,0,128,.28),
+    0 0 22px rgba(255,0,128,.65),
+    0 0 70px rgba(255,0,128,.22),
+    0 0 140px rgba(255,0,128,.08);
+  animation: bhPulse 3s ease-in-out infinite;
+  transition: width .2s, height .2s;
+}
+
+/* Accretion disk – outer ring */
+#blackHoleButton::before {
+  content: '';
+  position: absolute;
+  width: 140%;
+  height: 38%;
+  top: 31%;
+  left: -20%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,160,60,.45);
+  box-shadow: 0 0 8px rgba(255,120,0,.4);
+  transform: rotateX(68deg);
+  animation: diskSpin 4.5s linear infinite;
+  pointer-events: none;
+}
+
+/* Accretion disk – inner ring */
+#blackHoleButton::after {
+  content: '';
+  position: absolute;
+  width: 118%;
+  height: 28%;
+  top: 36%;
+  left: -9%;
+  border-radius: 50%;
+  border: 1px solid rgba(255,80,200,.3);
+  transform: rotateX(72deg) rotateZ(30deg);
+  animation: diskSpin 7s linear infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes diskSpin {
+  from { transform: rotateX(68deg) rotateZ(0deg); }
+  to   { transform: rotateX(68deg) rotateZ(360deg); }
+}
+
+@keyframes bhPulse {
+  0%,100% {
+    box-shadow:
+      0 0 0 2px rgba(255,0,128,.28),
+      0 0 22px rgba(255,0,128,.65),
+      0 0 70px rgba(255,0,128,.22),
+      0 0 140px rgba(255,0,128,.08);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px rgba(255,0,128,.5),
+      0 0 38px rgba(255,0,128,.9),
+      0 0 90px rgba(255,0,128,.35),
+      0 0 180px rgba(255,0,128,.12);
+  }
+}
+
+#blackHoleButton:hover { width: 92px; height: 92px; }
+#blackHoleButton:active { cursor: grabbing; }
+
+#blackHoleText {
+  font-family: var(--f-display);
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(255,180,210,.9);
+  text-transform: uppercase;
+  animation: bhFade 6s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes bhFade {
+  0%,100% { opacity: 0; }
+  45%,55%  { opacity: 1; }
+}
+
+/* =============================================
+   MODE SWITCHER
+============================================= */
+.mode-section {
+  grid-area: mode;
+  padding: 13px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mode-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mode-info { display: flex; flex-direction: column; gap: 2px; }
+
+.mode-text {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .4px;
+}
+
+.mode-hint {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--f-mono);
+}
+
+.mode-hint kbd {
+  background: rgba(255,255,255,.14);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+}
+
+.mode-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Toggle switch */
+.toggle-checkbox { display: none; }
+
+.toggle-label {
+  display: block;
+  width: 68px; height: 34px;
+  background: rgba(0,212,255,.08);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .3s;
+  position: relative;
+  border: 1.5px solid var(--cyan);
+}
+.toggle-label:hover {
+  background: rgba(0,212,255,.18);
+  box-shadow: 0 0 12px rgba(0,212,255,.25);
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, var(--cyan), var(--green));
+  border-radius: 50%;
+  transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 10px rgba(0,212,255,.55);
+}
+
+.toggle-icon { font-size: 13px; position: absolute; transition: all .3s; }
+.toggle-icon-right { opacity: 0; transform: scale(.5); }
+
+.toggle-checkbox:checked + .toggle-label .toggle-slider {
+  transform: translateX(34px);
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  box-shadow: 0 0 10px rgba(255,0,128,.55);
+}
+.toggle-checkbox:checked + .toggle-label .toggle-icon-left { opacity: 0; transform: scale(.5); }
+.toggle-checkbox:checked + .toggle-label .toggle-icon-right { opacity: 1; transform: scale(1); }
+.toggle-checkbox:checked + .toggle-label {
+  background: rgba(255,0,128,.08);
+  border-color: var(--pink);
+}
+
+/* Small gravity toggle */
+.g-toggle .toggle-label { width: 46px; height: 22px; border-width: 1px; }
+.g-toggle .toggle-slider { width: 16px; height: 16px; }
+.g-toggle .toggle-icon  { font-size: 9px; }
+.g-toggle .toggle-checkbox:checked + .toggle-label .toggle-slider { transform: translateX(24px); }
+
+/* =============================================
+   FORM CONTAINER
+============================================= */
+#FormContainer {
+  grid-area: form;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-self: start;
+  position: sticky;
+  top: 18px;
+}
+
+.form-heading {
+  font-family: var(--f-display);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  opacity: .65;
+  margin-bottom: 2px;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--f-mono);
+}
+
+input[type="text"],
+input[type="number"] {
+  background: rgba(0,5,20,.85);
+  border: 1px solid rgba(0,212,255,.18);
+  border-radius: 7px;
+  color: var(--text);
+  font-family: var(--f-mono);
+  font-size: 13px;
+  padding: 7px 11px;
+  width: 100%;
+  transition: border-color .2s, box-shadow .2s;
+}
+input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0,212,255,.14);
+}
+input.field-valid { border-color: var(--green); }
+input.field-error {
+  border-color: var(--pink);
+  animation: shake .4s ease;
+}
+
+.field-hint {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--f-mono);
+  text-align: right;
+  height: 12px;
+}
+.field-hint.ok   { color: var(--green); }
+.field-hint.warn { color: var(--orange); }
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+
+/* =============================================
+   MAIN CONTAINER (OUTPUT GRID)
+============================================= */
+#mainContainer {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.code-section {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,212,255,.1);
+  padding-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--f-display);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.section-cyan   .section-title { color: var(--cyan); }
+.section-green  .section-title { color: var(--green); }
+.section-orange .section-title { color: var(--orange); }
+.section-purple .section-title { color: var(--purple); }
+.section-gold   .section-title { color: var(--gold); }
+
+.code-value {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  word-break: break-all;
+  flex: 1;
+  min-width: 0;
+  color: var(--text);
+}
+
+.barcode-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70px;
+}
+.barcode-wrap canvas {
+  background: #fff;
+  border-radius: 4px;
+  padding: 6px;
+  max-width: 100%;
+}
+
+#productImageSection {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+#productImage {
+  max-width: 190px;
+  height: auto;
+  border-radius: 6px;
+  object-fit: contain;
+  border: none;
+  transition: transform .2s;
+}
+
+
+#productImageLink:hover #productImage { transform: none; }
+
+/* HISTORY PANEL */
+.history-panel {
+  grid-column: 1 / -1;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 175px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.history-list::-webkit-scrollbar { width: 3px; }
+.history-list::-webkit-scrollbar-thumb {
+  background: rgba(0,212,255,.3);
+  border-radius: 2px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  background: rgba(0,8,25,.6);
+  border: 1px solid rgba(0,212,255,.1);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all .18s;
+  font-family: var(--f-mono);
+  font-size: 11px;
+}
+.history-item:hover {
+  border-color: rgba(0,212,255,.4);
+  background: rgba(0,212,255,.07);
+}
+.h-serial { color: var(--cyan); font-weight: 700; min-width: 110px; }
+.h-sku    { color: var(--muted); flex: 1; }
+.h-time   { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.history-empty {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  padding: 18px;
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+============================================= */
+#toastContainer {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 7px;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(5,8,28,.96);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(0,212,255,.3);
+  border-radius: 9px;
+  padding: 9px 18px;
+  color: var(--text);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-shadow: 0 0 18px rgba(0,212,255,.12);
+  animation: toastIn .28s cubic-bezier(.175,.885,.32,1.275) forwards;
+}
+.toast.success { border-color: rgba(0,255,136,.45); }
+.toast.error   { border-color: rgba(255,0,128,.45); }
+.toast.out     { animation: toastOut .25s ease forwards; }
+
+@keyframes toastIn  { from { opacity:0; transform:translateY(16px) scale(.9); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes toastOut { from { opacity:1; transform:translateY(0) scale(1); } to { opacity:0; transform:translateY(-8px) scale(.9); } }
+
+/* =============================================
+   FLOATING GRAVITY PANEL
+============================================= */
+.gravity-float {
+  position: fixed;
+  bottom: 88px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: rgba(0,12,32,.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,212,255,.22);
+  border-radius: 8px;
+  z-index: 500;
+  transition: left .3s;
+}
+.gravity-float.hidden { left: -220px; }
+
+.g-hide-btn {
+  background: transparent;
+  border: 1px solid rgba(0,255,136,.35);
+  color: var(--green);
+  width: 20px; height: 20px;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 9px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.g-hide-btn:hover { background: rgba(0,255,136,.14); }
+
+.g-show-btn {
+  position: fixed;
+  bottom: 88px; left: 6px;
+  width: 34px; height: 34px;
+  background: rgba(0,12,32,.9);
+  border: 1px solid rgba(0,212,255,.28);
+  border-radius: 8px;
+  color: var(--cyan);
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 499;
+  display: none; align-items: center; justify-content: center;
+  transition: all .3s;
+}
+.g-show-btn:hover { background: rgba(0,212,255,.14); }
+.g-show-btn.visible { display: flex; }
+
+.g-label {
+  font-size: 10px;
+  font-family: var(--f-mono);
+  color: var(--green);
+  white-space: nowrap;
+}
+
+/* =============================================
+   KEYBOARD SHORTCUT FEEDBACK
+============================================= */
+.kbfeedback {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(.85);
+  background: linear-gradient(135deg,rgba(10,15,50,.97),rgba(20,0,45,.97));
+  border: 1px solid rgba(0,212,255,.4);
+  border-radius: 13px;
+  padding: 20px 38px;
+  font-family: var(--f-mono);
+  font-size: 15px;
+  color: var(--text);
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 0 40px rgba(0,212,255,.2);
+  opacity: 0;
+  transition: all .28s cubic-bezier(.175,.885,.32,1.275);
+  pointer-events: none;
+  z-index: 12000;
+}
+.kbfeedback.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+.kbfeedback-icon { font-size: 28px; animation: bounce .5s ease; }
+@keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+
+/* =============================================
+   COPYRIGHT & HELP
+============================================= */
+#copyright {
+  position: fixed;
+  bottom: 14px; right: 14px;
+  font-size: 10px;
+  color: var(--green);
+  padding: 6px 12px;
+  background: rgba(0,10,25,.92);
+  border: 1px solid rgba(0,212,255,.22);
+  border-radius: 6px;
+  z-index: 1000;
+  cursor: help;
+  transition: all .3s;
+  font-family: var(--f-mono);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+#copyright:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 18px rgba(0,212,255,.28);
+}
+
+.help-tip {
+  position: absolute;
+  bottom: 38px; right: 0;
+  width: 360px;
+  background: rgba(3,6,24,.98);
+  border: 1px solid rgba(0,212,255,.38);
+  border-radius: 11px;
+  padding: 16px;
+  font-size: 11.5px;
+  line-height: 1.75;
+  opacity: 0; visibility: hidden;
+  transition: all .3s;
+  pointer-events: none;
+  z-index: 1001;
+}
+#copyright:hover .help-tip { opacity: 1; visibility: visible; }
+.help-tip h4 {
+  font-family: var(--f-display);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+.help-tip p { color: #aab0cc; margin: 4px 0; }
+.help-tip strong { color: var(--cyan); }
+
+/* =============================================
+   UTILITIES
+============================================= */
+.hidden      { display: none !important; }
+.hidden-label{ display: none; }
+.semi-dim    { opacity: .35; pointer-events: none; }
+
+/* Typewriter cursor */
+.typing-cursor {
+  display: inline-block;
+  width: 2px; height: 1em;
+  background: var(--cyan);
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* hex binary display */
+.hex-result { word-break: break-all; }
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 1080px) {
+  body {
+    grid-template-areas:"header""mode""form""main";
+    grid-template-columns: 1fr;
+  }
+  #FormContainer { position: static; }
+  #blackHoleButton { left: 50%; transform: translateX(-50%); }
+}
+
+@media (max-width: 680px) {
+  #mainContainer { grid-template-columns: 1fr; }
+  #productImageSection,.history-panel { grid-column: 1; }
+}
 </style>
-
 </head>
 <body>
-	<!-- Black Hole Button -->
-	<button id="blackHoleButton" onclick="generateCodeEnhanced()" title="Generate Code">
-		<span id="blackHoleText">Enter</span>
-	</button>
-	<!-- 3D Canvas for rotating galaxies -->
-	<canvas id="canvas3d"></canvas>
-	
-	<!-- Particle container for cosmic particles around black hole -->
-	<div id="particleContainer"></div>
-	
 
-	<!-- Gravity Toggle - Outside main frame with hide/show button -->
-	<div class="gravity-switcher-floating" id="gravityPanel">
-		<button class="gravity-hide-btn" id="gravityHideBtn" title="Hide gravity toggle">◀</button>
-		<div class="toggle-container">
-			<input type="checkbox" id="gravityToggle" class="toggle-checkbox">
-			<label for="gravityToggle" class="toggle-label">
-				<span class="toggle-slider">
-					<span class="toggle-icon toggle-icon-left">🌌</span>
-					<span class="toggle-icon toggle-icon-right">🕳️</span>
-				</span>
-			</label>
-		</div>
-		<span id="gravityLabel" class="gravity-text">Gravity</span>
-	</div>
+<!-- BG layers -->
+<canvas id="canvas3d"></canvas>
+<div id="particleContainer"></div>
 
-	<!-- Show Gravity Button (hidden by default) -->
-	<button class="gravity-show-btn" id="gravityShowBtn" title="Show gravity toggle">🕳️</button>
+<!-- Black Hole (draggable generate trigger) -->
+<button id="blackHoleButton" onclick="generateCodeEnhanced()" title="Generate ↵">
+  <span id="blackHoleText">GEN</span>
+</button>
 
-	
-	<div class="generate-section">
-		<div class="mode-switcher">
-			<div class="toggle-container">
-				<input type="checkbox" id="modeToggle" class="toggle-checkbox">
-				<label for="modeToggle" class="toggle-label">
-					<span class="toggle-slider">
-						<span class="toggle-icon toggle-icon-left">✨</span>
-						<span class="toggle-icon toggle-icon-right">🔭</span>
-					</span>
-				</label>
-			</div>
-			<div class="mode-info">
-				<span id="modeLabel" class="mode-text">Input Mode: Product Data → Codes</span>
-				<span class="mode-shortcut-hint">Press <kbd>F3</kbd> to toggle</span>
-			</div>
-		</div>
-		</div>
+<!-- Gravity Float Panel -->
+<div class="gravity-float" id="gravityPanel">
+  <button class="g-hide-btn" id="gravityHideBtn" title="Hide">◀</button>
+  <div class="g-toggle">
+    <input type="checkbox" id="gravityToggle" class="toggle-checkbox">
+    <label for="gravityToggle" class="toggle-label">
+      <span class="toggle-slider">
+        <span class="toggle-icon toggle-icon-left">🌌</span>
+        <span class="toggle-icon toggle-icon-right">🕳️</span>
+      </span>
+    </label>
+  </div>
+  <span id="gravityLabel" class="g-label">Gravity OFF</span>
+</div>
+<button class="g-show-btn" id="gravityShowBtn" title="Show gravity toggle">🕳️</button>
 
-		<div id="FormContainer">
-        <div class="serial-container">
-            <div class="input-group">
-                <label for="serial" class="hidden-label">Serial (13-14 chars):</label>
-                <input type="text" id="serial" name="serial" maxlength="14">
-                <button type="button" class="utility-button" onclick="focusSerial()" data-shortcut="F2">
-				Edit Serial <span class="shortcut-badge">F2</span>
-				</button>
+<!-- HEADER -->
+<header class="header-section panel panel-cyan">
+  <div>
+    <div class="header-title">Digital Codes Generator</div>
+    <div class="header-sub">Warehouse IT · Space Edition v2.0</div>
+  </div>
+  <div class="header-right">
+    <div class="badge">
+      <span style="opacity:.7">Session</span>
+      <span class="badge-count" id="sessionCounter">0</span>
+    </div>
+    <button class="btn btn-ghost" onclick="copyAllCodes()" title="Copy all 4 codes as text">⊞ Copy All</button>
+  </div>
+</header>
 
-            </div>
-        </div>
-         <div class="utility-buttons">
-            <button class="utility-button" onclick="resetToDefaults()">Reset to Default Values</button>
-            <button class="utility-button" onclick="clearAllFields()">Clear All Fields</button>
-        </div>
+<!-- MODE SWITCHER -->
+<div class="mode-section panel panel-purple">
+  <div class="mode-left">
+    <div>
+      <input type="checkbox" id="modeToggle" class="toggle-checkbox">
+      <label for="modeToggle" class="toggle-label">
+        <span class="toggle-slider">
+          <span class="toggle-icon toggle-icon-left">✨</span>
+          <span class="toggle-icon toggle-icon-right">🔭</span>
+        </span>
+      </label>
+    </div>
+    <div class="mode-info">
+      <span id="modeLabel" class="mode-text">Generate · Product Data → Codes</span>
+      <span class="mode-hint">
+        <kbd>F3</kbd> toggle mode &nbsp;·&nbsp; <kbd>F2</kbd> serial field &nbsp;·&nbsp; <kbd>Enter</kbd> generate
+      </span>
+    </div>
+  </div>
+  <div class="mode-actions">
+    <button class="btn btn-outline" onclick="resetToDefaults()">↺ Reset</button>
+    <button class="btn btn-outline" onclick="clearAllFields()">✕ Clear</button>
+    <button class="btn btn-ghost" onclick="focusSerial()">🖊 Serial <span class="kbd">F2</span></button>
+  </div>
+</div>
 
-        <div class="input-group">
-            <label for="shortSku">ShortSKU (6 chars):</label>
-            <input type="text" id="shortSku" name="shortSku" maxlength="6">
-        </div>
-        
-        <div class="input-group">
-            <label for="quantity">Quantity (4 digits):</label>
-            <input type="number" id="quantity" name="quantity" min="0" max="9999">
-        </div>
-        
-        <div class="input-group">
-            <label for="madeIn">Made IN (2 chars):</label>
-            <input type="text" id="madeIn" name="madeIn" maxlength="2">
-        </div>
-        
-        <div class="input-group">
-            <label for="supplierId">Supplier ID (30 chars):</label>
-            <input type="text" id="supplierId" name="supplierId" maxlength="30">
-        </div>
-        
-        <div class="input-group">
-            <label for="batch">Batch (3-17 chars):</label>
-            <input type="text" id="batch" name="batch" minlength="3" maxlength="17">
-        </div>
-        
-        <div class="input-group">
-            <label for="originPref">Origin Pref (3-17 chars):</label>
-            <input type="text" id="originPref" name="originPref" minlength="3" maxlength="17">
-        </div>
-		
-			<div id="codeInputSection" class="hidden">
-		<h3>Code Input Mode</h3>
-		
-		<div class="input-group">
-			<label for="rfidCodeInput">RFID Code:</label>
-			<input type="text" id="rfidCodeInput" name="rfidCodeInput">
-		</div>
-		
-		<div class="input-group">
-			<label for="oneDCodeInput">1D Code:</label>
-			<input type="text" id="oneDCodeInput" name="oneDCodeInput">
-		</div>
-		
-		<div class="input-group">
-			<label for="fullBoxCodeInput">Full Box Code (GS1):</label>
-			<input type="text" id="fullBoxCodeInput" name="fullBoxCodeInput">
-		</div>
-		
-		<div class="input-group">
-			<label for="matrixCodeInput">2D Matrix Code:</label>
-			<input type="text" id="matrixCodeInput" name="matrixCodeInput">
-		</div>
-	</div>
+<!-- FORM -->
+<div id="FormContainer" class="panel panel-cyan">
+  <div class="form-heading">Product Data</div>
 
-        
- </div>
-		
-    
-			 <div id=mainContainer>
-			<!-- Black Hole Center Button -->
-			
-		<!-- 2D Matrix Code (top-left) -->
-		<div id=generatedCode>
-			<h3>2D Data Matrix code PCE</h3>
-			<div class=code-result-container>
-				<div id=codeResult></div>
-				<button id="copyButton" class="utility-button" data-shortcut="Alt+Shift+C">
-				Copy <span class="shortcut-badge">Alt+Shift+C</span>
-			</div>
-			<div id=barcodeImage></div>
-		</div>
+  <div class="input-group">
+    <label for="serial" class="hidden-label">Serial (13–14)</label>
+    <input type="text" id="serial" maxlength="14" placeholder="Serial number…">
+    <span class="field-hint" id="serialHint">&nbsp;</span>
+  </div>
 
-		
-		<!-- 1D Code (top-right) -->
-		<div id=oneDCodeSection>
-			<h3>1D Code</h3>
-			<div class=code-result-container>
-				<div id=oneDResult></div>
-				<button id="copyOneDButton" class="utility-button" data-shortcut="Alt+Shift+1">
-				Copy <span class="shortcut-badge">Alt+Shift+1</span>
-			</div>
-			<div id=oneDBarcode></div>
-		</div>
-		
-		<!-- RFID Code (middle-left) -->
-		<div id=binaryCodeSection>
-			<h3>RFID code</h3>
-			<div class=code-result-container>
-				<div id=binaryResult></div>
-				<button id="copyBinaryButton" class="utility-button" data-shortcut="Alt+Shift+R">
-				Copy <span class="shortcut-badge">Alt+Shift+R</span>
-			</div>
-		</div>
+  <div class="input-group">
+    <label for="shortSku">Short SKU <span style="opacity:.5">(6)</span></label>
+    <input type="text" id="shortSku" maxlength="6" placeholder="M41414">
+    <span class="field-hint" id="skuHint">&nbsp;</span>
+  </div>
 
-		<!-- Full Box Code (middle-right) -->
-		<div id=fullBoxCodeSection>
-			<h3>Full Box Code (GS1)</h3>
-			<div class=code-result-container>
-				<div id=fullBoxResult></div>
-				<button id="copyFullBoxButton" class="utility-button" data-shortcut="Alt+Shift+F">
-				Copy <span class="shortcut-badge">Alt+Shift+F</span>
-			</div>
-			<div id=fullBoxBarcode></div>
-		</div>
+  <div class="input-group">
+    <label for="quantity">Quantity <span style="opacity:.5">(4 digits)</span></label>
+    <input type="number" id="quantity" min="0" max="9999" placeholder="0010">
+  </div>
 
-		<!-- Product Image (bottom, spans both columns) -->
-		<div id=productImageSection>
-			<h3>Product Image</h3>
-			<a id=productImageLink href=# target=_blank>
-				<img id=productImage src= alt=Product Image>
-			</a>
-		</div>
-	</div>
-	
-	  	
-	<div id="copyright">
-		© Nikita Astafiev V.1.5
-		<div class="help-tooltip-copyright">
-			<div class="help-title-copyright">🌌 Digital Codes Generator - Space Edition</div>
-			<div class="help-content-copyright">
-				<p><strong>Code Generation:</strong> Input serial, SKU, quantity, and origin to generate 2D matrix, 1D linear, and RFID codes.</p>
-				<p><strong>🌌/🔭 Mode Toggle:</strong> Switch between Generate (Product Data → Codes) and Parse (Scan Codes) modes. Press F3 or click the toggle.</p>
-				<p><strong>🌌/🕳️ Gravity Toggle:</strong> Enable/disable black hole gravity effect on background galaxies.</p>
-				<p><strong>🕳️ Cosmic Black Hole:</strong> Drag the "Enter" button to move the black hole. When gravity is ON, stars accelerate toward it using realistic inverse-square-law physics. Stars vanish when they cross the event horizon. At 80% consumption, new galaxies respawn.</p>
-				<p><strong>📋 Copy Buttons:</strong> Alt+Shift+C (2D), Alt+Shift+1 (1D), Alt+Shift+R (RFID), Alt+Shift+F (Full Box). Or click the "Copy" button next to each code.</p>
-				<p><strong>F2:</strong> Focus Serial field. <strong>F3:</strong> Toggle mode.</p>
-			</div>
-		</div>
-	</div>
+  <div class="input-group">
+    <label for="madeIn">Made In <span style="opacity:.5">(2)</span></label>
+    <input type="text" id="madeIn" maxlength="2" placeholder="FR">
+  </div>
 
+  <div class="input-group">
+    <label for="supplierId">Supplier ID <span style="opacity:.5">(max 30)</span></label>
+    <input type="text" id="supplierId" maxlength="30" placeholder="130">
+  </div>
 
+  <div class="input-group">
+    <label for="batch">Batch <span style="opacity:.5">(3–17)</span></label>
+    <input type="text" id="batch" minlength="3" maxlength="17" placeholder="FR">
+  </div>
 
-</body>
+  <div class="input-group">
+    <label for="originPref">Origin Pref <span style="opacity:.5">(3–17)</span></label>
+    <input type="text" id="originPref" minlength="3" maxlength="17" placeholder="UE">
+  </div>
 
+  <!-- PARSE MODE extra inputs -->
+  <div id="codeInputSection" class="hidden">
+    <div class="form-heading" style="margin-top:8px;color:var(--pink)">Paste Codes to Parse</div>
+    <div class="input-group">
+      <label for="rfidCodeInput">RFID Code</label>
+      <input type="text" id="rfidCodeInput" placeholder="Paste RFID hex…">
+    </div>
+    <div class="input-group">
+      <label for="oneDCodeInput">1D Code</label>
+      <input type="text" id="oneDCodeInput" placeholder="Paste 1D barcode…">
+    </div>
+    <div class="input-group">
+      <label for="fullBoxCodeInput">Full Box GS1</label>
+      <input type="text" id="fullBoxCodeInput" placeholder="Paste GS1 code…">
+    </div>
+    <div class="input-group">
+      <label for="matrixCodeInput">2D Matrix Code</label>
+      <input type="text" id="matrixCodeInput" placeholder="Paste 2D matrix…">
+    </div>
+  </div>
 
+  <button class="btn btn-primary btn-generate" id="generateBtn" onclick="generateCodeEnhanced()">
+    Generate Code <span class="kbd">↵</span>
+  </button>
+</div>
 
+<!-- MAIN OUTPUT -->
+<div id="mainContainer">
+
+  <!-- 2D Matrix -->
+  <div id="generatedCode" class="code-section panel panel-cyan section-cyan hidden">
+    <div class="section-header">
+      <span class="section-title">2D Data Matrix · PCE</span>
+      <button class="btn-copy" data-target="codeResult">Copy <span class="kbd">A+S+C</span></button>
+    </div>
+    <div class="code-value" id="codeResult"></div>
+    <div class="barcode-wrap" id="barcodeImage"></div>
+  </div>
+
+  <!-- 1D Code -->
+  <div id="oneDCodeSection" class="code-section panel panel-green section-green hidden">
+    <div class="section-header">
+      <span class="section-title">1D Linear Code</span>
+      <button class="btn-copy" data-target="oneDResult">Copy <span class="kbd">A+S+1</span></button>
+    </div>
+    <div class="code-value" id="oneDResult"></div>
+    <div class="barcode-wrap" id="oneDBarcode"></div>
+  </div>
+
+  <!-- RFID -->
+  <div id="binaryCodeSection" class="code-section panel panel-orange section-orange hidden">
+    <div class="section-header">
+      <span class="section-title">RFID Code</span>
+      <button class="btn-copy" data-target="binaryResult">Copy <span class="kbd">A+S+R</span></button>
+    </div>
+    <div class="code-value" id="binaryResult"><div class="hex-result"></div></div>
+  </div>
+
+  <!-- Full Box GS1 -->
+  <div id="fullBoxCodeSection" class="code-section panel panel-purple section-purple hidden">
+    <div class="section-header">
+      <span class="section-title">Full Box · GS1</span>
+      <button class="btn-copy" data-target="fullBoxResult">Copy <span class="kbd">A+S+F</span></button>
+    </div>
+    <div class="code-value" id="fullBoxResult"></div>
+    <div class="barcode-wrap" id="fullBoxBarcode"></div>
+  </div>
+
+  <!-- Product Image -->
+  <div id="productImageSection" class="code-section panel panel-gold section-gold hidden">
+    <div class="section-header">
+      <span class="section-title">Product Image</span>
+    </div>
+    <a id="productImageLink" href="#" target="_blank">
+      <img id="productImage" src="" alt="Product">
+    </a>
+  </div>
+
+  <!-- History -->
+  <div id="historyPanel" class="code-section panel panel-slate history-panel hidden">
+    <div class="section-header">
+      <span class="section-title" style="color:#9b8fcc">Session History</span>
+      <button class="btn btn-ghost" onclick="clearHistory()" style="padding:4px 10px;font-size:9px">Clear</button>
+    </div>
+    <div class="history-list" id="historyList">
+      <div class="history-empty">No codes generated yet this session.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div id="toastContainer"></div>
+
+<!-- Copyright -->
+<div id="copyright">
+  © Nikita Astafiev v2.0
+  <div class="help-tip">
+    <h4>🌌 Digital Codes Generator — Space Edition</h4>
+    <p><strong>Generate Mode:</strong> Fill product data → Generate → copy codes.</p>
+    <p><strong>Parse Mode (F3):</strong> Paste any code in sidebar → Parse → fields auto-fill.</p>
+    <p><strong>Black Hole:</strong> Drag it anywhere. Toggle gravity in the floating panel.</p>
+    <p><strong>Copy All:</strong> Header "⊞ Copy All" copies all 4 codes as text.</p>
+    <p><strong>History:</strong> Last 10 codes — click any row to restore.</p>
+    <p><strong>Shortcuts:</strong> <strong>Enter</strong> generate · <strong>F2</strong> serial · <strong>F3</strong> mode</p>
+    <p><strong>Alt+Shift:</strong> C (2D) · 1 (1D) · R (RFID) · F (GS1)</p>
+  </div>
+</div>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
 <script>
+'use strict';
 
-let currentShortSku = '';
+/* ── STATE ──────────────────────────────────── */
+let counter = 0;
+let serialOverride = false;
+let sessionHistory = [];
+let isReverseMode = false;
+let gravityEnabled = false;
 
-function updateProductImage() {
-    const shortSkuValue = document.getElementById('shortSku').value;
-    const imageSection = document.getElementById('productImageSection');
-    
-	   // Show the regular Louis Vuitton product image
-        const imageUrl = `https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--${shortSkuValue}_PM2_Front%20view.jpg?wid=400&amp;hei=400`;
-        
-        // Update the image and link
-        document.getElementById('productImage').src = imageUrl;
-        document.getElementById('productImageLink').href = imageUrl;
-        
-        // Position the image section under the generated code
-        imageSection.style.top = '270px';
-        
-        // Show the image section
-        imageSection.style.display = 'block';
-        
-        // Update the current SKU
-        currentShortSku = shortSkuValue;
-        currentShortSku = '';
-    //}
+const countryMap = {FR:'FR', IT:'IT', ES:'ES'};
+
+/* ── HELPERS ──────────────────────────────── */
+
+function showToast(msg, type='info', ms=2400) {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  const icon = type==='success'?'✓' : type==='error'?'✕' : 'ℹ';
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('out');
+    setTimeout(() => t.remove(), 260);
+  }, ms);
 }
 
-
-
-
-    let counter = 0; // Initialize counter
-    let serialOverride = false;
-    let counterIncrementedThisCall = false;
-
-    // Country codes for random selection
-    const countryCodes = ['FR', 'IT', 'ES'];
-    const countryMap = {
-        'FR': 'FR',
-        'IT': 'IT',
-        'ES': 'ES'
-    };
-
-    function getRandomCountryCode() {
-        return countryCodes[Math.floor(Math.random() * countryCodes.length)];
-    }
-
-    function resetToDefaults() {
-        document.getElementById('shortSku').value = 'M41414';
-        document.getElementById('quantity').value = '0010';
-        const randomCountry = getRandomCountryCode();
-        document.getElementById('batch').value = randomCountry;
-        document.getElementById('madeIn').value = countryMap[randomCountry];
-        document.getElementById('supplierId').value = '130';
-        document.getElementById('originPref').value = 'UE';
-        serialOverride = false; // Allow auto-generation of serial again
-        generateCode();
-    }
-    
-    function clearAllFields() {
-        document.getElementById('serial').value = '';
-        document.getElementById('shortSku').value = '';
-        document.getElementById('quantity').value = '';
-        document.getElementById('madeIn').value = '';
-        document.getElementById('supplierId').value = '';
-        document.getElementById('batch').value = '';
-        document.getElementById('originPref').value = '';
-        serialOverride = false; // Prevent auto-generation of serial
-        generateCode();
-    }
-	
-	function focusSerial() {
-    const serialInput = document.getElementById('serial');
-    serialInput.focus();
-    
-    // Optional: select all text in the field to make it easy to replace
-    serialInput.select();
-	}
-
-// Binary converter functions from version01.html
-function convertCharWithTable(char, table) {
-    var decimal = table[char] || 63;
-    var bin6 = decimal.toString(2).padStart(6, '0');
-    var binaryValue = parseInt(bin6, 2);
-    var adjusted = binaryValue - 1;
-    var finalBinary = adjusted.toString(2).padStart(6, '0');
-    return {
-        decimal: decimal,
-        binaryFirst: bin6,
-        adjusted: adjusted,
-        binary: finalBinary
-    };
-}
-
-function generateBinaryCode() {
-    // Get values from the existing form fields
-    var param1 = document.getElementById('serial').value.toUpperCase(); // Serial
-    var param2 = document.getElementById('shortSku').value.toUpperCase(); // ShortSKU
-    var param3 = document.getElementById('quantity').value.trim(); // Quantity
-    var param4 = document.getElementById('madeIn').value.toUpperCase(); // Made IN
-    
-    // Character table from version01.html
-    var table = {
-        '0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8, '8': 9, '9': 10,
-        'A': 18, 'B': 19, 'C': 20, 'D': 21, 'E': 22, 'F': 23, 'G': 24, 'H': 25, 'I': 26,
-        'J': 34, 'K': 35, 'L': 36, 'M': 37, 'N': 38, 'O': 39, 'P': 40, 'Q': 41, 'R': 42,
-        'S': 51, 'T': 52, 'U': 53, 'V': 54, 'W': 55, 'X': 56, 'Y': 57, 'Z': 58, '[': 11,
-        '#': 12, '@': 13, ':': 14, '>': 15, '?': 16, ' ': 17, '.': 28, ']': 29, '(': 30,
-        '<': 31, '^': 33, '-': 43, '$': 44, '*': 45, ')': 46, ';': 47, '/': 50, ',': 60, 
-        '%': 61, '=': 62, '': 63, '!': 64 
-    };
-
-    // Start with 0000
-    var binary = '0000';
-    var details = '<h4>Conversion Process:</h4>';
-    details += 'Step 1: Fixed prefix = <span class=binary-group>0000</span><br><br>';
-
-    // Process Parameter 1 (Serial)
-    if (param1) {
-        // Process first 2 characters with table (decimal-1 rule)
-        for (var i = 0; i < 2 && i < param1.length; i++) {
-            var char = param1[i];
-            var result = convertCharWithTable(char, table);
-            binary += result.binary;
-        }
-
-
-         // Process remaining characters as digits (direct 4-bit conversion)
-        for (var i = 2; i < param1.length; i++) {
-            var digit = param1[i];
-            if (digit >= '0' && digit <= '9') {
-                var bin4 = parseInt(digit).toString(2).padStart(4, '0');
-                binary += bin4;
-            }
-        }
-    }
-
-
-    // Process Parameter 2 (ShortSKU)
-    if (param2) {
-        for (var i = 0; i < param2.length && i < 6; i++) {
-            var char = param2[i];
-            var result = convertCharWithTable(char, table);
-            binary += result.binary;
-        }
-    }
-
-
-    // Process Parameter 3 (Quantity)
-    if (param3) {
-        var number = parseInt(param3);
-        if (!isNaN(number)) {
-            var numberBinary = number.toString(2);
-            var paddedBinary = numberBinary.padStart(12, '0');
-            binary += paddedBinary;
-        }
-    }
-
-    // Process Parameter 4 (Made IN)
-    if (param4) {
-        for (var i = 0; i < param4.length && i < 2; i++) {
-            var char = param4[i];
-            var result = convertCharWithTable(char, table);
-            binary += result.binary;
-        }
-    }
-
-
-    // Add final 0000
-    binary += '0000';
-
-    // Convert to hexadecimal
-    var hexResult = '';
-    var hexDetails = '<strong>Hexadecimal Conversion:</strong><br>';
-    
-    for (var i = 0; i < binary.length; i += 4) {
-        var fourBits = binary.substr(i, 4);
-        var hexDigit = parseInt(fourBits, 2).toString(16).toUpperCase();
-        hexResult += hexDigit;
-    }
-
-    
-    // Add final dash
-    var finalResult = hexResult + '-';
-
-    // Format binary output in groups of 4
-    var formatted = '';
-    for (var i = 0; i < binary.length; i += 4) {
-        formatted += '<span class=binary-group>' + binary.substr(i, 4) + '</span> ';
-    }
-
-    // Display results in the binary section
-    // Create the div first
-	const binaryResultDiv = document.getElementById('binaryResult');
-	binaryResultDiv.innerHTML = '<div class="hex-result"></div>';
-
-	// Then apply typewriter effect to it
-	const hexResultDiv = binaryResultDiv.querySelector('.hex-result');
-	typewriterEffect(hexResultDiv, finalResult, 5);
-
-
-    // Show the binary code section
-    document.getElementById('binaryCodeSection').style.display = 'block';
-     
-}
-
-	// Generate 1D Code (updated barcode section)
-function generateOneDCode() {
-    const quantityValue = document.getElementById('quantity').value;
-    const shortSkuValue = document.getElementById('shortSku').value;
-    
-    if (quantityValue && shortSkuValue) {
-        // Divide quantity by 10 and pad to 4 digits
-        const quantityNum = parseInt(quantityValue) || 0;
-        const dividedQuantity = Math.floor(quantityNum / 10);
-        const paddedQuantity = dividedQuantity.toString().padStart(4, '0');
-        
-        const oneDCode = paddedQuantity + shortSkuValue;
-        
-        typewriterEffect(document.getElementById('oneDResult'), oneDCode, 5);
-
-        
-        // Generate 1D barcode (Code 128) with consistent styling
-        const oneDBarcodeDiv = document.getElementById('oneDBarcode');
-        oneDBarcodeDiv.innerHTML = '';
-        
-        const canvas = document.createElement('canvas');
-        oneDBarcodeDiv.appendChild(canvas);
-        
-        try {
-            bwipjs.toCanvas(canvas, {
-                bcid: 'code128',
-                text: oneDCode,
-                scale: 1.5,        // Same scale as 2D code
-                height: 15,
-                includetext: false, // Same as 2D code
-                textxalign: 'center'
-            });
-        } catch (e) {
-            oneDBarcodeDiv.innerHTML = 'Error generating 1D barcode: ' + e;
-        }
+async function copyToClipboard(elementId, btnEl) {
+  const el = document.getElementById(elementId);
+  const text = (el?.innerText || '').trim();
+  if (!text) { showToast('Nothing to copy', 'error'); return; }
+  try {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
     } else {
-        document.getElementById('oneDResult').innerText = '';
-        document.getElementById('oneDBarcode').innerHTML = '';
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.cssText='position:fixed;opacity:0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
     }
+    if (btnEl) {
+      const orig = btnEl.innerHTML;
+      btnEl.textContent = 'Copied ✓'; btnEl.classList.add('copied');
+      setTimeout(() => { btnEl.innerHTML = orig; btnEl.classList.remove('copied'); }, 1500);
+    }
+    showToast('Copied to clipboard', 'success', 1600);
+  } catch(e) { showToast('Copy failed', 'error'); }
 }
 
-// Generate Full Box Code (updated barcode section)
-function generateFullBoxCode() {
-    const serialValue = document.getElementById('serial').value;
-    const quantityValue = document.getElementById('quantity').value;
-    const shortSkuValue = document.getElementById('shortSku').value;
-    const batchValue = document.getElementById('batch').value;
-    const originPrefValue = document.getElementById('originPref').value;
-    const madeInValue = document.getElementById('madeIn').value;
-    
-    if (serialValue && quantityValue && shortSkuValue && batchValue && originPrefValue && madeInValue) {
-        const quantityNum = parseInt(quantityValue) || 0;
-        const dividedQuantity = Math.floor(quantityNum / 10);
-        const paddedQuantity = dividedQuantity.toString().padStart(4, '0');
-        
-        const fullBoxCode = `91${serialValue}_37${paddedQuantity}_241${shortSkuValue}_10${batchValue}_94${originPrefValue}_93${madeInValue}`;
-        
-        typewriterEffect(document.getElementById('fullBoxResult'), fullBoxCode, 5);
-
-        
-        // Generate Code 128 barcode with consistent styling
-        const fullBoxBarcodeDiv = document.getElementById('fullBoxBarcode');
-        fullBoxBarcodeDiv.innerHTML = '';
-        
-        const canvas = document.createElement('canvas');
-        fullBoxBarcodeDiv.appendChild(canvas);
-        
-        try {
-            bwipjs.toCanvas(canvas, {
-                bcid: 'code128',
-                text: fullBoxCode,
-                scale: 1.2,        // Slightly smaller than others due to longer text
-                height: 15,
-                includetext: false, // Same as 2D code
-                textxalign: 'center'
-            });
-        } catch (e) {
-            fullBoxBarcodeDiv.innerHTML = 'Error generating Full Box barcode: ' + e;
-        }
-    } else {
-        document.getElementById('fullBoxResult').innerText = '';
-        document.getElementById('fullBoxBarcode').innerHTML = '';
-    }
+function copyAllCodes() {
+  const pairs = [['2D Matrix','codeResult'],['1D Code','oneDResult'],['RFID','binaryResult'],['Full Box GS1','fullBoxResult']];
+  const lines = pairs.map(([l,id]) => {
+    const v = document.getElementById(id)?.innerText?.trim();
+    return v ? `${l}: ${v}` : null;
+  }).filter(Boolean);
+  if (!lines.length) { showToast('No codes to copy', 'error'); return; }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(lines.join('\n'))
+      .then(() => showToast('All codes copied!', 'success'));
+  }
 }
 
+function showKbFeedback(msg, icon='✓') {
+  let fb = document.querySelector('.kbfeedback');
+  if (!fb) {
+    fb = document.createElement('div');
+    fb.className = 'kbfeedback';
+    document.body.appendChild(fb);
+  }
+  fb.innerHTML = `<span class="kbfeedback-icon">${icon}</span><span>${msg}</span>`;
+  fb.classList.add('show');
+  clearTimeout(fb._t);
+  fb._t = setTimeout(() => {
+    fb.classList.remove('show');
+    setTimeout(() => fb.remove(), 300);
+  }, 1400);
+}
 
-
-    function generateCode() {
-        const serialInput = document.getElementById('serial');
-        const shortSkuInput = document.getElementById('shortSku');
-        const quantityInput = document.getElementById('quantity');
-        const madeInInput = document.getElementById('madeIn');
-        const supplierIdInput = document.getElementById('supplierId');
-        const batchInput = document.getElementById('batch');
-        const originPrefInput = document.getElementById('originPref');
-
-		// Force currentShortSKU to reset so we recalculate completely
-		currentShortSku = '';
-
-		// Reset counter increment flag at start of function
-		counterIncrementedThisCall = false;
-
-		// Update the product image based on ShortSKU
-		updateProductImage();
-			
-		// Serial generation logic - only increment once per call
-		if (!serialOverride && !counterIncrementedThisCall) {
-			counter++;
-			counterIncrementedThisCall = true;
-			const today = new Date();
-			const year = today.getFullYear();
-			const month = String(today.getMonth() + 1).padStart(2, '0');
-			const day = String(today.getDate()).padStart(2, '0');
-			const formattedDate = `${year}${month}${day}`;
-			const formattedCounter = String(counter).padStart(4, '0');
-			const randomCountry = getRandomCountryCode();
-			// Save and restore serialOverride to prevent input event from triggering it
-			const wasOverride = serialOverride;
-			serialInput.value = `${randomCountry}${formattedDate}${formattedCounter}`;
-			serialOverride = wasOverride;
-			// Auto-update Made IN field when serial is generated
-			document.getElementById('madeIn').value = countryMap[randomCountry];
-		}
-
-
-
-			// Show Labels by removing the class
-			const labels = document.querySelectorAll('label');
-			labels.forEach(label => {
-				if (label.htmlFor !== 'serial') {
-					label.classList.remove('hidden-label');
-				}
-			});
-
-			//Show Generated code results by removing the class
-			const generatedCodeDiv = document.getElementById('generatedCode');
-			generatedCodeDiv.classList.remove('hidden');
-				
-			const quantityValue = quantityInput.value;
-			const shortSkuValue = shortSkuInput.value;
-			const supplierIdValue = supplierIdInput.value;
-			const madeInValue = madeInInput.value;
-			const originPrefValue = originPrefInput.value;
-			const batchValue = batchInput.value;
-
-			const code = `0_${serialInput.value}_${quantityValue}_${shortSkuValue}__${supplierIdValue}_${madeInValue}_${originPrefValue}_${batchValue}`;
-
-			// Use typewriter effect for the main code
-			typewriterEffect(document.getElementById('codeResult'), code, 5);
-			
-			// Clear previous barcode
-			const barcodeDiv = document.getElementById('barcodeImage');
-			barcodeDiv.innerHTML = '';
-
-			// Create canvas for the barcode
-			const canvas = document.createElement('canvas');
-			barcodeDiv.appendChild(canvas);
-
-			// Generate Data Matrix barcode
-			try {
-				bwipjs.toCanvas(canvas, {
-					bcid: 'datamatrix',
-					text: code,
-					scale: 1.5,
-					height: 25,
-					includetext: false,
-					textxalign: 'center'
-				});
-			} catch (e) {
-				barcodeDiv.innerHTML = 'Error generating barcode: ' + e;
-			}
-		
-
-			// Generate binary code too
-			generateBinaryCode();
-			// Generate 1D code
-			generateOneDCode();
-
-			// Generate Full Box code
-			generateFullBoxCode();
-	}
-
-    window.onload = function () {
-
-        const serialInput = document.getElementById('serial');
-        const shortSkuInput = document.getElementById('shortSku');
-        const quantityInput = document.getElementById('quantity');
-        const madeInInput = document.getElementById('madeIn');
-        const supplierIdInput = document.getElementById('supplierId');
-        const batchInput = document.getElementById('batch');
-        const originPrefInput = document.getElementById('originPref');
-		
-	// Track manual serial edits
-			serialInput.addEventListener('input', () => {
-		if (serialInput.value !== '') {
-			serialOverride = true;
-			// Auto-update Made IN based on first 2 characters of Serial
-			const countryCode = serialInput.value.substring(0, 2).toUpperCase();
-			if (countryMap[countryCode]) {
-				document.getElementById('madeIn').value = countryMap[countryCode];
-			}
-		}
-	});
-
-		
-		
-		 // Set up the initial product image if ShortSKU has a value
-    updateProductImage();
-    
-    // Optional: Add event listener to automatically update when ShortSKU changes
-    document.getElementById('shortSku').addEventListener('change', function() {
-        // Only update if we're not in the middle of generating a code
-        if (!document.activeElement || document.activeElement.id !== 'shortSku') {
-            updateProductImage();
-        }
+/* ── FIELD HINTS ──────────────────────────── */
+function setupFieldHints() {
+  const rules = [
+    { id:'serial', hint:'serialHint', max:14, min:13 },
+    { id:'shortSku', hint:'skuHint', max:6, min:6 },
+  ];
+  rules.forEach(({id, hint, max, min}) => {
+    document.getElementById(id).addEventListener('input', () => {
+      const len = document.getElementById(id).value.length;
+      const el = document.getElementById(hint);
+      if (el) {
+        el.textContent = `${len} / ${max}`;
+        el.className = 'field-hint ' + (len >= min ? 'ok' : len > 0 ? 'warn' : '');
+      }
     });
+  });
+}
 
+/* ── HISTORY ──────────────────────────────── */
+function addToHistory(serial, sku, qty) {
+  sessionHistory.unshift({ serial, sku, qty, time: new Date().toLocaleTimeString() });
+  if (sessionHistory.length > 10) sessionHistory.pop();
+  renderHistory();
+  document.getElementById('historyPanel').classList.remove('hidden');
+}
 
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (!sessionHistory.length) {
+    list.innerHTML = '<div class="history-empty">No codes generated yet this session.</div>';
+    return;
+  }
+  list.innerHTML = sessionHistory.map((h,i) => `
+    <div class="history-item" onclick="restoreHistory(${i})" title="Restore">
+      <span class="h-serial">${h.serial}</span>
+      <span class="h-sku">${h.sku} · qty ${h.qty}</span>
+      <span class="h-time">${h.time}</span>
+    </div>`).join('');
+}
 
-        // Set initial default values directly
-        shortSkuInput.value = 'M41414';
-        quantityInput.value = '0010';
-        const initialCountry = getRandomCountryCode();
-        batchInput.value = initialCountry;
-        madeInInput.value = countryMap[initialCountry];
-        supplierIdInput.value = '130';
-        originPrefInput.value = 'UE';
+function restoreHistory(i) {
+  const h = sessionHistory[i]; if (!h) return;
+  document.getElementById('serial').value = h.serial;
+  document.getElementById('shortSku').value = h.sku;
+  document.getElementById('quantity').value = h.qty;
+  serialOverride = true;
+  generateCode();
+  showToast('Restored from history', 'info');
+}
 
-        generateCode(); // Generate initial code with default values
-    };
-	
+function clearHistory() {
+  sessionHistory = [];
+  renderHistory();
+  document.getElementById('historyPanel').classList.add('hidden');
+}
 
-// Copy button for 2D Matrix code (UPDATED)
-document.getElementById('copyButton').addEventListener('click', function() {
-    const codeText = document.getElementById('codeResult').innerText;
-    
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(codeText).then(() => {
-            // Store original HTML instead of just text
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML; // Restore full HTML including badge
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        }).catch(err => {
-            console.error('Copy failed:', err);
-            alert('Copy failed. ' + err);
-        });
+/* ── PRODUCT IMAGE ────────────────────────── */
+function updateProductImage() {
+  const sku = document.getElementById('shortSku').value.trim();
+  const sec = document.getElementById('productImageSection');
+  if (!sku) { sec.classList.add('hidden'); return; }
+  const url = `https://fr.louisvuitton.com/images/is/image/lv/1/PP_VP_AS/louis-vuitton--${sku}_PM2_Front%20view.jpg?wid=400&hei=400`;
+  document.getElementById('productImage').src = url;
+  document.getElementById('productImageLink').href = url;
+  sec.classList.remove('hidden');
+}
+
+/* ── TYPEWRITER ──────────────────────────── */
+function typewriterEffect(element, text, speed=30, cb) {
+  if (!element) return;
+  element.innerHTML = '';
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  element.appendChild(cursor);
+  const iv = setInterval(() => {
+    if (i < text.length) {
+      element.insertBefore(document.createTextNode(text[i++]), cursor);
     } else {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = codeText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            document.execCommand('copy');
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        } catch (err) {
-            console.error('Copy failed:', err);
-            alert('Copy failed');
-        }
-        
-        document.body.removeChild(textarea);
+      clearInterval(iv);
+      cursor.remove();
+      if (cb) cb();
     }
-});
+  }, speed);
+}
 
-// Copy button for binary/RFID code (UPDATED)
-document.getElementById('copyBinaryButton').addEventListener('click', function() {
-    const binaryText = document.getElementById('binaryResult').innerText;
-    
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(binaryText).then(() => {
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        }).catch(err => {
-            console.error('Copy failed:', err);
-            alert('Copy failed. ' + err);
-        });
-    } else {
-        const textarea = document.createElement('textarea');
-        textarea.value = binaryText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            document.execCommand('copy');
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        } catch (err) {
-            console.error('Copy failed:', err);
-            alert('Copy failed');
-        }
-        
-        document.body.removeChild(textarea);
+/* ── RFID / BINARY GENERATION ────────────── */
+function convertCharWithTable(char, table) {
+  const decimal = table[char] || 63;
+  const bin6 = decimal.toString(2).padStart(6,'0');
+  const adjusted = parseInt(bin6,2) - 1;
+  return { decimal, binary: adjusted.toString(2).padStart(6,'0') };
+}
+
+function generateBinaryCodeFull() {
+  const param1 = document.getElementById('serial').value.toUpperCase();
+  const param2 = document.getElementById('shortSku').value.toUpperCase();
+  const param3 = document.getElementById('quantity').value.trim();
+  const param4 = document.getElementById('madeIn').value.toUpperCase();
+
+  const table = {
+    '0':1,'1':2,'2':3,'3':4,'4':5,'5':6,'6':7,'7':8,'8':9,'9':10,
+    'A':18,'B':19,'C':20,'D':21,'E':22,'F':23,'G':24,'H':25,'I':26,
+    'J':34,'K':35,'L':36,'M':37,'N':38,'O':39,'P':40,'Q':41,'R':42,
+    'S':51,'T':52,'U':53,'V':54,'W':55,'X':56,'Y':57,'Z':58,'[':11,
+    '#':12,'@':13,':':14,'>':15,'?':16,' ':17,'.':28,']':29,'(':30,
+    '<':31,'^':33,'-':43,'$':44,'*':45,')':46,';':47,'/':50,',':60,
+    '%':61,'=':62,'':63,'!':64
+  };
+
+  let binary = '0000';
+
+  if (param1) {
+    for (let i=0; i<2 && i<param1.length; i++) {
+      binary += convertCharWithTable(param1[i], table).binary;
     }
-});
-
-// Copy button for 1D code (UPDATED)
-document.getElementById('copyOneDButton').addEventListener('click', function() {
-    const oneDText = document.getElementById('oneDResult').innerText;
-    
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(oneDText).then(() => {
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        }).catch(err => {
-            console.error('Copy failed:', err);
-            alert('Copy failed. ' + err);
-        });
-    } else {
-        const textarea = document.createElement('textarea');
-        textarea.value = oneDText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            document.execCommand('copy');
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        } catch (err) {
-            console.error('Copy failed:', err);
-            alert('Copy failed');
-        }
-        
-        document.body.removeChild(textarea);
+    for (let i=2; i<param1.length; i++) {
+      const d = param1[i];
+      if (d>='0'&&d<='9') binary += parseInt(d).toString(2).padStart(4,'0');
     }
-});
+  }
 
-// Copy button for Full Box code (UPDATED)
-document.getElementById('copyFullBoxButton').addEventListener('click', function() {
-    const fullBoxText = document.getElementById('fullBoxResult').innerText;
-    
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(fullBoxText).then(() => {
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        }).catch(err => {
-            console.error('Copy failed:', err);
-            alert('Copy failed. ' + err);
-        });
-    } else {
-        const textarea = document.createElement('textarea');
-        textarea.value = fullBoxText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            document.execCommand('copy');
-            const originalHTML = this.innerHTML;
-            this.innerHTML = 'Copied! ✓';
-            this.style.backgroundColor = '#00ff88';
-            
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '#007bff';
-            }, 1500);
-        } catch (err) {
-            console.error('Copy failed:', err);
-            alert('Copy failed');
-        }
-        
-        document.body.removeChild(textarea);
+  if (param2) {
+    for (let i=0; i<param2.length&&i<6; i++) {
+      binary += convertCharWithTable(param2[i], table).binary;
     }
-});
+  }
 
+  if (param3) {
+    const n = parseInt(param3);
+    if (!isNaN(n)) binary += n.toString(2).padStart(12,'0');
+  }
 
-	let isReverseMode = false;
+  if (param4) {
+    for (let i=0; i<param4.length&&i<2; i++) {
+      binary += convertCharWithTable(param4[i], table).binary;
+    }
+  }
 
-// Mode switcher functionality
+  binary += '0000';
+
+  let hex = '';
+  for (let i=0; i<binary.length; i+=4) {
+    hex += parseInt(binary.substr(i,4),2).toString(16).toUpperCase();
+  }
+  const result = hex + '-';
+
+  const binarySection = document.getElementById('binaryCodeSection');
+  const binaryResultDiv = document.getElementById('binaryResult');
+  binaryResultDiv.innerHTML = '<div class="hex-result"></div>';
+  typewriterEffect(binaryResultDiv.querySelector('.hex-result'), result, 5);
+  binarySection.classList.remove('hidden');
+}
+
+/* ── 1D CODE ─────────────────────────────── */
+function generateOneDCode() {
+  const qty = document.getElementById('quantity').value;
+  const sku = document.getElementById('shortSku').value;
+  if (!qty || !sku) {
+    document.getElementById('oneDResult').innerText = '';
+    document.getElementById('oneDBarcode').innerHTML = '';
+    return;
+  }
+  const code = String(Math.floor(parseInt(qty)/10)).padStart(4,'0') + sku;
+  typewriterEffect(document.getElementById('oneDResult'), code, 5);
+  const div = document.getElementById('oneDBarcode');
+  div.innerHTML = '';
+  const cv = document.createElement('canvas');
+  div.appendChild(cv);
+  try {
+    bwipjs.toCanvas(cv, { bcid:'code128', text:code, scale:1.5, height:15, includetext:false });
+  } catch(e) {
+    div.innerHTML = `<span style="color:var(--pink);font-size:11px">Barcode error</span>`;
+  }
+  document.getElementById('oneDCodeSection').classList.remove('hidden');
+}
+
+/* ── FULL BOX CODE ───────────────────────── */
+function generateFullBoxCode() {
+  const serial = document.getElementById('serial').value;
+  const qty    = document.getElementById('quantity').value;
+  const sku    = document.getElementById('shortSku').value;
+  const batch  = document.getElementById('batch').value;
+  const origin = document.getElementById('originPref').value;
+  const madeIn = document.getElementById('madeIn').value;
+
+  if (serial && qty && sku && batch && origin && madeIn) {
+    const pQty = String(Math.floor(parseInt(qty)/10)).padStart(4,'0');
+    const code = `91${serial}_37${pQty}_241${sku}_10${batch}_94${origin}_93${madeIn}`;
+    typewriterEffect(document.getElementById('fullBoxResult'), code, 5);
+    const div = document.getElementById('fullBoxBarcode');
+    div.innerHTML = '';
+    const cv = document.createElement('canvas');
+    div.appendChild(cv);
+    try {
+      bwipjs.toCanvas(cv, { bcid:'code128', text:code, scale:1.2, height:15, includetext:false });
+    } catch(e) {
+      div.innerHTML = `<span style="color:var(--pink);font-size:11px">Barcode error</span>`;
+    }
+    document.getElementById('fullBoxCodeSection').classList.remove('hidden');
+  } else {
+    document.getElementById('fullBoxResult').innerText = '';
+    document.getElementById('fullBoxBarcode').innerHTML = '';
+  }
+}
+
+/* ── GENERATE MAIN ───────────────────────── */
+function generateCode() {
+  // Batch validation for L-prefix SKUs (perfume/beauty)
+  const sku = document.getElementById('shortSku').value.toUpperCase();
+  const batchVal = document.getElementById('batch').value;
+  if (sku.startsWith('L') && batchVal.length < 4) {
+    document.getElementById('batch').classList.add('field-error');
+    setTimeout(() => document.getElementById('batch').classList.remove('field-error'), 800);
+    showToast('Perfume/Beauty · Batch must be ≥ 4 chars (XXXX format)', 'error', 3500);
+    return;
+  }
+
+  // Auto-generate serial
+  if (!serialOverride) {
+    counter++;
+    const d = new Date();
+    const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+    const country = 'FR';
+    const was = serialOverride;
+    document.getElementById('serial').value = `${country}${ymd}${String(counter).padStart(4,'0')}`;
+    serialOverride = was;
+    document.getElementById('madeIn').value = countryMap[country];
+  }
+
+  // Reveal all labels
+  document.querySelectorAll('label').forEach(l => {
+    if (l.htmlFor !== 'serial') l.classList.remove('hidden-label');
+  });
+
+  // Build 2D code
+  const s   = document.getElementById('serial').value;
+  const qty = document.getElementById('quantity').value;
+  const sk  = document.getElementById('shortSku').value;
+  const sup = document.getElementById('supplierId').value;
+  const mi  = document.getElementById('madeIn').value;
+  const op  = document.getElementById('originPref').value;
+  const bt  = document.getElementById('batch').value;
+  const code = `0_${s}_${qty}_${sk}__${sup}_${mi}_${op}_${bt}`;
+
+  document.getElementById('generatedCode').classList.remove('hidden');
+  typewriterEffect(document.getElementById('codeResult'), code, 5);
+
+  const bDiv = document.getElementById('barcodeImage');
+  bDiv.innerHTML = '';
+  const cv = document.createElement('canvas');
+  bDiv.appendChild(cv);
+  try {
+    bwipjs.toCanvas(cv, { bcid:'datamatrix', text:code, scale:1.5, height:25, includetext:false });
+  } catch(e) {
+    bDiv.innerHTML = `<span style="color:var(--pink);font-size:11px">Error: ${e}</span>`;
+  }
+
+  generateBinaryCodeFull();
+  generateOneDCode();
+  generateFullBoxCode();
+  updateProductImage();
+
+  // Stats
+  document.getElementById('sessionCounter').textContent = counter;
+  if (typeof window.maybeShowDonation === 'function') setTimeout(() => window.maybeShowDonation(counter), 900);
+  addToHistory(s, sk, qty);
+
+  showToast('Code generated ✓', 'success', 1500);
+}
+
+function generateCodeEnhanced() {
+  if (isReverseMode) parseCodes();
+  else generateCode();
+}
+
+/* ── FIELD UTILS ─────────────────────────── */
+function resetToDefaults() {
+  document.getElementById('shortSku').value   = 'M41414';
+  document.getElementById('quantity').value   = '0010';
+  document.getElementById('supplierId').value = '130';
+  document.getElementById('originPref').value = 'UE';
+  const c = 'FR';
+  document.getElementById('batch').value  = c;
+  document.getElementById('madeIn').value = countryMap[c];
+  serialOverride = false;
+  generateCode();
+}
+
+function clearAllFields() {
+  ['serial','shortSku','quantity','madeIn','supplierId','batch','originPref'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  serialOverride = false;
+  generateCode();
+}
+
+function focusSerial() {
+  const s = document.getElementById('serial'); s.focus(); s.select();
+}
+
+/* ── MODE TOGGLE ─────────────────────────── */
 document.getElementById('modeToggle').addEventListener('change', function() {
-    isReverseMode = this.checked;
-    toggleMode();
+  isReverseMode = this.checked;
+  toggleMode();
 });
 
 function toggleMode() {
-    const productInputSection = document.getElementById('FormContainer');
-    const modeLabel = document.getElementById('modeLabel');
-    const mainContainer = document.getElementById('mainContainer');
-    const generateButtons = document.querySelectorAll('button');
-    
-    if (isReverseMode) {
-        // Switch to reverse mode - convert result divs to input fields
-        productInputSection.style.opacity = '0.5';  /* CHANGE from classList.add */
-        productInputSection.style.pointerEvents = 'none';  /* ADD THIS */
-        mainContainer.classList.add('reverse-mode');
-        modeLabel.textContent = 'Input Mode: Codes → Product Data';
-        
-        // Change button text - UPDATED to preserve shortcut badge
-        generateButtons.forEach(button => {
-            if (button.textContent.includes('Generate code') || button.textContent.includes('Generate Code')) {
-                button.innerHTML = 'Parse Codes <span class="shortcut-badge">Enter ↵</span>';
-            }
-        });
-        
-        // Convert result divs to input fields by replacing their content
-        replaceWithInput('codeResult', 'Paste 2D Matrix code here...');
-        replaceWithInput('oneDResult', 'Paste 1D code here...');
-        replaceWithInput('binaryResult', 'Paste RFID code here...');
-        replaceWithInput('fullBoxResult', 'Paste Full Box code here...');
-        
-        // Hide barcodes
-        hideElement('barcodeImage');
-        hideElement('oneDBarcode');
-        hideElement('fullBoxBarcode');
-        
-        // Make product data fields visually disabled but still allow programmatic updates
-        makeFieldsVisuallyDisabled();
-        
-    } else {
-        // Switch to normal mode - restore original divs
-        productInputSection.style.opacity = '1';  /* CHANGE from classList.remove */
-        productInputSection.style.pointerEvents = 'auto';  /* ADD THIS */
-        mainContainer.classList.remove('reverse-mode');
-        modeLabel.textContent = 'Input Mode: Product Data → Codes';
-        
-         // Change button text back - UPDATED to preserve shortcut badge
-        generateButtons.forEach(button => {
-            if (button.textContent.includes('Parse Codes')) {
-                button.innerHTML = 'Generate Code <span class="shortcut-badge">Enter ↵</span>';
-            }
-        });
-        
-        // Restore original result divs
-        restoreOriginalDiv('codeResult');
-        restoreOriginalDiv('oneDResult');
-        restoreOriginalDiv('binaryResult');
-        restoreOriginalDiv('fullBoxResult');
-        
-        // Show barcodes
-        showElement('barcodeImage');
-        showElement('oneDBarcode');
-        showElement('fullBoxBarcode');
-        
-        // Restore product data fields
-        restoreFieldsNormal();
-        
-        // Regenerate codes with current data
-        generateCode();
-    }
+  const label = document.getElementById('modeLabel');
+  const genBtn = document.getElementById('generateBtn');
+  const codeIn = document.getElementById('codeInputSection');
+
+  if (isReverseMode) {
+    codeIn.classList.remove('hidden');
+    label.textContent = 'Parse · Codes → Product Data';
+    genBtn.innerHTML = 'Parse Codes <span class="kbd">↵</span>';
+  } else {
+    codeIn.classList.add('hidden');
+    label.textContent = 'Generate · Product Data → Codes';
+    genBtn.innerHTML = 'Generate Code <span class="kbd">↵</span>';
+  }
 }
 
+/* ── PARSE CODES ─────────────────────────── */
+function parseCodes() {
+  clearProductData();
+  let any = false;
+  const matrix  = document.getElementById('matrixCodeInput')?.value?.trim();
+  const fullbox = document.getElementById('fullBoxCodeInput')?.value?.trim();
+  const oneD    = document.getElementById('oneDCodeInput')?.value?.trim();
+  const rfid    = document.getElementById('rfidCodeInput')?.value?.trim();
 
-function makeFieldsVisuallyDisabled() {
-    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
-    
-    fields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.style.backgroundColor = '#f5f5f5';
-            field.style.color = '#666';
-            field.style.border = '1px solid #ddd';
-            field.setAttribute('readonly', true);
-        }
-    });
-}
+  if (matrix  && parseMatrixCode(matrix))   any = true;
+  if (fullbox && parseFullBoxCode(fullbox)) any = true;
+  if (oneD    && parseOneDCode(oneD))       any = true;
+  if (rfid    && parseRFIDCode(rfid))       any = true;
 
-function restoreFieldsNormal() {
-    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
-    
-    fields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.style.backgroundColor = '';
-            field.style.color = '';
-            field.style.border = '';
-            field.removeAttribute('readonly');
-        }
-    });
-}
-
-function replaceWithInput(elementId, placeholder) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        // Store original content and structure
-        element.setAttribute('data-original-content', element.innerHTML);
-        element.setAttribute('data-original-class', element.className);
-        
-        // Clear and replace with input
-        element.innerHTML = '';
-        element.className = element.className + ' code-input-container';
-        element.style.padding = '8px';
-        element.style.border = '2px solid #2196F3';
-        element.style.borderRadius = '4px';
-        element.style.backgroundColor = '#f0f8ff';
-        element.style.minHeight = '60px';
-        element.style.display = 'flex';
-        element.style.alignItems = 'center';
-        
-        // Create input element
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'code-input';
-        input.placeholder = placeholder;
-        input.style.width = '100%';
-        input.style.border = 'none';
-        input.style.outline = 'none';
-        input.style.backgroundColor = 'transparent';
-        input.style.fontFamily = 'monospace';
-        input.style.fontSize = '14px';
-        input.style.minHeight = '40px';
-        
-        // ADD ENTER KEY LISTENER HERE
-        input.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter' || event.keyCode === 13) {
-                event.preventDefault();
-                
-                // Visual feedback
-                const originalBorder = element.style.border;
-                element.style.border = '3px solid #00ff88';
-                
-                setTimeout(() => {
-                    element.style.border = originalBorder;
-                }, 200);
-                
-                // Trigger parse codes
-                console.log('Enter pressed in code input - Parsing codes...');
-                parseCodestoProductData();
-            }
-        });
-        
-        element.appendChild(input);
-    }
-}
-
-
-function restoreOriginalDiv(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        // Get the input value if it exists
-        const input = element.querySelector('input');
-        const inputValue = input ? input.value : '';
-        
-        // Restore original content and styling
-        const originalContent = element.getAttribute('data-original-content') || '';
-        const originalClass = element.getAttribute('data-original-class') || '';
-        
-        element.innerHTML = inputValue || originalContent;
-        element.className = originalClass;
-        
-        // Reset inline styles
-        element.style.padding = '';
-        element.style.border = '';
-        element.style.borderRadius = '';
-        element.style.backgroundColor = '';
-        
-        // Remove data attributes
-        element.removeAttribute('data-original-content');
-        element.removeAttribute('data-original-class');
-    }
-}
-
-function hideElement(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.style.visibility = 'hidden';  /* CHANGE from display to visibility */
-        element.style.height = '150px';  /* MAINTAIN height */
-    }
-}
-
-function showElement(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.style.visibility = 'visible';  /* CHANGE from display to visibility */
-        element.style.height = '';  /* RESET height */
-    }
-}
-
-
-// Enhanced generateCode function to handle both modes
-function generateCodeEnhanced() {
-    if (isReverseMode) {
-        parseCodestoProductData();
-    } else {
-        generateCode(); // Your existing function
-    }
-}
-
-// Get input value from converted div
-function getInputValue(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        const input = element.querySelector('input');
-        return input ? input.value.trim() : '';
-    }
-    return '';
-}
-
-// New function to parse codes back to product data
-function parseCodestoProductData() {
-    const matrixCode = getInputValue('codeResult');
-    const oneDCode = getInputValue('oneDResult');
-    const rfidCode = getInputValue('binaryResult');
-    const fullBoxCode = getInputValue('fullBoxResult');
-    
-    console.log('Parsing codes:');
-    console.log('Matrix:', matrixCode);
-    console.log('1D:', oneDCode);
-    console.log('RFID:', rfidCode);
-    console.log('FullBox:', fullBoxCode);
-    
-    // Clear existing product data first
-    clearProductData();
-    
-    let parsedAny = false;
-    
-    // Parse Matrix Code first (most complete data)
-    if (matrixCode) {
-        console.log('Attempting to parse Matrix code...');
-        const success = parseMatrixCode(matrixCode);
-        if (success) parsedAny = true;
-    }
-    
-    // Parse Full Box Code (GS1 format) - only fill empty fields
-    if (fullBoxCode) {
-        console.log('Attempting to parse Full Box code...');
-        const success = parseFullBoxCode(fullBoxCode);
-        if (success) parsedAny = true;
-    }
-    
-    // Parse 1D code (format: paddedQuantity + shortSku) - only fill empty fields
-    if (oneDCode && oneDCode.length >= 4) {
-        console.log('Attempting to parse 1D code...');
-        const success = parseOneDCode(oneDCode);
-        if (success) parsedAny = true;
-    }
-    
-    // Parse RFID code (hex format ending with -)
-    if (rfidCode) {
-        console.log('Attempting to parse RFID code...');
-        const success = parseRFIDCode(rfidCode);
-        if (success) parsedAny = true;
-    }
-    
-    if (parsedAny) {
-        // Force update the product image after parsing
-        setTimeout(() => {
-            updateProductImage();
-        }, 100);
-        
-        // Show success message
-        alert('Codes parsed successfully! Product data has been populated in the form fields.');
-        
-        // Highlight the parsed fields briefly
-        highlightParsedFields();
-        
-        // Log final values for debugging
-        logCurrentValues();
-    } else {
-        alert('No valid codes found to parse. Please check your input codes.');
-    }
+  if (any) {
+    setTimeout(updateProductImage, 100);
+    showToast('Codes parsed — product data populated!', 'success', 3000);
+  } else {
+    showToast('No valid codes found to parse', 'error', 3000);
+  }
 }
 
 function clearProductData() {
-    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
-    
-    fields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.value = '';
-        }
+  ['serial','shortSku','quantity','madeIn','supplierId','batch','originPref'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+}
+
+function parseMatrixCode(code) {
+  try {
+    const p = code.split('_');
+    if (p.length >= 8 && p[0]==='0') {
+      if (p[1]) document.getElementById('serial').value = p[1];
+      if (p[2]) document.getElementById('quantity').value = p[2];
+      if (p[3]) document.getElementById('shortSku').value = p[3];
+      if (p[5]) document.getElementById('supplierId').value = p[5];
+      if (p[6]) document.getElementById('madeIn').value = p[6];
+      if (p[7]) document.getElementById('originPref').value = p[7];
+      if (p[8]) document.getElementById('batch').value = p[8];
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+function parseFullBoxCode(code) {
+  try {
+    let parsed = false;
+    code.split('_').forEach(part => {
+      if (part.startsWith('91') && !document.getElementById('serial').value) {
+        document.getElementById('serial').value = part.substring(2); parsed = true;
+      } else if (part.startsWith('37') && !document.getElementById('quantity').value) {
+        document.getElementById('quantity').value = (parseInt(part.substring(2))*10).toString().padStart(4,'0'); parsed = true;
+      } else if (part.startsWith('241') && !document.getElementById('shortSku').value) {
+        document.getElementById('shortSku').value = part.substring(3); parsed = true;
+      } else if (part.startsWith('10') && !document.getElementById('batch').value) {
+        document.getElementById('batch').value = part.substring(2); parsed = true;
+      } else if (part.startsWith('94') && !document.getElementById('originPref').value) {
+        document.getElementById('originPref').value = part.substring(2); parsed = true;
+      } else if (part.startsWith('93') && !document.getElementById('madeIn').value) {
+        document.getElementById('madeIn').value = part.substring(2); parsed = true;
+      }
     });
+    return parsed;
+  } catch(e) {}
+  return false;
 }
 
-function parseMatrixCode(matrixCode) {
-    try {
-        // Parse format: 0_{serial}_{quantity}_{shortSku}__{supplierId}_{madeIn}_{originPref}_{batch}
-        const parts = matrixCode.split('_');
-        console.log('Matrix parts:', parts);
-        
-        if (parts.length >= 8 && parts[0] === '0') {
-            if (parts[1]) {
-                document.getElementById('serial').value = parts[1];
-                console.log('Set serial:', parts[1]);
-            }
-            if (parts[2]) {
-                document.getElementById('quantity').value = parts[2];
-                console.log('Set quantity:', parts[2]);
-            }
-            if (parts[3]) {
-                document.getElementById('shortSku').value = parts[3];
-                console.log('Set shortSku:', parts[3]);
-            }
-            if (parts[5]) {
-                document.getElementById('supplierId').value = parts[5];
-                console.log('Set supplierId:', parts[5]);
-            }
-            if (parts[6]) {
-                document.getElementById('madeIn').value = parts[6];
-                console.log('Set madeIn:', parts[6]);
-            }
-            if (parts[7]) {
-                document.getElementById('originPref').value = parts[7];
-                console.log('Set originPref:', parts[7]);
-            }
-            if (parts[8]) {
-                document.getElementById('batch').value = parts[8];
-                console.log('Set batch:', parts[8]);
-            }
-            
-            console.log('Matrix code parsed successfully');
-            return true;
-        }
-    } catch (e) {
-        console.error('Error parsing Matrix code:', e);
+function parseOneDCode(code) {
+  try {
+    if (code.length >= 4) {
+      if (!document.getElementById('quantity').value)
+        document.getElementById('quantity').value = (parseInt(code.substring(0,4))*10).toString().padStart(4,'0');
+      const sku = code.substring(4);
+      if (sku && !document.getElementById('shortSku').value)
+        document.getElementById('shortSku').value = sku;
+      return true;
     }
-    return false;
-}
-
-function parseFullBoxCode(fullBoxCode) {
-    try {
-        // Parse GS1 format: 91{serial}_37{quantity}_241{shortSku}_10{batch}_94{originPref}_93{madeIn}
-        const parts = fullBoxCode.split('_');
-        console.log('FullBox parts:', parts);
-        let parsed = false;
-        
-        parts.forEach(part => {
-            if (part.startsWith('91') && !document.getElementById('serial').value) {
-                const value = part.substring(2);
-                document.getElementById('serial').value = value;
-                console.log('Set serial from FullBox:', value);
-                parsed = true;
-            } else if (part.startsWith('37') && !document.getElementById('quantity').value) {
-                const qty = parseInt(part.substring(2)) * 10;
-                const value = qty.toString().padStart(4, '0');
-                document.getElementById('quantity').value = value;
-                console.log('Set quantity from FullBox:', value);
-                parsed = true;
-            } else if (part.startsWith('241') && !document.getElementById('shortSku').value) {
-                const value = part.substring(3);
-                document.getElementById('shortSku').value = value;
-                console.log('Set shortSku from FullBox:', value);
-                parsed = true;
-            } else if (part.startsWith('10') && !document.getElementById('batch').value) {
-                const value = part.substring(2);
-                document.getElementById('batch').value = value;
-                console.log('Set batch from FullBox:', value);
-                parsed = true;
-            } else if (part.startsWith('94') && !document.getElementById('originPref').value) {
-                const value = part.substring(2);
-                document.getElementById('originPref').value = value;
-                console.log('Set originPref from FullBox:', value);
-                parsed = true;
-            } else if (part.startsWith('93') && !document.getElementById('madeIn').value) {
-                const value = part.substring(2);
-                document.getElementById('madeIn').value = value;
-                console.log('Set madeIn from FullBox:', value);
-                parsed = true;
-            }
-        });
-        
-        if (parsed) {
-            console.log('Full Box code parsed successfully');
-            return true;
-        }
-    } catch (e) {
-        console.error('Error parsing Full Box code:', e);
-    }
-    return false;
-}
-
-function parseOneDCode(oneDCode) {
-    try {
-        // Parse format: paddedQuantity (4 digits) + shortSku (remaining chars)
-        if (oneDCode.length >= 4) {
-            const quantityPart = oneDCode.substring(0, 4);
-            const shortSkuPart = oneDCode.substring(4);
-            
-            // Convert quantity (multiply by 10 since it was divided by 10)
-            const quantity = parseInt(quantityPart) * 10;
-            
-            if (!document.getElementById('quantity').value) {
-                const value = quantity.toString().padStart(4, '0');
-                document.getElementById('quantity').value = value;
-                console.log('Set quantity from 1D:', value);
-            }
-            if (!document.getElementById('shortSku').value && shortSkuPart) {
-                document.getElementById('shortSku').value = shortSkuPart;
-                console.log('Set shortSku from 1D:', shortSkuPart);
-            }
-            
-            console.log('1D code parsed successfully');
-            return true;
-        }
-    } catch (e) {
-        console.error('Error parsing 1D code:', e);
-    }
-    return false;
+  } catch(e) {}
+  return false;
 }
 
 function parseRFIDCode(rfidCode) {
-    try {
-        // Remove trailing dash if present
-        const cleanCode = rfidCode.replace(/-$/, '');
-        console.log('Parsing RFID cleanCode:', cleanCode);
-        
-        if (cleanCode.length === 0) {
-            return false;
-        }
-        
-        // Convert hex to binary
-        let binary = '';
-        for (let i = 0; i < cleanCode.length; i++) {
-            const hex = cleanCode[i];
-            const bin = parseInt(hex, 16).toString(2).padStart(4, '0');
-            binary += bin;
-        }
-        
-        console.log('RFID binary:', binary);
-        
-        // Character reverse lookup table
-        const reverseTable = {
-            1: '0', 2: '1', 3: '2', 4: '3', 5: '4', 6: '5', 7: '6', 8: '7', 9: '8', 10: '9',
-            18: 'A', 19: 'B', 20: 'C', 21: 'D', 22: 'E', 23: 'F', 24: 'G', 25: 'H', 26: 'I',
-            34: 'J', 35: 'K', 36: 'L', 37: 'M', 38: 'N', 39: 'O', 40: 'P', 41: 'Q', 42: 'R',
-            51: 'S', 52: 'T', 53: 'U', 54: 'V', 55: 'W', 56: 'X', 57: 'Y', 58: 'Z', 11: '[',
-            12: '#', 13: '@', 14: ':', 15: '>', 16: '?', 17: ' ', 28: '.', 29: ']', 30: '(',
-            31: '<', 33: '^', 43: '-', 44: '$', 45: '*', 46: ')', 47: ';', 50: '/', 60: ',', 
-            61: '%', 62: '=', 63: '', 64: '!'
-        };
-        
-        let pos = 0;
-        
-        // Skip initial 0000
-        pos += 4;
-        
-        // Parse Serial (first 2 chars with table lookup, then digits)
-        let serial = '';
-        
-        // First 2 characters with table lookup (6 bits each, adjusted +1)
-        for (let i = 0; i < 2 && pos + 6 <= binary.length; i++) {
-            const sixBits = binary.substr(pos, 6);
-            const decimal = parseInt(sixBits, 2) + 1; // Add 1 back (reverse of -1 in encoding)
-            const char = reverseTable[decimal] || '?';
-            serial += char;
-            pos += 6;
-            console.log(`Serial char ${i}: ${sixBits} -> ${decimal} -> ${char}`);
-        }
-        
-        // Remaining characters as digits (4 bits each)
-        while (pos + 4 <= binary.length && serial.length < 14) {
-            const fourBits = binary.substr(pos, 4);
-            const digit = parseInt(fourBits, 2);
-            if (digit >= 0 && digit <= 9) {
-                serial += digit.toString();
-                pos += 4;
-                console.log(`Serial digit: ${fourBits} -> ${digit}`);
-            } else {
-                break; // Stop if we encounter non-digit
-            }
-        }
-        
-        // Parse ShortSKU (6 characters with table lookup, 6 bits each)
-        let shortSku = '';
-        for (let i = 0; i < 6 && pos + 6 <= binary.length; i++) {
-            const sixBits = binary.substr(pos, 6);
-            const decimal = parseInt(sixBits, 2) + 1; // Add 1 back
-            const char = reverseTable[decimal] || '?';
-            shortSku += char;
-            pos += 6;
-            console.log(`ShortSKU char ${i}: ${sixBits} -> ${decimal} -> ${char}`);
-        }
-        
-        // Parse Quantity (12 bits)
-        let quantity = '';
-        if (pos + 12 <= binary.length) {
-            const twelveBits = binary.substr(pos, 12);
-            const number = parseInt(twelveBits, 2);
-            quantity = number.toString().padStart(4, '0');
-            pos += 12;
-            console.log(`Quantity: ${twelveBits} -> ${number} -> ${quantity}`);
-        }
-        
-        // Parse Made IN (2 characters with table lookup, 6 bits each)
-        let madeIn = '';
-        for (let i = 0; i < 2 && pos + 6 <= binary.length; i++) {
-            const sixBits = binary.substr(pos, 6);
-            const decimal = parseInt(sixBits, 2) + 1; // Add 1 back
-            const char = reverseTable[decimal] || '?';
-            madeIn += char;
-            pos += 6;
-            console.log(`MadeIn char ${i}: ${sixBits} -> ${decimal} -> ${char}`);
-        }
-        
-        // Set the parsed values if they are valid
-        let parsed = false;
-        
-        if (serial && serial.length >= 2 && !document.getElementById('serial').value) {
-            document.getElementById('serial').value = serial;
-            console.log('Set serial from RFID:', serial);
-            parsed = true;
-        }
-        
-        if (shortSku && shortSku.length === 6 && !document.getElementById('shortSku').value) {
-            document.getElementById('shortSku').value = shortSku;
-            console.log('Set shortSku from RFID:', shortSku);
-            parsed = true;
-        }
-        
-        if (quantity && !document.getElementById('quantity').value) {
-            document.getElementById('quantity').value = quantity;
-            console.log('Set quantity from RFID:', quantity);
-            parsed = true;
-        }
-        
-        if (madeIn && madeIn.length === 2 && !document.getElementById('madeIn').value) {
-            document.getElementById('madeIn').value = madeIn;
-            console.log('Set madeIn from RFID:', madeIn);
-            parsed = true;
-        }
-        
-        if (parsed) {
-            console.log('RFID code parsed successfully');
-            return true;
-        }
-        
-    } catch (e) {
-        console.error('Error parsing RFID code:', e);
+  try {
+    const cleanCode = rfidCode.replace(/-$/, '');
+    if (!cleanCode.length) return false;
+    let binary = '';
+    for (let i=0; i<cleanCode.length; i++) {
+      binary += parseInt(cleanCode[i], 16).toString(2).padStart(4,'0');
     }
-    return false;
-}
-
-function highlightParsedFields() {
-    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
-    
-    fields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field && field.value) {
-            const originalBorder = field.style.border;
-            const originalBackground = field.style.backgroundColor;
-            
-            field.style.border = '3px solid #00ff88';
-            field.style.backgroundColor = '#e8f5e8';
-            
-            setTimeout(() => {
-                field.style.border = originalBorder;
-                field.style.backgroundColor = originalBackground;
-            }, 3000);
-        }
-    });
-}
-
-function logCurrentValues() {
-    console.log('Current field values:');
-    const fields = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
-    
-    fields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            console.log(fieldId + ':', field.value);
-        }
-    });
-}
-
-
-
-// Override the existing generateCode function calls
-const originalGenerateCode = window.generateCode;
-window.generateCode = function() {
-    if (isReverseMode) {
-        parseCodestoProductData();
-    } else {
-        originalGenerateCode.apply(this, arguments);
+    const reverseTable = {
+      1:'0',2:'1',3:'2',4:'3',5:'4',6:'5',7:'6',8:'7',9:'8',10:'9',
+      18:'A',19:'B',20:'C',21:'D',22:'E',23:'F',24:'G',25:'H',26:'I',
+      34:'J',35:'K',36:'L',37:'M',38:'N',39:'O',40:'P',41:'Q',42:'R',
+      51:'S',52:'T',53:'U',54:'V',55:'W',56:'X',57:'Y',58:'Z',11:'[',
+      12:'#',13:'@',14:':',15:'>',16:'?',17:' ',28:'.',29:']',30:'(',
+      31:'<',33:'^',43:'-',44:'$',45:'*',46:')',47:';',50:'/',60:',',
+      61:'%',62:'=',63:'',64:'!'
+    };
+    let pos = 4; // skip initial 0000
+    let serial = '';
+    for (let i=0; i<2 && pos+6<=binary.length; i++) {
+      const d = parseInt(binary.substr(pos,6),2)+1;
+      serial += reverseTable[d]||'?';
+      pos += 6;
     }
-};
+    while (pos+4<=binary.length && serial.length<14) {
+      const digit = parseInt(binary.substr(pos,4),2);
+      if (digit>=0 && digit<=9) { serial += digit; pos += 4; }
+      else break;
+    }
+    let shortSku = '';
+    for (let i=0; i<6 && pos+6<=binary.length; i++) {
+      const d = parseInt(binary.substr(pos,6),2)+1;
+      shortSku += reverseTable[d]||'?';
+      pos += 6;
+    }
+    let quantity = '';
+    if (pos+12<=binary.length) {
+      quantity = parseInt(binary.substr(pos,12),2).toString().padStart(4,'0');
+      pos += 12;
+    }
+    let madeIn = '';
+    for (let i=0; i<2 && pos+6<=binary.length; i++) {
+      const d = parseInt(binary.substr(pos,6),2)+1;
+      madeIn += reverseTable[d]||'?';
+      pos += 6;
+    }
+    let parsed = false;
+    if (serial.length>=2 && !document.getElementById('serial').value) {
+      document.getElementById('serial').value = serial; parsed = true;
+    }
+    if (shortSku.length===6 && !document.getElementById('shortSku').value) {
+      document.getElementById('shortSku').value = shortSku; parsed = true;
+    }
+    if (quantity && !document.getElementById('quantity').value) {
+      document.getElementById('quantity').value = quantity; parsed = true;
+    }
+    if (madeIn.length===2 && !document.getElementById('madeIn').value) {
+      document.getElementById('madeIn').value = madeIn; parsed = true;
+    }
+    return parsed;
+  } catch(e) {}
+  return false;
+}
 
-// Enhanced Enter key functionality with visual feedback
-document.addEventListener('DOMContentLoaded', function() {
-    const inputFields = document.querySelectorAll('input[type="text"], input[type="number"]');
-    
-    inputFields.forEach(input => {
-        input.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter' || event.keyCode === 13) {
-                event.preventDefault();
-                
-                // Visual feedback - flash the input
-                const originalBorder = this.style.border;
-                this.style.border = '2px solid #00ff88';
-                
-                setTimeout(() => {
-                    this.style.border = originalBorder;
-                }, 200);
-
-                // Check if ShortSKU starts with 'L' and validate Batch field
-                const shortSkuValue = document.getElementById('shortSku').value.toUpperCase();
-                const batchInput = document.getElementById('batch');
-                const batchErrorMsg = document.getElementById('batchErrorMsg');
-                
-                if (shortSkuValue.startsWith('L')) {
-                    // Batch must be at least 4 characters for perfume/beauty products
-                    if (batchInput.value.length < 4) {
-                        // Highlight batch box in red
-                        batchInput.style.border = '2px solid red';
-                        batchInput.style.backgroundColor = '#ffe6e6';
-                        
-                        // Show error message
-                        if (!batchErrorMsg) {
-                            const errorDiv = document.createElement('div');
-                            errorDiv.id = 'batchErrorMsg';
-                            errorDiv.style.color = 'red';
-                            errorDiv.style.fontSize = '12px';
-                            errorDiv.style.marginTop = '5px';
-                            errorDiv.style.fontWeight = 'bold';
-                            errorDiv.textContent = 'Perfume/Beauty - incorrect batch format XXXX';
-                            batchInput.parentNode.insertBefore(errorDiv, batchInput.nextSibling);
-                        }
-                        return; // Don't generate code
-                    } else {
-                        // Reset batch styling if valid
-                        batchInput.style.border = '';
-                        batchInput.style.backgroundColor = '';
-                        if (batchErrorMsg) {
-                            batchErrorMsg.remove();
-                        }
-                    }
-                } else {
-                    // Reset batch styling if ShortSKU doesn't start with L
-                    batchInput.style.border = '';
-                    batchInput.style.backgroundColor = '';
-                    if (batchErrorMsg) {
-                        batchErrorMsg.remove();
-                    }
-                }
-                
-                // Execute appropriate function based on mode
-                if (isReverseMode) {
-                    console.log('Enter pressed - Parsing codes...');
-                    parseCodestoProductData();
-                } else {
-                    console.log('Enter pressed - Generating code...');
-                    generateCode();
-                }
-            }
-        });
-    });
+/* ── COPY BUTTONS (unified) ──────────────── */
+document.querySelectorAll('.btn-copy[data-target]').forEach(btn => {
+  btn.addEventListener('click', function() { copyToClipboard(this.dataset.target, this); });
 });
 
-// Typewriter effect function
-function typewriterEffect(element, text, speed = 30, callback) {
-    // Clear the element first
-    element.innerHTML = '';
-    
-    let index = 0;
-    
-    // Add cursor
-    const cursor = document.createElement('span');
-    cursor.className = 'typing-cursor';
-    element.appendChild(cursor);
-    
-    const typeInterval = setInterval(() => {
-        if (index < text.length) {
-            // Insert character before cursor
-            const textNode = document.createTextNode(text.charAt(index));
-            element.insertBefore(textNode, cursor);
-            index++;
-        } else {
-            // Finished typing - remove cursor
-            clearInterval(typeInterval);
-            cursor.remove();
-            
-            // Call callback if provided
-            if (callback) callback();
-        }
-    }, speed);
-}
+/* ── KEYBOARD SHORTCUTS (single handler) ─── */
+document.addEventListener('keydown', e => {
+  const inInput = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
 
-// Enhanced version with multiple elements typing in sequence
-function typewriterSequence(elements, speed = 90) {
-    let currentIndex = 0;
-    
-    function typeNext() {
-        if (currentIndex < elements.length) {
-            const { element, text } = elements[currentIndex];
-            typewriterEffect(element, text, speed, () => {
-                currentIndex++;
-                typeNext();
-            });
-        }
-    }
-    
-    typeNext();
-}
+  if (e.key==='Enter' && !inInput) {
+    e.preventDefault(); generateCodeEnhanced();
+  }
+  if (e.key==='F2') { e.preventDefault(); focusSerial(); showKbFeedback('Serial field focused','✏️'); }
+  if (e.key==='F3') {
+    e.preventDefault();
+    const t = document.getElementById('modeToggle');
+    t.checked = !t.checked; isReverseMode = t.checked; toggleMode();
+    showKbFeedback(isReverseMode ? 'Parse Mode' : 'Generate Mode', isReverseMode ? '🔭' : '✨');
+  }
 
-// Keyboard shortcuts for Copy buttons (Safest option - Alt+Shift combinations)
-document.addEventListener('keydown', function(event) {
-    // Check for Alt+Shift combinations
-    const isAlt = event.altKey;
-    const isShift = event.shiftKey;
-		
-  // F2 - Edit Serial (Focus on serial input)
-    if (event.key === 'F2') {
-        event.preventDefault();
-        focusSerial();
-        showShortcutFeedback('Serial field activated!', '✏️');
-    }
-    
-		// F3 - Toggle Mode (Generate/Parse)
-    if (event.key === 'F3') {
-        event.preventDefault();
-        const modeToggle = document.getElementById('modeToggle');
-        modeToggle.checked = !modeToggle.checked;
-        
-        // Trigger the change event to execute toggleMode()
-        modeToggle.dispatchEvent(new Event('change'));
-        
-        // Show feedback based on current mode
-        const modeName = modeToggle.checked ? 'Parse Codes Mode' : 'Generate Code Mode';
-        const modeIcon = modeToggle.checked ? '🔍' : '📊';
-        showShortcutFeedback(`Switched to ${modeName}`, modeIcon);
-    }
-
-		// Prevent default browser behavior for our custom shortcuts
-    if (isAlt && isShift) {
-        // Alt+Shift+C - Copy 2D Matrix Code
-        if (event.key === 'C' || event.key === 'c') {
-            event.preventDefault();
-            document.getElementById('copyButton').click();
-            showShortcutFeedback('2D Matrix Code copied!', '⬜');
-        }
-        
-        // Alt+Shift+1 - Copy 1D Code
-        if (event.key === '1' || event.key === '!') {
-            event.preventDefault();
-            document.getElementById('copyOneDButton').click();
-            showShortcutFeedback('1D Code copied!', '📊');
-        }
-        
-        // Alt+Shift+R - Copy RFID Code
-        if (event.key === 'R' || event.key === 'r') {
-            event.preventDefault();
-            document.getElementById('copyBinaryButton').click();
-            showShortcutFeedback('RFID Code copied!', '📡');
-        }
-        
-        // Alt+Shift+F - Copy Full Box Code
-        if (event.key === 'F' || event.key === 'f') {
-            event.preventDefault();
-            document.getElementById('copyFullBoxButton').click();
-            showShortcutFeedback('Full Box Code copied!', '📦');
-        }
-    }
+  if (e.altKey && e.shiftKey) {
+    if (e.key==='C'||e.key==='c') { e.preventDefault(); copyToClipboard('codeResult',   document.getElementById('copyButton'));        showKbFeedback('2D Code copied','⬜'); }
+    if (e.key==='1'||e.key==='!') { e.preventDefault(); copyToClipboard('oneDResult',   document.getElementById('copyOneDButton'));     showKbFeedback('1D Code copied','▬'); }
+    if (e.key==='R'||e.key==='r') { e.preventDefault(); copyToClipboard('binaryResult', document.getElementById('copyBinaryButton'));   showKbFeedback('RFID copied','📡'); }
+    if (e.key==='F'||e.key==='f') { e.preventDefault(); copyToClipboard('fullBoxResult',document.getElementById('copyFullBoxButton')); showKbFeedback('GS1 copied','📦'); }
+  }
 });
 
-// Visual feedback function for keyboard shortcuts
-function showShortcutFeedback(message, icon = '✓') {
-    // Remove any existing feedback
-    const existing = document.querySelector('.shortcut-feedback');
-    if (existing) {
-        existing.remove();
-    }
-    
-    // Create feedback element
-    const feedback = document.createElement('div');
-    feedback.className = 'shortcut-feedback';
-    feedback.innerHTML = `
-        <div class="feedback-icon">${icon}</div>
-        <div class="feedback-message">${message}</div>
-    `;
-    
-    document.body.appendChild(feedback);
-    
-    // Trigger animation
-    setTimeout(() => {
-        feedback.classList.add('show');
-    }, 10);
-    
-    // Remove after animation
-    setTimeout(() => {
-        feedback.classList.remove('show');
-        setTimeout(() => {
-            feedback.remove();
-        }, 300);
-    }, 1500);
+/* Also fire generate from Enter inside any input */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('keypress', e => {
+      if (e.key==='Enter') { e.preventDefault(); generateCodeEnhanced(); }
+    });
+  });
+});
+
+/* ── GRAVITY PANEL ───────────────────────── */
+let gravityAutoHide;
+
+document.getElementById('gravityHideBtn').addEventListener('click', () => {
+  document.getElementById('gravityPanel').classList.add('hidden');
+  document.getElementById('gravityShowBtn').classList.add('visible');
+});
+document.getElementById('gravityShowBtn').addEventListener('click', () => {
+  document.getElementById('gravityPanel').classList.remove('hidden');
+  document.getElementById('gravityShowBtn').classList.remove('visible');
+  resetGravityAutoHide();
+});
+document.getElementById('gravityToggle').addEventListener('change', function() {
+  gravityEnabled = this.checked;
+  document.getElementById('gravityLabel').textContent = gravityEnabled ? 'Gravity ON' : 'Gravity OFF';
+  document.body.classList.toggle('gravity-active', gravityEnabled);
+});
+document.getElementById('gravityPanel').addEventListener('mouseenter', () => clearTimeout(gravityAutoHide));
+document.getElementById('gravityPanel').addEventListener('mouseleave', resetGravityAutoHide);
+
+function resetGravityAutoHide() {
+  clearTimeout(gravityAutoHide);
+  gravityAutoHide = setTimeout(() => {
+    document.getElementById('gravityPanel').classList.add('hidden');
+    document.getElementById('gravityShowBtn').classList.add('visible');
+  }, 5000);
 }
 
-// Optional: Add keyboard shortcut indicator on hover
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = [
-        { id: 'copyButton', shortcut: 'Alt+Shift+C' },
-        { id: 'copyOneDButton', shortcut: 'Alt+Shift+1' },
-        { id: 'copyBinaryButton', shortcut: 'Alt+Shift+R' },
-        { id: 'copyFullBoxButton', shortcut: 'Alt+Shift+F' }
+/* ── SERIAL FIELD TRACKING ───────────────── */
+document.getElementById('serial').addEventListener('input', () => {
+  const v = document.getElementById('serial').value;
+  if (v) {
+    serialOverride = true;
+    const cc = v.substring(0,2).toUpperCase();
+    if (countryMap[cc]) document.getElementById('madeIn').value = countryMap[cc];
+  }
+});
+
+document.getElementById('shortSku').addEventListener('change', updateProductImage);
+
+/* ── INIT ────────────────────────────────── */
+window.addEventListener('load', () => {
+  setupFieldHints();
+
+  // Defaults
+  document.getElementById('shortSku').value   = 'M41414';
+  document.getElementById('quantity').value   = '0010';
+  document.getElementById('supplierId').value = '130';
+  document.getElementById('originPref').value = 'UE';
+  const c = 'FR';
+  document.getElementById('batch').value  = c;
+  document.getElementById('madeIn').value = countryMap[c];
+
+  generateCode();
+  resetGravityAutoHide();
+});
+</script>
+
+<!-- =============================================
+     THREE.JS GALAXY + BLACK HOLE + DRAG + PARTICLES
+============================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── DRAGGABLE BLACK HOLE ─── */
+  const bhBtn = document.getElementById('blackHoleButton');
+  let dragging=false, offX=0, offY=0;
+
+  bhBtn.addEventListener('mousedown', e => {
+    dragging=true;
+    const r = bhBtn.getBoundingClientRect();
+    offX = e.clientX - r.left; offY = e.clientY - r.top;
+    bhBtn.style.cursor='grabbing'; e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    bhBtn.style.left  = (e.clientX - offX) + 'px';
+    bhBtn.style.top   = (e.clientY - offY) + 'px';
+    bhBtn.style.right = 'auto';
+    bhBtn.style.transform = 'none';
+  });
+  document.addEventListener('mouseup', () => { if(dragging){dragging=false; bhBtn.style.cursor='grab';} });
+
+  /* ── RANDOM GLITCH TEXT ─── */
+  const bhText = document.getElementById('blackHoleText');
+  const glyphs = ['GEN','G3N','G€N','GεN','GEN','●●●'];
+  function scheduleGlitch() {
+    setTimeout(() => {
+      if (Math.random()<0.3) {
+        const orig = bhText.textContent;
+        bhText.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+        setTimeout(() => { bhText.textContent = orig; }, 220);
+      }
+      scheduleGlitch();
+    }, Math.random()*2500+2000);
+  }
+  scheduleGlitch();
+
+  /* ── COSMIC PARTICLES ─── */
+  class Particle {
+    constructor() {
+      this.x = Math.random()*window.innerWidth;
+      this.y = Math.random()*window.innerHeight;
+      this.size = Math.random()*2.5+0.5;
+      this.vx = (Math.random()-.5)*1.5;
+      this.vy = (Math.random()-.5)*1.5;
+      this.el = document.createElement('div');
+      this.el.className = 'particle';
+      const cols = ['#00ff88','#ff0080','#00d4ff','#b600ff'];
+      const col = cols[Math.floor(Math.random()*cols.length)];
+      this.el.style.cssText = `width:${this.size}px;height:${this.size}px;background:${col};box-shadow:0 0 ${this.size*2}px ${col};opacity:.7`;
+      document.getElementById('particleContainer').appendChild(this.el);
+    }
+    update() {
+      const r = bhBtn.getBoundingClientRect();
+      const bx = r.left+r.width/2, by = r.top+r.height/2;
+      const dx = bx-this.x, dy = by-this.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist<280) {
+        const f = 900/(dist*dist);
+        this.vx += (dx/dist)*f*0.001;
+        this.vy += (dy/dist)*f*0.001;
+      }
+      this.x += this.vx; this.y += this.vy;
+      if (this.x<0||this.x>window.innerWidth)  this.vx*=-1;
+      if (this.y<0||this.y>window.innerHeight) this.vy*=-1;
+      this.el.style.left = this.x+'px';
+      this.el.style.top  = this.y+'px';
+    }
+  }
+  const particles = Array.from({length:28}, () => new Particle());
+  (function animP(){ particles.forEach(p=>p.update()); requestAnimationFrame(animP); })();
+
+  /* ── THREE.JS GALAXIES ─── */
+  try {
+    const canvas = document.getElementById('canvas3d');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    camera.position.z = 5;
+
+    const BH_MASS = 1.0, EVENT_HORIZON = 0.4, G = 0.0008;
+    let totalStars=0, consumedStars=0;
+
+    function createGalaxy(x, y, z, color) {
+      const count = 1000;
+      const pos  = new Float32Array(count*3);
+      const col  = new Float32Array(count*3);
+      const vel  = new Float32Array(count*3);
+      const init = new Float32Array(count*3);
+      const alive= new Uint8Array(count);
+      totalStars += count;
+      for (let i=0; i<count*3; i+=3) {
+        const a = Math.random()*Math.PI*2, d = Math.random()*2;
+        const px=Math.cos(a)*d+x, py=Math.sin(a)*d+y, pz=(Math.random()-.5)*.5+z;
+        pos[i]=init[i]=px; pos[i+1]=init[i+1]=py; pos[i+2]=init[i+2]=pz;
+        vel[i]=vel[i+1]=vel[i+2]=0; alive[i/3]=1;
+        col[i]=color.r; col[i+1]=color.g; col[i+2]=color.b;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+      geo.setAttribute('color',    new THREE.BufferAttribute(col,3));
+      const mat  = new THREE.PointsMaterial({size:.02, vertexColors:true, sizeAttenuation:true});
+      const mesh = new THREE.Points(geo, mat);
+      return { mesh, geo, positions:pos, velocities:vel, initialPositions:init, alive, colors:col, color, baseX:x, baseY:y, baseZ:z,
+               rotationSpeed:(Math.random()-.5)*.001 };
+    }
+
+    const galaxies = [
+      createGalaxy(-2, 1.5,-1,  {r:1,  g:.2, b:.8}),
+      createGalaxy( 2,-1,  -1.5,{r:0,  g:1,  b:.8}),
+      createGalaxy( 0,-2,  -.5, {r:1,  g:.5, b:0 })
     ];
-    
-    buttons.forEach(btn => {
-        const button = document.getElementById(btn.id);
-        if (button) {
-            button.setAttribute('title', `Click or press ${btn.shortcut}`);
+    galaxies.forEach(g => scene.add(g.mesh));
+
+    function getBHPos3D() {
+      const r = bhBtn.getBoundingClientRect();
+      const sx = r.left+r.width/2, sy = r.top+r.height/2;
+      const cr = canvas.getBoundingClientRect();
+      const ndcX = ((sx-cr.left)/cr.width)*2-1;
+      const ndcY = -((sy-cr.top)/cr.height)*2+1;
+      const v = new THREE.Vector3(ndcX, ndcY, 0.1).unproject(camera);
+      const dir = v.sub(camera.position).normalize();
+      return camera.position.clone().add(dir.multiplyScalar(3.0));
+    }
+
+    function respawn(g) {
+      for (let i=0; i<g.positions.length; i+=3) {
+        if (!g.alive[i/3]) {
+          const a=Math.random()*Math.PI*2, d=Math.random()*2;
+          g.positions[i]   = Math.cos(a)*d+g.baseX;
+          g.positions[i+1] = Math.sin(a)*d+g.baseY;
+          g.positions[i+2] = (Math.random()-.5)*.5+g.baseZ;
+          g.velocities[i]=g.velocities[i+1]=g.velocities[i+2]=0;
+          g.alive[i/3]=1; consumedStars--;
         }
-    });
+      }
+    }
 
-    // Make black hole button draggable
-    const blackHoleBtn = document.getElementById('blackHoleButton');
-    const blackHoleText = document.getElementById('blackHoleText');
-    let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    // Random interference for "Enter" text
-    function triggerRandomGlitch() {
-        // Random chance: 30% chance of glitch every 2-4 seconds
-        const randomDelay = Math.random() * 2000 + 2000; // 2-4 seconds
-        
-        setTimeout(() => {
-            if (Math.random() < 0.3) { // 30% chance
-                blackHoleText.classList.add('glitch');
-                
-                // Remove glitch class after animation completes
-                setTimeout(() => {
-                    blackHoleText.classList.remove('glitch');
-                }, 300);
+    function animate() {
+      requestAnimationFrame(animate);
+      const bhPos = getBHPos3D();
+      galaxies.forEach(g => {
+        let aliveCount=0;
+        for (let i=0; i<g.positions.length; i+=3) {
+          const si = i/3;
+          if (!g.alive[si]) continue;
+          const dx=bhPos.x-g.positions[i], dy=bhPos.y-g.positions[i+1], dz=bhPos.z-g.positions[i+2];
+          const dist=Math.sqrt(dx*dx+dy*dy+dz*dz);
+          if (gravityEnabled) {
+            if (dist<EVENT_HORIZON) {
+              g.alive[si]=0; consumedStars++;
+              g.positions[i]=g.positions[i+1]=g.positions[i+2]=10000;
+            } else if (dist>0.01) {
+              const f=(G*BH_MASS)/(dist*dist);
+              g.velocities[i]   += (dx/dist)*f;
+              g.velocities[i+1] += (dy/dist)*f;
+              g.velocities[i+2] += (dz/dist)*f;
+              g.velocities[i]*=.985; g.velocities[i+1]*=.985; g.velocities[i+2]*=.985;
+              g.positions[i]+=g.velocities[i]; g.positions[i+1]+=g.velocities[i+1]; g.positions[i+2]+=g.velocities[i+2];
+              aliveCount++;
             }
-            triggerRandomGlitch(); // Loop
-        }, randomDelay);
+          } else {
+            g.velocities[i]*=.99; g.velocities[i+1]*=.99; g.velocities[i+2]*=.99;
+            g.positions[i]+=g.velocities[i]; g.positions[i+1]+=g.velocities[i+1]; g.positions[i+2]+=g.velocities[i+2];
+            aliveCount++;
+          }
+        }
+        if ((totalStars-aliveCount)/totalStars > 0.8) respawn(g);
+        g.geo.attributes.position.needsUpdate = true;
+        g.geo.attributes.color.needsUpdate    = true;
+        g.mesh.rotation.z += g.rotationSpeed;
+        g.mesh.rotation.y += g.rotationSpeed*.5;
+      });
+      renderer.render(scene, camera);
     }
-    
-    // Start random glitch
-    triggerRandomGlitch();
+    animate();
 
-    blackHoleBtn.addEventListener('mousedown', function(e) {
-        isDragging = true;
-        const rect = blackHoleBtn.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        blackHoleBtn.style.cursor = 'grabbing';
-        e.preventDefault();
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-    document.addEventListener('mousemove', function(e) {
-        if (isDragging) {
-            blackHoleBtn.style.top = (e.clientY - offsetY) + 'px';
-            blackHoleBtn.style.right = 'auto';
-            blackHoleBtn.style.left = (e.clientX - offsetX) + 'px';
-        }
-    });
-
-    document.addEventListener('mouseup', function() {
-        if (isDragging) {
-            isDragging = false;
-            blackHoleBtn.style.cursor = 'grab';
-        }
-    });
-
-    // ========== CREATIVE EFFECTS ==========
-    
-    // 3. COSMIC PARTICLES AROUND BLACK HOLE
-    class Particle {
-        constructor() {
-            this.x = Math.random() * window.innerWidth;
-            this.y = Math.random() * window.innerHeight;
-            this.size = Math.random() * 3 + 1;
-            this.speedX = (Math.random() - 0.5) * 2;
-            this.speedY = (Math.random() - 0.5) * 2;
-            this.element = document.createElement('div');
-            this.element.className = 'particle';
-            this.element.style.width = this.size + 'px';
-            this.element.style.height = this.size + 'px';
-            this.element.style.backgroundColor = ['#00ff88', '#ff0080', '#00d4ff'][Math.floor(Math.random() * 3)];
-            this.element.style.boxShadow = `0 0 ${this.size * 2}px currentColor`;
-            document.getElementById('particleContainer').appendChild(this.element);
-        }
-        
-        update(blackHoleBtn) {
-            // Gravity towards black hole
-            const rect = blackHoleBtn.getBoundingClientRect();
-            const bhX = rect.left + rect.width / 2;
-            const bhY = rect.top + rect.height / 2;
-            
-            const dx = bhX - this.x;
-            const dy = bhY - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // Apply gravity pull towards black hole
-            if (distance < 300) {
-                const force = 1000 / (distance * distance);
-                this.speedX += (dx / distance) * force * 0.001;
-                this.speedY += (dy / distance) * force * 0.001;
-            }
-            
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            // Bounce off edges
-            if (this.x < 0 || this.x > window.innerWidth) this.speedX *= -1;
-            if (this.y < 0 || this.y > window.innerHeight) this.speedY *= -1;
-            
-            this.element.style.left = this.x + 'px';
-            this.element.style.top = this.y + 'px';
-        }
-    }
-    
-    // Create particles
-    const particles = [];
-    for (let i = 0; i < 30; i++) {
-        particles.push(new Particle());
-    }
-    
-    // Animate particles
-    function animateParticles() {
-        particles.forEach(p => p.update(blackHoleBtn));
-        requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-    // 4. 3D ROTATING GALAXIES WITH REALISTIC BLACK HOLE PHYSICS
-    try {
-        const canvas = document.getElementById('canvas3d');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-        camera.position.z = 5;
-        
-        // BLACK HOLE PARAMETERS (Theoretical Physics)
-        const BLACK_HOLE_MASS = 1.0; // Relative mass
-        const EVENT_HORIZON_RADIUS = 0.4; // Schwarzschild radius
-        const GRAVITATIONAL_CONSTANT = 0.0008; // G (adjusted for visual effect)
-        
-        // Gravity toggle state
-        let gravityEnabled = false;
-        const gravityToggle = document.getElementById('gravityToggle');
-        const gravityLabel = document.getElementById('gravityLabel');
-        const gravityPanel = document.getElementById('gravityPanel');
-        const gravityHideBtn = document.getElementById('gravityHideBtn');
-        const gravityShowBtn = document.getElementById('gravityShowBtn');
-        
-        let gravityAutoHideTimeout;
-        
-        // Handle gravity toggle
-        gravityToggle.addEventListener('change', function() {
-            gravityEnabled = this.checked;
-            gravityLabel.textContent = gravityEnabled ? 'Gravity: ON' : 'Gravity: OFF';
-            console.log(gravityEnabled ? '🕳️ Black Hole Activated!' : '🌌 Gravity Disabled - Free floating');
-        });
-
-        // Handle gravity panel hide button
-        gravityHideBtn.addEventListener('click', function() {
-            gravityPanel.classList.add('hidden');
-            gravityShowBtn.classList.add('visible');
-        });
-
-        // Handle gravity panel show button
-        gravityShowBtn.addEventListener('click', function() {
-            gravityPanel.classList.remove('hidden');
-            gravityShowBtn.classList.remove('visible');
-            resetGravityAutoHide();
-        });
-
-        // Auto-hide gravity panel after 5 seconds of no hover
-        function resetGravityAutoHide() {
-            clearTimeout(gravityAutoHideTimeout);
-            gravityAutoHideTimeout = setTimeout(function() {
-                if (!gravityPanel.classList.contains('hidden')) {
-                    gravityPanel.classList.add('hidden');
-                    gravityShowBtn.classList.add('visible');
-                }
-            }, 5000); // 5 seconds
-        }
-
-        // Reset timer on mouse enter
-        gravityPanel.addEventListener('mouseenter', function() {
-            clearTimeout(gravityAutoHideTimeout);
-        });
-
-        // Start timer on mouse leave
-        gravityPanel.addEventListener('mouseleave', function() {
-            resetGravityAutoHide();
-        });
-
-        // Start auto-hide timer on page load
-        resetGravityAutoHide();
-        
-        // Track consumed stars for respawning
-        let totalStars = 0;
-        let consumedStars = 0;
-        let galaxyData = [];
-        
-        // Create galaxy particles
-        function createGalaxy(x, y, z, color) {
-            const geometry = new THREE.BufferGeometry();
-            const starCount = 1000;
-            const positions = new Float32Array(starCount * 3);
-            const colors = new Float32Array(starCount * 3);
-            const velocities = new Float32Array(starCount * 3);
-            const initialPositions = new Float32Array(starCount * 3); // Store initial positions for respawn
-            const alive = new Uint8Array(starCount); // Track which stars are alive
-            
-            totalStars += starCount;
-            
-            for (let i = 0; i < starCount * 3; i += 3) {
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 2;
-                const px = Math.cos(angle) * distance + x;
-                const py = Math.sin(angle) * distance + y;
-                const pz = (Math.random() - 0.5) * 0.5 + z;
-                
-                positions[i] = px;
-                positions[i + 1] = py;
-                positions[i + 2] = pz;
-                
-                // Store initial positions for respawning
-                initialPositions[i] = px;
-                initialPositions[i + 1] = py;
-                initialPositions[i + 2] = pz;
-                
-                // Initialize velocities
-                velocities[i] = 0;
-                velocities[i + 1] = 0;
-                velocities[i + 2] = 0;
-                
-                // All stars start alive
-                alive[i / 3] = 1;
-                
-                colors[i] = color.r;
-                colors[i + 1] = color.g;
-                colors[i + 2] = color.b;
-            }
-            
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            
-            const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, sizeAttenuation: true });
-            const galaxyMesh = new THREE.Points(geometry, material);
-            
-            const galaxy = {
-                mesh: galaxyMesh,
-                rotationSpeed: (Math.random() - 0.5) * 0.001,
-                geometry: geometry,
-                positions: positions,
-                velocities: velocities,
-                initialPositions: initialPositions,
-                alive: alive,
-                colors: colors,
-                color: color,
-                baseX: x,
-                baseY: y,
-                baseZ: z
-            };
-            
-            galaxyData.push(galaxy);
-            return galaxy;
-        }
-        
-        // Create multiple galaxies
-        const galaxies = [
-            createGalaxy(-2, 1.5, -1, { r: 1, g: 0.2, b: 0.8 }),
-            createGalaxy(2, -1, -1.5, { r: 0, g: 1, b: 0.8 }),
-            createGalaxy(0, -2, -0.5, { r: 1, g: 0.5, b: 0 })
-        ];
-        
-        galaxies.forEach(g => scene.add(g.mesh));
-        
-        
-        // Get black hole position in 3D world space (more accurate)
-        function getBlackHolePosition3D() {
-            const btn = document.getElementById('blackHoleButton');
-            const rect = btn.getBoundingClientRect();
-            
-            // Get screen center of button
-            const screenX = rect.left + rect.width / 2;
-            const screenY = rect.top + rect.height / 2;
-            
-            // Convert screen coordinates to normalized device coordinates
-            const canvas = document.getElementById('canvas3d');
-            const canvasRect = canvas.getBoundingClientRect();
-            
-            const ndcX = ((screenX - canvasRect.left) / canvasRect.width) * 2 - 1;
-            const ndcY = -((screenY - canvasRect.top) / canvasRect.height) * 2 + 1;
-            
-            // Create a vector at the near plane
-            const vector = new THREE.Vector3(ndcX, ndcY, 0.1); // Closer to camera
-            
-            // Unproject to world space
-            vector.unproject(camera);
-            
-            // Get the direction from camera to that point
-            const direction = vector.sub(camera.position).normalize();
-            
-            // Place black hole at a fixed distance along that direction
-            // This ensures stars converge toward the actual button location
-            const blackHoleDistance = 3.0;
-            const bhPos = camera.position.clone().add(direction.multiplyScalar(blackHoleDistance));
-            
-            return bhPos;
-        }
-        
-        // Respawn dead stars from other part of universe
-        function respawnGalaxy(galaxy) {
-            const positions = galaxy.positions;
-            const velocities = galaxy.velocities;
-            const alive = galaxy.alive;
-            const initialPositions = galaxy.initialPositions;
-            
-            // Respawn stars that were consumed
-            for (let i = 0; i < positions.length; i += 3) {
-                if (!alive[i / 3]) {
-                    // Respawn from a random location far from black hole
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = Math.random() * 2;
-                    const px = Math.cos(angle) * distance + galaxy.baseX;
-                    const py = Math.sin(angle) * distance + galaxy.baseY;
-                    const pz = (Math.random() - 0.5) * 0.5 + galaxy.baseZ;
-                    
-                    positions[i] = px;
-                    positions[i + 1] = py;
-                    positions[i + 2] = pz;
-                    
-                    velocities[i] = 0;
-                    velocities[i + 1] = 0;
-                    velocities[i + 2] = 0;
-                    
-                    alive[i / 3] = 1;
-                    consumedStars--;
-                }
-            }
-        }
-        
-        // Animation loop with realistic black hole physics
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            const blackHolePos = getBlackHolePosition3D();
-            
-            galaxies.forEach(g => {
-                const positions = g.positions;
-                const velocities = g.velocities;
-                const alive = g.alive;
-                
-                let aliveCount = 0;
-                
-                for (let i = 0; i < positions.length; i += 3) {
-                    const starIndex = i / 3;
-                    
-                    if (alive[starIndex]) {
-                        const starX = positions[i];
-                        const starY = positions[i + 1];
-                        const starZ = positions[i + 2];
-                        
-                        // Calculate distance to black hole
-                        const dx = blackHolePos.x - starX;
-                        const dy = blackHolePos.y - starY;
-                        const dz = blackHolePos.z - starZ;
-                        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                        
-                        // ONLY APPLY GRAVITY IF ENABLED
-                        if (gravityEnabled) {
-                            // CHECK EVENT HORIZON - Star disappears when it touches the black hole
-                            if (distance < EVENT_HORIZON_RADIUS) {
-                                // Star touches event horizon - DISAPPEAR INSTANTLY!
-                                alive[starIndex] = 0;
-                                consumedStars++;
-                                
-                                // Hide the star immediately by moving it far away
-                                positions[i] = 10000;
-                                positions[i + 1] = 10000;
-                                positions[i + 2] = 10000;
-                                
-                                // Optional: Flash the star white before it disappears (visual effect)
-                                // Make it briefly brighter
-                                const colorIntensity = 1.5;
-                                g.colors[i] = Math.min(g.color.r * colorIntensity, 1);
-                                g.colors[i + 1] = Math.min(g.color.g * colorIntensity, 1);
-                                g.colors[i + 2] = Math.min(g.color.b * colorIntensity, 1);
-                            } else {
-                                // Apply REALISTIC gravitational force (inverse square law)
-                                // F = G * M * m / r^2
-                                if (distance > 0.01) {
-                                    const force = (GRAVITATIONAL_CONSTANT * BLACK_HOLE_MASS) / (distance * distance);
-                                    
-                                    // Normalize direction and apply force
-                                    const forceX = (dx / distance) * force;
-                                    const forceY = (dy / distance) * force;
-                                    const forceZ = (dz / distance) * force;
-                                    
-                                    // Update velocities (acceleration)
-                                    velocities[i] += forceX;
-                                    velocities[i + 1] += forceY;
-                                    velocities[i + 2] += forceZ;
-                                }
-                                
-                                // Apply damping to stabilize orbits
-                                velocities[i] *= 0.985;
-                                velocities[i + 1] *= 0.985;
-                                velocities[i + 2] *= 0.985;
-                                
-                                // Update positions
-                                positions[i] += velocities[i];
-                                positions[i + 1] += velocities[i + 1];
-                                positions[i + 2] += velocities[i + 2];
-                                
-                                aliveCount++;
-                            }
-                        } else {
-                            // GRAVITY DISABLED - Just update positions with current velocities (coasting)
-                            // Apply slight damping to prevent infinite acceleration from previous motion
-                            velocities[i] *= 0.99;
-                            velocities[i + 1] *= 0.99;
-                            velocities[i + 2] *= 0.99;
-                            
-                            positions[i] += velocities[i];
-                            positions[i + 1] += velocities[i + 1];
-                            positions[i + 2] += velocities[i + 2];
-                            
-                            aliveCount++;
-                        }
-                    }
-                }
-                
-                // Check if 80% of stars consumed - RESPAWN NEW GALAXIES
-                const consumptionRatio = (totalStars - aliveCount) / totalStars;
-                if (consumptionRatio > 0.8) {
-                    console.log(`🕳️ Black Hole Critical! ${Math.round(consumptionRatio * 100)}% of stars consumed. Respawning galaxies from other dimensions...`);
-                    respawnGalaxy(g);
-                }
-                
-                // Mark positions and colors as needing update
-                g.geometry.attributes.position.needsUpdate = true;
-                g.geometry.attributes.color.needsUpdate = true;
-                
-                // Continue rotation
-                g.mesh.rotation.z += g.rotationSpeed;
-                g.mesh.rotation.y += g.rotationSpeed * 0.5;
-            });
-            
-            renderer.render(scene, camera);
-        }
-        animate();
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-        
-        console.log('✓ 3D Galaxies with gravitational black hole influence loaded');
-    } catch(e) {
-        console.log('Three.js not loaded, skipping 3D effects');
-    }
+  } catch(e) {
+    // Three.js unavailable - silent fallback
+  }
 });
-
-
 </script>
 
-<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="stilsla" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="12" data-y_margin="30">
+<!-- ========================
+     SPACE DONATION PANEL
+========================= -->
+<div id="donationPanel">
+  <div id="donationInner">
+    <canvas id="donationStars"></canvas>
+    <button id="donationClose" title="Close">✕</button>
+    <div id="donationBody">
+      <div id="donationIcon">🛸</div>
+      <div id="donationTitle">MISSION FUEL REQUEST</div>
+      <div id="donationCounter" id="donationCounter"></div>
+      <div id="donationText">
+        This station runs on coffee &amp; cosmic energy.<br>
+        If it saved you time today — consider fuelling<br>
+        the next system update.
+      </div>
+      <div id="donationStars2">★ ★ ★ ★ ★</div>
+      <a id="donationBtn" href="https://www.buymeacoffee.com/stilsla" target="_blank" rel="noopener">
+        ☕ &nbsp;Fuel the Mission
+      </a>
+      <div id="donationMaybe" onclick="dismissDonation()">Later — still on mission</div>
+      <div id="donationTimer">Closing in <span id="donationCountdown">5</span>s</div>
+    </div>
+  </div>
+</div>
+
+<style>
+#donationPanel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  z-index: 20000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+#donationPanel.visible {
+  display: flex;
+  animation: fadeInOverlay .4s ease;
+}
+
+@keyframes fadeInOverlay { from{opacity:0} to{opacity:1} }
+
+#donationInner {
+  position: relative;
+  width: 380px;
+  background: rgba(4,6,22,0.97);
+  border: 1px solid rgba(0,212,255,0.35);
+  border-radius: 18px;
+  padding: 36px 32px 28px;
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,0.08),
+    0 0 60px rgba(0,212,255,0.14),
+    0 0 120px rgba(182,0,255,0.08);
+  overflow: hidden;
+  animation: panelIn .45s cubic-bezier(.175,.885,.32,1.275);
+  text-align: center;
+}
+
+@keyframes panelIn { from{opacity:0;transform:scale(.88) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+#donationStars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .5;
+}
+
+#donationClose {
+  position: absolute;
+  top: 12px; right: 14px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.5);
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+#donationClose:hover { background: rgba(255,0,128,.2); color:#fff; border-color:var(--pink); }
+
+#donationBody { position: relative; z-index: 1; }
+
+#donationIcon {
+  font-size: 48px;
+  margin-bottom: 8px;
+  animation: saucerHover 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px rgba(0,212,255,.6));
+}
+
+@keyframes saucerHover {
+  0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-8px) rotate(3deg)}
+}
+
+#donationTitle {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #00d4ff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(0,212,255,.5);
+}
+
+#donationCounter {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: rgba(0,255,136,.7);
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+
+#donationText {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  color: rgba(200,210,240,.85);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+#donationStars2 {
+  color: #ffd700;
+  font-size: 14px;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  opacity: .8;
+  animation: starGlow 2s ease-in-out infinite;
+}
+
+@keyframes starGlow {
+  0%,100%{opacity:.6; text-shadow:none}
+  50%{opacity:1; text-shadow:0 0 10px #ffd700}
+}
+
+#donationBtn {
+  display: block;
+  background: linear-gradient(135deg, #00d4ff, #00ff88);
+  color: #020510;
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-decoration: none;
+  padding: 13px 24px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  transition: all .25s;
+  box-shadow: 0 0 20px rgba(0,212,255,.3);
+}
+#donationBtn:hover {
+  box-shadow: 0 0 35px rgba(0,212,255,.7), 0 4px 14px rgba(0,0,0,.5);
+  transform: translateY(-2px);
+}
+
+#donationMaybe {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(120,130,160,.6);
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: color .2s;
+}
+#donationMaybe:hover { color: rgba(200,210,240,.8); }
+
+#donationTimer {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(120,130,160,.4);
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+#donationTimer span {
+  color: rgba(0,212,255,.55);
+  font-weight: 700;
+}
+</style>
+
+<script>
+// Donation logic — global so generateCode() can call it directly
+(function() {
+  const INTERVAL = 10;
+  let countdownInterval = null;
+
+  window.maybeShowDonation = function(count) {
+    // Only at exact multiples of INTERVAL, never at 0
+    if (count === 0 || count % INTERVAL !== 0) return;
+
+    const el = document.getElementById('donationCounter');
+    if (el) el.textContent = '[ ' + count + ' CODES GENERATED THIS SESSION ]';
+
+    const panel = document.getElementById('donationPanel');
+    if (!panel) return;
+    panel.classList.add('visible');
+
+    // Star canvas animation
+    const canvas = document.getElementById('donationStars');
+    if (canvas && !canvas._animating) {
+      canvas._animating = true;
+      const ctx = canvas.getContext('2d');
+      canvas.width  = canvas.parentElement.offsetWidth  || 380;
+      canvas.height = canvas.parentElement.offsetHeight || 300;
+      const stars = Array.from({length:60}, () => ({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*1.2+.3,
+        a: Math.random(),
+        da: (Math.random()-.5)*.02
+      }));
+      (function drawStars() {
+        if (!canvas._animating) return;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        stars.forEach(s => {
+          s.a = Math.max(0,Math.min(1, s.a+s.da));
+          if (s.a<=0||s.a>=1) s.da*=-1;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(255,255,255,' + s.a + ')';
+          ctx.fill();
+        });
+        requestAnimationFrame(drawStars);
+      })();
+    }
+
+    // 5s countdown auto-dismiss
+    clearInterval(countdownInterval);
+    let remaining = 5;
+    const cdEl = document.getElementById('donationCountdown');
+    if (cdEl) cdEl.textContent = remaining;
+
+    countdownInterval = setInterval(() => {
+      remaining--;
+      if (cdEl) cdEl.textContent = remaining;
+      if (remaining <= 0) {
+        clearInterval(countdownInterval);
+        window.dismissDonation();
+      }
+    }, 1000);
+  };
+
+  window.dismissDonation = function() {
+    clearInterval(countdownInterval);
+    const panel = document.getElementById('donationPanel');
+    const canvas = document.getElementById('donationStars');
+    if (canvas) canvas._animating = false;
+    if (!panel) return;
+    panel.style.opacity = '0';
+    panel.style.transition = 'opacity .3s ease';
+    setTimeout(() => {
+      panel.classList.remove('visible');
+      panel.style.opacity = '';
+      panel.style.transition = '';
+    }, 300);
+  };
+
+  document.getElementById('donationClose').addEventListener('click', window.dismissDonation);
+  document.getElementById('donationPanel').addEventListener('click', function(e) {
+    if (e.target === this) window.dismissDonation();
+  });
+
+  // Pause countdown if hovering the CTA button
+  document.getElementById('donationBtn').addEventListener('mouseenter', () => {
+    clearInterval(countdownInterval);
+    const cdEl = document.getElementById('donationCountdown');
+    if (cdEl) cdEl.parentElement.style.opacity = '0';
+  });
+})();
 </script>
 
+<!-- ========================
+     PRODUCT IMAGE MAGNIFIER
+========================= -->
+<style>
+#imgMagnifier {
+  position: fixed;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 212, 255, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 0 30px rgba(0, 212, 255, 0.25),
+    0 8px 32px rgba(0,0,0,0.6);
+  pointer-events: none;
+  display: none;
+  overflow: hidden;
+  z-index: 9000;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  /* Scanline overlay for space feel */
+  outline: none;
+}
 
+/* Crosshair center dot */
+#imgMagnifier::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 212, 255, 0.7);
+  box-shadow: 0 0 6px rgba(0, 212, 255, 1);
+  pointer-events: none;
+}
 
+/* Crosshair lines */
+#imgMagnifier::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(0,212,255,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* Cursor hint on the image itself */
+#productImage {
+  cursor: crosshair;
+}
+</style>
+
+<div id="imgMagnifier"></div>
+
+<script>
+(function () {
+  const ZOOM = 3.2;
+  const MAG_SIZE = 240; // must match CSS width/height
+  const OFFSET_X = 24;  // how far right of cursor the lens appears
+  const OFFSET_Y = -MAG_SIZE / 2; // vertically centred on cursor
+
+  const mag = document.getElementById('imgMagnifier');
+  const img = document.getElementById('productImage');
+
+  function onMove(e) {
+    const rect = img.getBoundingClientRect();
+
+    // Cursor position relative to the image
+    const relX = e.clientX - rect.left;
+    const relY = e.clientY - rect.top;
+
+    // Clamp inside the image
+    if (relX < 0 || relY < 0 || relX > rect.width || relY > rect.height) {
+      mag.style.display = 'none';
+      return;
+    }
+
+    // Fraction of where we are on the image (0–1)
+    const fracX = relX / rect.width;
+    const fracY = relY / rect.height;
+
+    // The magnifier background shows the image at ZOOM size
+    const bgW = rect.width  * ZOOM;
+    const bgH = rect.height * ZOOM;
+
+    // Background position: shift so the hovered point is centred in the lens
+    const bgX = fracX * bgW - MAG_SIZE / 2;
+    const bgY = fracY * bgH - MAG_SIZE / 2;
+
+    mag.style.backgroundImage  = 'url("' + img.src + '")';
+    mag.style.backgroundSize   = bgW + 'px ' + bgH + 'px';
+    mag.style.backgroundPosition = '-' + bgX + 'px -' + bgY + 'px';
+
+    // Place lens beside cursor, keeping inside viewport
+    let lensX = e.clientX + OFFSET_X;
+    let lensY = e.clientY + OFFSET_Y;
+
+    // Clamp so it doesn't go off-screen
+    if (lensX + MAG_SIZE > window.innerWidth  - 10) lensX = e.clientX - MAG_SIZE - OFFSET_X;
+    if (lensY < 10)                                  lensY = 10;
+    if (lensY + MAG_SIZE > window.innerHeight - 10)  lensY = window.innerHeight - MAG_SIZE - 10;
+
+    mag.style.left    = lensX + 'px';
+    mag.style.top     = lensY + 'px';
+    mag.style.display = 'block';
+  }
+
+  function onLeave() {
+    mag.style.display = 'none';
+  }
+
+  // Attach only when image is loaded/updated
+  function attachMagnifier() {
+    img.removeEventListener('mousemove', onMove);
+    img.removeEventListener('mouseleave', onLeave);
+    if (img.src && img.src !== window.location.href) {
+      img.addEventListener('mousemove', onMove);
+      img.addEventListener('mouseleave', onLeave);
+    }
+  }
+
+  // Watch for src changes (new SKU generated)
+  const srcObserver = new MutationObserver(attachMagnifier);
+  srcObserver.observe(img, { attributes: true, attributeFilter: ['src'] });
+
+  attachMagnifier();
+})();
+</script>
 
 </body>
 </html>
