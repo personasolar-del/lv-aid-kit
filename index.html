@@ -40,6 +40,47 @@
   --r:          14px;
 }
 
+
+/* Persistent donate button */
+#coffeeBtn {
+  position: fixed;
+  bottom: 14px;
+  left: 60px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: rgba(4,6,22,0.92);
+  border: 1px solid rgba(255,215,0,0.35);
+  border-radius: 20px;
+  color: #ffd700;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 12px rgba(255,215,0,0.1);
+  white-space: nowrap;
+}
+#coffeeBtn:hover {
+  background: rgba(255,215,0,0.12);
+  border-color: rgba(255,215,0,0.7);
+  box-shadow: 0 0 22px rgba(255,215,0,0.3);
+  transform: translateY(-2px);
+  color: #ffe84d;
+}
+#coffeeBtn .coffee-icon {
+  font-size: 15px;
+  animation: coffeeSteam 2.5s ease-in-out infinite;
+}
+@keyframes coffeeSteam {
+  0%,100% { transform: translateY(0) rotate(-5deg); }
+  50%      { transform: translateY(-3px) rotate(5deg); }
+}
+
 /* =============================================
    RESET & BASE
 ============================================= */
@@ -1128,6 +1169,10 @@ input.field-error {
 <div id="toastContainer"></div>
 
 <!-- Copyright -->
+<a id="coffeeBtn" href="https://www.buymeacoffee.com/stilsla" target="_blank" rel="noopener" title="Support the project">
+  <span class="coffee-icon">☕</span> Fuel the Mission
+</a>
+
 <div id="copyright">
   © Nikita Astafiev v2.0
   <div class="help-tip">
