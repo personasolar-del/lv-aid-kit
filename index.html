@@ -3,82 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Codes Generator</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0e27'/><circle cx='16' cy='16' r='8' fill='none' stroke='%2300d4ff' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23ff0080'/></svg>">
+<title>Codex Atlanticus — Digital Codes Generator</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23e8dcc0'/><circle cx='16' cy='16' r='10' fill='none' stroke='%232b2418' stroke-width='1.2'/><line x1='16' y1='4' x2='16' y2='28' stroke='%239c4a2e' stroke-width='1'/><line x1='4' y1='16' x2='28' y2='16' stroke='%239c4a2e' stroke-width='1'/></svg>">
 
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZHMD6QT0P"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JZHMD6QT0P');</script>
 
-<!-- Fonts -->
+<!-- Fonts: Cormorant Garamond (display/chancery) + EB Garamond (body) + JetBrains Mono (data) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/bwip-js@3.0.0/dist/bwip-js.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 /* =============================================
-   CSS VARIABLES
+   DESIGN TOKENS — "Codex Atlanticus" da Vinci theme
+   Palette derived from real Renaissance materials:
+   parchment, iron-gall ink, oxidized verdigris copper,
+   sanguine red chalk, tarnished Florentine gold leaf.
 ============================================= */
 :root {
-  --bg:         #020510;
-  --cyan:       #00d4ff;
-  --green:      #00ff88;
-  --purple:     #b600ff;
-  --pink:       #ff0080;
-  --orange:     #ff9f43;
-  --gold:       #ffd700;
-  --glass:      rgba(8,12,35,0.65);
-  --glass-b:    rgba(0,212,255,0.18);
-  --text:       #e8eaff;
-  --muted:      #7a85a8;
-  --f-display:  'Orbitron', monospace;
-  --f-mono:     'Space Mono', monospace;
-  --f-body:     'Rajdhani', sans-serif;
-  --r:          14px;
+  /* — Studio Candlelight (default / light mode) — */
+  --parchment:        #e8dcc0;
+  --parchment-deep:   #c9b990;
+  --parchment-shadow: #b3a378;
+  --ink:              #2b2418;
+  --ink-faded:        #5a4e3a;
+  --ink-pale:         #8a7d63;
+  --verdigris:        #4a7c6f;
+  --verdigris-bright: #6fa893;
+  --sanguine:         #9c4a2e;
+  --sanguine-bright:  #c2603e;
+  --gold:             #a8843f;
+  --gold-bright:      #d4af6a;
+  --shadow:           #1a1410;
+  --surface:          #f1e8d2;
+  --surface-raised:   #f6efdd;
+
+  --f-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --f-body:    'EB Garamond', Georgia, serif;
+  --f-data:    'JetBrains Mono', 'Courier New', monospace;
+  --r:         3px;
+  --r-soft:    8px;
+
+  color-scheme: light;
 }
 
-
-/* Persistent donate button */
-#coffeeBtn {
-  position: fixed;
-  bottom: 14px;
-  left: 60px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 14px;
-  background: rgba(4,6,22,0.92);
-  border: 1px solid rgba(255,215,0,0.35);
-  border-radius: 20px;
-  color: #ffd700;
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 0 12px rgba(255,215,0,0.1);
-  white-space: nowrap;
-}
-#coffeeBtn:hover {
-  background: rgba(255,215,0,0.12);
-  border-color: rgba(255,215,0,0.7);
-  box-shadow: 0 0 22px rgba(255,215,0,0.3);
-  transform: translateY(-2px);
-  color: #ffe84d;
-}
-#coffeeBtn .coffee-icon {
-  font-size: 15px;
-  animation: coffeeSteam 2.5s ease-in-out infinite;
-}
-@keyframes coffeeSteam {
-  0%,100% { transform: translateY(0) rotate(-5deg); }
-  50%      { transform: translateY(-3px) rotate(5deg); }
+/* — Midnight Workshop (dark mode) — candlelit study after dusk */
+body.midnight-workshop {
+  --parchment:        #2a2418;
+  --parchment-deep:   #1d1810;
+  --parchment-shadow: #14110a;
+  --ink:              #e2d4ae;
+  --ink-faded:        #b5a47c;
+  --ink-pale:         #7d7156;
+  --verdigris:        #6fa893;
+  --verdigris-bright: #8fc4b0;
+  --sanguine:         #c2603e;
+  --sanguine-bright:  #de7a52;
+  --gold:             #d4af6a;
+  --gold-bright:      #f0cc8a;
+  --shadow:           #000000;
+  --surface:          #221d13;
+  --surface-raised:   #2c2517;
+  color-scheme: dark;
 }
 
 /* =============================================
@@ -86,242 +77,233 @@
 ============================================= */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+html { scroll-behavior: smooth; }
+
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--parchment);
+  color: var(--ink);
   font-family: var(--f-body);
-  font-size: 15px;
+  font-size: 16px;
   min-height: 100vh;
-  padding: 18px;
+  padding: 20px;
   display: grid;
   grid-template-areas:
     "header header"
     "mode   mode"
     "form   main";
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 360px 1fr;
   grid-template-rows: auto auto 1fr;
-  gap: 14px;
+  gap: 16px;
   align-items: start;
   position: relative;
   overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* =============================================
-   COSMIC BACKGROUND
-============================================= */
-#canvas3d {
-  position: fixed; inset: 0;
-  z-index: 0; pointer-events: none;
-}
-
-#particleContainer {
-  position: fixed; inset: 0;
-  z-index: 1; pointer-events: none;
-}
-
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
+/* Parchment grain + foxing overlay (tactile texture, no images needed) */
 body::before {
   content: '';
   position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
   background-image:
-    radial-gradient(1px 1px at 20px 30px,  rgba(255,255,255,.8), transparent),
-    radial-gradient(1px 1px at 60px 70px,  rgba(255,255,255,.5), transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,.7), transparent),
-    radial-gradient(2px 2px at 90px 10px,  rgba(200,220,255,.4), transparent),
-    radial-gradient(1px 1px at 170px 140px,rgba(255,255,255,.5), transparent),
-    radial-gradient(1px 1px at 40px 120px, rgba(255,255,255,.4), transparent);
-  background-size: 200px 200px;
-  animation: twinkle 7s ease-in-out infinite;
-  z-index: 0; pointer-events: none;
+    radial-gradient(ellipse 180px 140px at 8% 12%,  rgba(120,95,40,0.10), transparent 70%),
+    radial-gradient(ellipse 220px 160px at 92% 18%, rgba(120,95,40,0.08), transparent 70%),
+    radial-gradient(ellipse 200px 180px at 15% 85%, rgba(120,95,40,0.09), transparent 70%),
+    radial-gradient(ellipse 260px 200px at 88% 80%, rgba(120,95,40,0.07), transparent 70%),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.012) 3px),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.012) 3px);
 }
 
-@keyframes twinkle {
-  0%,100% { opacity: .4; }
-  50%      { opacity: .9; }
+/* Vignette for chiaroscuro depth */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: inset 0 0 140px rgba(26,20,16,0.28);
+  transition: box-shadow 0.5s ease;
+}
+body.midnight-workshop::after {
+  box-shadow: inset 0 0 220px rgba(0,0,0,0.65), inset 0 0 60px rgba(0,0,0,0.4);
 }
 
 /* =============================================
-   GLASS PANEL
+   PANEL — "leaf of parchment" base unit
 ============================================= */
 .panel {
-  background: var(--glass);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid var(--glass-b);
-  border-radius: var(--r);
-  box-shadow: 0 0 30px rgba(0,212,255,.06), inset 0 1px 0 rgba(255,255,255,.04);
+  background: var(--surface);
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 40%),
+    radial-gradient(ellipse 300px 200px at 20% 0%, rgba(0,0,0,0.025), transparent),
+    radial-gradient(ellipse 300px 200px at 90% 100%, rgba(0,0,0,0.03), transparent);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: var(--r-soft);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.25) inset,
+    0 8px 18px -10px rgba(26,20,16,0.35),
+    0 1px 3px rgba(26,20,16,0.18);
   position: relative;
   z-index: 10;
+  transition: background 0.5s ease, border-color 0.5s ease;
 }
 
-/* Colored top accent per section */
-
-/* Gravity-active: make panels transparent so galaxy shows through */
-body.gravity-active .panel {
-  background: rgba(8,12,35,0.12);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-color: rgba(0,212,255,0.10);
-  transition: background 0.6s ease, backdrop-filter 0.6s ease, border-color 0.6s ease;
-}
-
-body.gravity-active .panel::before {
-  opacity: 0.4;
-}
-
-body.gravity-active input[type="text"],
-body.gravity-active input[type="number"] {
-  background: rgba(0,5,20,0.35);
-  border-color: rgba(0,212,255,0.12);
-  transition: background 0.6s ease;
-}
-
-.panel {
-  transition: background 0.6s ease, backdrop-filter 0.6s ease, border-color 0.6s ease;
-}
-
+/* Deckle-edge style top rule, color varies by life-period section */
 .panel::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; height: 2px;
-  border-radius: var(--r) var(--r) 0 0;
+  top: 0; left: 14px; right: 14px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule-color, var(--gold)), transparent);
+  opacity: 0.7;
 }
 
-.panel-cyan::before   { background: linear-gradient(90deg,var(--cyan),transparent); }
-.panel-green::before  { background: linear-gradient(90deg,var(--green),transparent); }
-.panel-orange::before { background: linear-gradient(90deg,var(--orange),transparent); }
-.panel-purple::before { background: linear-gradient(90deg,var(--purple),transparent); }
-.panel-gold::before   { background: linear-gradient(90deg,var(--gold),transparent); }
-.panel-slate::before  { background: linear-gradient(90deg,#9b8fcc,transparent); }
+.panel-verrocchio::before { --rule-color: var(--sanguine); }
+.panel-sforza::before     { --rule-color: var(--verdigris); }
+.panel-belvedere::before  { --rule-color: var(--gold); }
 
 /* =============================================
-   HEADER
+   HEADER — illuminated title plate
 ============================================= */
 .header-section {
   grid-area: header;
-  padding: 18px 26px;
+  padding: 20px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
+}
+
+.header-emblem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vitruvian-mark {
+  width: 46px; height: 46px;
+  flex-shrink: 0;
+  opacity: 0.85;
 }
 
 .header-title {
   font-family: var(--f-display);
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, var(--cyan), var(--green) 60%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--ink);
+  line-height: 1;
 }
 
 .header-sub {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 1px;
-  margin-top: 2px;
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-faded);
+  letter-spacing: 0.4px;
+  margin-top: 4px;
 }
 
 .header-right {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
 }
 
 .badge {
-  background: rgba(0,212,255,.1);
-  border: 1px solid rgba(0,212,255,.3);
-  border-radius: 8px;
-  padding: 5px 14px;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  color: var(--cyan);
+  background: var(--surface-raised);
+  border: 1px solid var(--gold);
+  border-radius: var(--r);
+  padding: 6px 16px;
+  font-family: var(--f-data);
+  font-size: 11px;
+  color: var(--ink-faded);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .badge-count {
   font-weight: 700;
   font-size: 18px;
   line-height: 1;
+  color: var(--sanguine);
+  font-family: var(--f-display);
 }
 
 /* =============================================
-   BUTTONS
+   BUTTONS — wax-seal / engraved-plate styling
 ============================================= */
 .btn {
   font-family: var(--f-display);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 9px 18px;
-  border-radius: 8px;
-  border: none;
+  letter-spacing: 1.5px;
+  padding: 10px 20px;
+  border-radius: var(--r);
+  border: 1px solid var(--ink-pale);
   cursor: pointer;
-  transition: all .22s ease;
+  transition: all .25s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   line-height: 1;
+  background: var(--surface-raised);
+  color: var(--ink);
+  position: relative;
 }
+.btn:hover {
+  border-color: var(--sanguine);
+  color: var(--sanguine);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(26,20,16,0.18);
+}
+.btn:active { transform: translateY(0); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--cyan), var(--green));
-  color: #020510;
-  box-shadow: 0 0 18px rgba(0,212,255,.3);
+  background: var(--ink);
+  color: var(--parchment);
+  border-color: var(--ink);
 }
 .btn-primary:hover {
-  box-shadow: 0 0 30px rgba(0,212,255,.7), 0 4px 14px rgba(0,0,0,.5);
-  transform: translateY(-2px);
+  background: var(--sanguine);
+  border-color: var(--sanguine);
+  color: #f6efdd;
 }
-.btn-primary:active { transform: translateY(0); }
 
 .btn-outline {
-  background: rgba(182,0,255,.1);
-  color: #c880ff;
-  border: 1px solid rgba(182,0,255,.35);
+  background: transparent;
+  color: var(--verdigris);
+  border: 1px solid var(--verdigris);
 }
 .btn-outline:hover {
-  background: rgba(182,0,255,.22);
-  box-shadow: 0 0 16px rgba(182,0,255,.4);
-  transform: translateY(-1px);
+  background: var(--verdigris);
+  color: var(--surface-raised);
 }
 
 .btn-ghost {
-  background: rgba(0,212,255,.07);
-  color: var(--cyan);
-  border: 1px solid rgba(0,212,255,.22);
-  font-size: 10px;
-  padding: 6px 12px;
+  background: transparent;
+  color: var(--ink-faded);
+  border: 1px solid var(--parchment-shadow);
+  font-size: 11px;
+  padding: 7px 14px;
 }
 .btn-ghost:hover {
-  background: rgba(0,212,255,.18);
-  box-shadow: 0 0 12px rgba(0,212,255,.3);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 .btn-copy {
-  background: rgba(0,255,136,.08);
-  color: var(--green);
-  border: 1px solid rgba(0,255,136,.28);
-  font-family: var(--f-mono);
+  background: transparent;
+  color: var(--verdigris);
+  border: 1px solid var(--verdigris);
+  font-family: var(--f-data);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 5px 10px;
-  border-radius: 6px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 5px 11px;
+  border-radius: var(--r);
   cursor: pointer;
   transition: all .2s;
   white-space: nowrap;
@@ -329,135 +311,151 @@ body.gravity-active input[type="number"] {
   text-transform: uppercase;
 }
 .btn-copy:hover {
-  background: rgba(0,255,136,.22);
-  box-shadow: 0 0 10px rgba(0,255,136,.35);
+  background: var(--verdigris);
+  color: var(--surface-raised);
 }
 .btn-copy.copied {
-  background: rgba(0,255,136,.28);
-  color: #fff;
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--shadow);
 }
 
 .btn-full { width: 100%; }
 
-.btn-generate {
-  width: 100%;
-  padding: 13px 24px;
-  font-size: 13px;
-  letter-spacing: 3px;
-}
-
 .kbd {
   font-size: 9px;
-  background: rgba(255,255,255,.14);
-  padding: 2px 5px;
+  background: rgba(43,36,24,0.08);
+  padding: 2px 6px;
   border-radius: 3px;
-  font-family: var(--f-mono);
+  font-family: var(--f-data);
   font-weight: 400;
   letter-spacing: 0;
-  opacity: .8;
+  opacity: .75;
+  border: 1px solid rgba(43,36,24,0.1);
+}
+body.midnight-workshop .kbd { background: rgba(226,212,174,0.1); border-color: rgba(226,212,174,0.14); }
+
+button:focus-visible {
+  outline: 2px solid var(--sanguine);
+  outline-offset: 2px;
 }
 
-button:focus { outline: none; }
-
 /* =============================================
-   BLACK HOLE BUTTON (REWORKED)
+   THE CRYPTEX — signature generate mechanism
+   (replaces black hole). A rotating cipher dial,
+   styled after Leonardo's coded notebooks, locked
+   in mirror-script until the user "reads" it.
 ============================================= */
-#blackHoleButton {
+#cryptexButton {
   position: fixed;
-  top: 26px;
-  left: 370px;
-  width: 78px;
-  height: 78px;
+  top: 28px;
+  left: 388px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 32% 32%, rgba(255,60,160,.45) 0%, transparent 55%),
-    radial-gradient(circle at center, #04010d 35%, #1a0015 100%);
-  border: none;
-  cursor: grab;
+    repeating-conic-gradient(from 0deg, var(--surface-raised) 0deg 14deg, var(--parchment-deep) 14deg 28deg);
+  border: 3px solid var(--ink);
+  cursor: pointer;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  overflow: visible;
   box-shadow:
-    0 0 0 2px rgba(255,0,128,.28),
-    0 0 22px rgba(255,0,128,.65),
-    0 0 70px rgba(255,0,128,.22),
-    0 0 140px rgba(255,0,128,.08);
-  animation: bhPulse 3s ease-in-out infinite;
-  transition: width .2s, height .2s;
+    0 0 0 1px var(--gold),
+    0 6px 16px rgba(26,20,16,0.4),
+    inset 0 0 0 14px var(--parchment);
+  transition: box-shadow .25s ease, transform .25s ease;
 }
-
-/* Accretion disk – outer ring */
-#blackHoleButton::before {
+#cryptexButton::before {
   content: '';
   position: absolute;
-  width: 140%;
-  height: 38%;
-  top: 31%;
-  left: -20%;
+  inset: 14px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,160,60,.45);
-  box-shadow: 0 0 8px rgba(255,120,0,.4);
-  transform: rotateX(68deg);
-  animation: diskSpin 4.5s linear infinite;
-  pointer-events: none;
+  border: 1px solid var(--ink-pale);
+  background: var(--surface);
 }
+#cryptexButton:hover {
+  box-shadow:
+    0 0 0 1px var(--gold-bright),
+    0 8px 22px rgba(26,20,16,0.5),
+    inset 0 0 0 14px var(--parchment);
+  transform: scale(1.04);
+}
+#cryptexButton:hover .cryptex-ring { animation-duration: 1.6s; }
+#cryptexButton:active { transform: scale(0.98); }
 
-/* Accretion disk – inner ring */
-#blackHoleButton::after {
-  content: '';
+.cryptex-ring {
   position: absolute;
-  width: 118%;
-  height: 28%;
-  top: 36%;
-  left: -9%;
+  inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(255,80,200,.3);
-  transform: rotateX(72deg) rotateZ(30deg);
-  animation: diskSpin 7s linear infinite reverse;
-  pointer-events: none;
+  animation: cryptexSpin 7s linear infinite;
 }
+@keyframes cryptexSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-@keyframes diskSpin {
-  from { transform: rotateX(68deg) rotateZ(0deg); }
-  to   { transform: rotateX(68deg) rotateZ(360deg); }
-}
-
-@keyframes bhPulse {
-  0%,100% {
-    box-shadow:
-      0 0 0 2px rgba(255,0,128,.28),
-      0 0 22px rgba(255,0,128,.65),
-      0 0 70px rgba(255,0,128,.22),
-      0 0 140px rgba(255,0,128,.08);
-  }
-  50% {
-    box-shadow:
-      0 0 0 3px rgba(255,0,128,.5),
-      0 0 38px rgba(255,0,128,.9),
-      0 0 90px rgba(255,0,128,.35),
-      0 0 180px rgba(255,0,128,.12);
-  }
-}
-
-#blackHoleButton:hover { width: 92px; height: 92px; }
-#blackHoleButton:active { cursor: grabbing; }
-
-#blackHoleText {
+#cryptexText {
   font-family: var(--f-display);
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: rgba(255,180,210,.9);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--ink);
   text-transform: uppercase;
-  animation: bhFade 6s ease-in-out infinite;
   z-index: 1;
+  font-weight: 700;
+  position: relative;
 }
 
-@keyframes bhFade {
-  0%,100% { opacity: 0; }
-  45%,55%  { opacity: 1; }
+/* Mirror-script glyphs etched around the rim, revealed on hover (read with a mirror) */
+.cryptex-rim-text {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+}
+
+/* =============================================
+   "INSTRUMENT PANEL" — gravity-toggle replacement
+   removed entirely per request; chiaroscuro toggle
+   lives in the header instead (see below).
+============================================= */
+.chiaroscuro-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.toggle-checkbox { display: none; }
+
+.toggle-label {
+  display: block;
+  width: 60px; height: 30px;
+  background: var(--surface-raised);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all .3s;
+  position: relative;
+  border: 1.5px solid var(--ink-pale);
+}
+.toggle-label:hover { border-color: var(--gold); }
+
+.toggle-slider {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 22px; height: 22px;
+  background: var(--gold);
+  border-radius: 50%;
+  transition: all .4s cubic-bezier(.4,0,.2,1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  box-shadow: 0 1px 3px rgba(26,20,16,0.3);
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-slider {
+  transform: translateX(30px);
+  background: var(--verdigris);
+}
+.toggle-checkbox:checked + .toggle-label {
+  background: var(--shadow);
+  border-color: var(--verdigris);
 }
 
 /* =============================================
@@ -465,166 +463,164 @@ button:focus { outline: none; }
 ============================================= */
 .mode-section {
   grid-area: mode;
-  padding: 13px 22px;
+  padding: 14px 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mode-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .mode-info { display: flex; flex-direction: column; gap: 2px; }
 
 .mode-text {
-  font-size: 14px;
+  font-family: var(--f-display);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: .4px;
+  letter-spacing: .3px;
 }
 
 .mode-hint {
   font-size: 11px;
-  color: var(--muted);
-  font-family: var(--f-mono);
+  color: var(--ink-faded);
+  font-family: var(--f-data);
 }
 
 .mode-hint kbd {
-  background: rgba(255,255,255,.14);
-  padding: 1px 4px;
+  background: rgba(43,36,24,0.08);
+  padding: 1px 5px;
   border-radius: 3px;
   font-size: 10px;
-  border: 1px solid rgba(255,255,255,.18);
+  border: 1px solid rgba(43,36,24,0.1);
 }
 
 .mode-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* Toggle switch */
-.toggle-checkbox { display: none; }
-
-.toggle-label {
-  display: block;
-  width: 68px; height: 34px;
-  background: rgba(0,212,255,.08);
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all .3s;
-  position: relative;
-  border: 1.5px solid var(--cyan);
-}
-.toggle-label:hover {
-  background: rgba(0,212,255,.18);
-  box-shadow: 0 0 12px rgba(0,212,255,.25);
-}
-
-.toggle-slider {
-  position: absolute;
-  top: 3px; left: 3px;
-  width: 26px; height: 26px;
-  background: linear-gradient(135deg, var(--cyan), var(--green));
-  border-radius: 50%;
-  transition: all .4s cubic-bezier(.175,.885,.32,1.275);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 10px rgba(0,212,255,.55);
-}
-
-.toggle-icon { font-size: 13px; position: absolute; transition: all .3s; }
-.toggle-icon-right { opacity: 0; transform: scale(.5); }
-
-.toggle-checkbox:checked + .toggle-label .toggle-slider {
-  transform: translateX(34px);
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  box-shadow: 0 0 10px rgba(255,0,128,.55);
-}
-.toggle-checkbox:checked + .toggle-label .toggle-icon-left { opacity: 0; transform: scale(.5); }
-.toggle-checkbox:checked + .toggle-label .toggle-icon-right { opacity: 1; transform: scale(1); }
-.toggle-checkbox:checked + .toggle-label {
-  background: rgba(255,0,128,.08);
-  border-color: var(--pink);
-}
-
-/* Small gravity toggle */
-.g-toggle .toggle-label { width: 46px; height: 22px; border-width: 1px; }
-.g-toggle .toggle-slider { width: 16px; height: 16px; }
-.g-toggle .toggle-icon  { font-size: 9px; }
-.g-toggle .toggle-checkbox:checked + .toggle-label .toggle-slider { transform: translateX(24px); }
+/* small mode toggle reuses chiaroscuro toggle styles */
+.mode-toggle-wrap .toggle-label { width: 64px; height: 32px; }
+.mode-toggle-wrap .toggle-slider { width: 24px; height: 24px; }
+.mode-toggle-wrap .toggle-checkbox:checked + .toggle-label .toggle-slider { transform: translateX(32px); background: var(--sanguine); }
+.mode-toggle-wrap .toggle-checkbox:checked + .toggle-label { background: var(--shadow); border-color: var(--sanguine); }
 
 /* =============================================
-   FORM CONTAINER
+   FORM CONTAINER — "Verrocchio's Workshop" zone
+   Raw craftsmanship, silverpoint sketch inputs.
 ============================================= */
 #FormContainer {
   grid-area: form;
-  padding: 18px 16px;
+  padding: 22px 20px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 11px;
   align-self: start;
   position: sticky;
-  top: 18px;
+  top: 20px;
 }
 
 .form-heading {
   font-family: var(--f-display);
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--sanguine);
   text-transform: uppercase;
-  opacity: .65;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--sanguine), transparent);
+  opacity: 0.4;
 }
 
 .input-group {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  position: relative;
 }
 
 label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--muted);
-  font-family: var(--f-mono);
+  color: var(--ink-faded);
+  font-family: var(--f-body);
+  font-style: italic;
+}
+
+label .label-period {
+  color: var(--sanguine);
+  font-style: normal;
+  font-weight: 700;
 }
 
 input[type="text"],
 input[type="number"] {
-  background: rgba(0,5,20,.85);
-  border: 1px solid rgba(0,212,255,.18);
-  border-radius: 7px;
-  color: var(--text);
-  font-family: var(--f-mono);
-  font-size: 13px;
-  padding: 7px 11px;
+  background: var(--surface-raised);
+  border: 1px solid var(--parchment-shadow);
+  border-bottom: 2px solid var(--ink-pale);
+  border-radius: var(--r);
+  color: var(--ink);
+  font-family: var(--f-data);
+  font-size: 14px;
+  padding: 8px 12px;
   width: 100%;
-  transition: border-color .2s, box-shadow .2s;
+  transition: border-color .2s, box-shadow .2s, background .2s;
 }
 input:focus {
   outline: none;
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 2px rgba(0,212,255,.14);
+  border-bottom-color: var(--sanguine);
+  box-shadow: 0 0 0 1px rgba(156,74,46,0.15);
+  background: var(--surface);
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext x='1' y='27' font-size='24'%3E%F0%9F%AA%B6%3C/text%3E%3C/svg%3E") 2 28, text;
 }
-input.field-valid { border-color: var(--green); }
+input.field-valid { border-bottom-color: var(--verdigris); }
 input.field-error {
-  border-color: var(--pink);
+  border-bottom-color: var(--sanguine-bright);
   animation: shake .4s ease;
+}
+
+/* Sketch-mark riddle: a faint construction-line guide appears under focused
+   inputs, like Verrocchio's underdrawing grid, and a tiny silverpoint stylus
+   glyph appears at the right — apprentice's hidden mark of craft. */
+.input-group::after {
+  content: '✎';
+  position: absolute;
+  right: 10px;
+  top: 27px;
+  font-size: 12px;
+  color: var(--ink-pale);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.input-group:focus-within::after { opacity: 0.55; }
+.input-group:focus-within input {
+  background-image: repeating-linear-gradient(180deg, transparent, transparent 17px, rgba(156,74,46,0.06) 18px);
 }
 
 .field-hint {
   font-size: 10px;
-  color: var(--muted);
-  font-family: var(--f-mono);
+  color: var(--ink-pale);
+  font-family: var(--f-data);
   text-align: right;
-  height: 12px;
+  height: 13px;
 }
-.field-hint.ok   { color: var(--green); }
-.field-hint.warn { color: var(--orange); }
+.field-hint.ok   { color: var(--verdigris); }
+.field-hint.warn { color: var(--sanguine); }
 
 @keyframes shake {
   0%,100% { transform: translateX(0); }
@@ -633,52 +629,75 @@ input.field-error {
 }
 
 /* =============================================
-   MAIN CONTAINER (OUTPUT GRID)
+   MAIN CONTAINER — "Sforza Court" zone
+   Military-engineering blueprint panels.
 ============================================= */
 #mainContainer {
   grid-area: main;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
 }
 
 .code-section {
-  padding: 14px 16px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 11px;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 40%),
+    repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(74,124,111,0.035) 24px),
+    repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(74,124,111,0.035) 24px);
+  position: relative;
+  overflow: hidden;
 }
+
+/* =============================================
+   ETHEREAL SCRIPT — ambient canvas behind code panels.
+   Faint mirror-writing + sketch lines that normally
+   blend into the parchment; a slow "candle" pierces
+   through at random intervals, briefly illuminating
+   whatever script/sketch is beneath it.
+============================================= */
+.ethereal-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+}
+body.midnight-workshop .ethereal-canvas { mix-blend-mode: screen; opacity: 0.5; }
+
+.code-section > *:not(.ethereal-canvas) { position: relative; z-index: 1; }
 
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0,212,255,.1);
-  padding-bottom: 8px;
+  border-bottom: 1px solid var(--parchment-shadow);
+  padding-bottom: 9px;
 }
 
 .section-title {
   font-family: var(--f-display);
-  font-size: 9px;
-  letter-spacing: 2px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   font-weight: 700;
+  color: var(--verdigris);
 }
 
-.section-cyan   .section-title { color: var(--cyan); }
-.section-green  .section-title { color: var(--green); }
-.section-orange .section-title { color: var(--orange); }
-.section-purple .section-title { color: var(--purple); }
-.section-gold   .section-title { color: var(--gold); }
-
 .code-value {
-  font-family: var(--f-mono);
-  font-size: 12px;
-  line-height: 1.6;
+  font-family: var(--f-data);
+  font-size: 12.5px;
+  line-height: 1.7;
   word-break: break-all;
   flex: 1;
   min-width: 0;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .barcode-wrap {
@@ -688,10 +707,11 @@ input.field-error {
   min-height: 70px;
 }
 .barcode-wrap canvas {
-  background: #fff;
-  border-radius: 4px;
-  padding: 6px;
+  background: #f6efdd;
+  border-radius: 3px;
+  padding: 7px;
   max-width: 100%;
+  border: 1px solid var(--parchment-shadow);
 }
 
 #productImageSection {
@@ -701,31 +721,28 @@ input.field-error {
 #productImage {
   max-width: 190px;
   height: auto;
-  border-radius: 6px;
+  border-radius: var(--r);
   object-fit: contain;
-  border: none;
+  border: 1px solid var(--parchment-shadow);
+  padding: 6px;
+  background: var(--surface-raised);
   transition: transform .2s;
 }
 
-
-#productImageLink:hover #productImage { transform: none; }
-
 /* HISTORY PANEL */
-.history-panel {
-  grid-column: 1 / -1;
-}
+.history-panel { grid-column: 1 / -1; }
 
 .history-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
   max-height: 175px;
   overflow-y: auto;
   padding-right: 4px;
 }
-.history-list::-webkit-scrollbar { width: 3px; }
+.history-list::-webkit-scrollbar { width: 4px; }
 .history-list::-webkit-scrollbar-thumb {
-  background: rgba(0,212,255,.3);
+  background: var(--gold);
   border-radius: 2px;
 }
 
@@ -733,28 +750,29 @@ input.field-error {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 10px;
-  background: rgba(0,8,25,.6);
-  border: 1px solid rgba(0,212,255,.1);
-  border-radius: 7px;
+  padding: 8px 11px;
+  background: var(--surface-raised);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: var(--r);
   cursor: pointer;
   transition: all .18s;
-  font-family: var(--f-mono);
-  font-size: 11px;
+  font-family: var(--f-data);
+  font-size: 11.5px;
 }
 .history-item:hover {
-  border-color: rgba(0,212,255,.4);
-  background: rgba(0,212,255,.07);
+  border-color: var(--gold);
+  background: var(--surface);
 }
-.h-serial { color: var(--cyan); font-weight: 700; min-width: 110px; }
-.h-sku    { color: var(--muted); flex: 1; }
-.h-time   { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.h-serial { color: var(--sanguine); font-weight: 700; min-width: 110px; }
+.h-sku    { color: var(--ink-faded); flex: 1; }
+.h-time   { color: var(--ink-pale); font-size: 10px; white-space: nowrap; }
 .history-empty {
   text-align: center;
-  color: var(--muted);
-  font-family: var(--f-mono);
-  font-size: 11px;
-  padding: 18px;
+  color: var(--ink-pale);
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 13px;
+  padding: 20px;
 }
 
 /* =============================================
@@ -767,186 +785,283 @@ input.field-error {
   transform: translateX(-50%);
   display: flex;
   flex-direction: column-reverse;
-  gap: 7px;
+  gap: 8px;
   z-index: 10000;
   pointer-events: none;
 }
 
 .toast {
-  background: rgba(5,8,28,.96);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(0,212,255,.3);
-  border-radius: 9px;
-  padding: 9px 18px;
-  color: var(--text);
-  font-family: var(--f-mono);
-  font-size: 12px;
+  background: var(--ink);
+  border: 1px solid var(--gold);
+  border-radius: var(--r);
+  padding: 10px 20px;
+  color: var(--parchment);
+  font-family: var(--f-body);
+  font-size: 13px;
   display: flex;
   align-items: center;
-  gap: 9px;
-  box-shadow: 0 0 18px rgba(0,212,255,.12);
-  animation: toastIn .28s cubic-bezier(.175,.885,.32,1.275) forwards;
+  gap: 10px;
+  box-shadow: 0 6px 16px rgba(26,20,16,0.3);
+  animation: toastIn .3s cubic-bezier(.175,.885,.32,1.275) forwards;
 }
-.toast.success { border-color: rgba(0,255,136,.45); }
-.toast.error   { border-color: rgba(255,0,128,.45); }
+.toast.success { border-color: var(--verdigris); }
+.toast.error   { border-color: var(--sanguine-bright); }
 .toast.out     { animation: toastOut .25s ease forwards; }
 
-@keyframes toastIn  { from { opacity:0; transform:translateY(16px) scale(.9); } to { opacity:1; transform:translateY(0) scale(1); } }
-@keyframes toastOut { from { opacity:1; transform:translateY(0) scale(1); } to { opacity:0; transform:translateY(-8px) scale(.9); } }
+@keyframes toastIn  { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes toastOut { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(-8px); } }
 
 /* =============================================
-   FLOATING GRAVITY PANEL
-============================================= */
-.gravity-float {
-  position: fixed;
-  bottom: 88px;
-  left: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  background: rgba(0,12,32,.88);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0,212,255,.22);
-  border-radius: 8px;
-  z-index: 500;
-  transition: left .3s;
-}
-.gravity-float.hidden { left: -220px; }
-
-.g-hide-btn {
-  background: transparent;
-  border: 1px solid rgba(0,255,136,.35);
-  color: var(--green);
-  width: 20px; height: 20px;
-  padding: 0;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 9px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .2s;
-}
-.g-hide-btn:hover { background: rgba(0,255,136,.14); }
-
-.g-show-btn {
-  position: fixed;
-  bottom: 88px; left: 6px;
-  width: 34px; height: 34px;
-  background: rgba(0,12,32,.9);
-  border: 1px solid rgba(0,212,255,.28);
-  border-radius: 8px;
-  color: var(--cyan);
-  font-size: 16px;
-  cursor: pointer;
-  z-index: 499;
-  display: none; align-items: center; justify-content: center;
-  transition: all .3s;
-}
-.g-show-btn:hover { background: rgba(0,212,255,.14); }
-.g-show-btn.visible { display: flex; }
-
-.g-label {
-  font-size: 10px;
-  font-family: var(--f-mono);
-  color: var(--green);
-  white-space: nowrap;
-}
-
-/* =============================================
-   KEYBOARD SHORTCUT FEEDBACK
-============================================= */
-.kbfeedback {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%) scale(.85);
-  background: linear-gradient(135deg,rgba(10,15,50,.97),rgba(20,0,45,.97));
-  border: 1px solid rgba(0,212,255,.4);
-  border-radius: 13px;
-  padding: 20px 38px;
-  font-family: var(--f-mono);
-  font-size: 15px;
-  color: var(--text);
-  display: flex; align-items: center; gap: 12px;
-  box-shadow: 0 0 40px rgba(0,212,255,.2);
-  opacity: 0;
-  transition: all .28s cubic-bezier(.175,.885,.32,1.275);
-  pointer-events: none;
-  z-index: 12000;
-}
-.kbfeedback.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
-.kbfeedback-icon { font-size: 28px; animation: bounce .5s ease; }
-@keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
-
-/* =============================================
-   COPYRIGHT & HELP
+   MIRROR-WRITING TOOLTIP (Scrittura Speculare)
+   Used for the help/copyright corner — Leonardo's
+   famous reversed handwriting, flips to legible on
+   hover, as if catching a mirror's reflection.
 ============================================= */
 #copyright {
   position: fixed;
-  bottom: 14px; right: 14px;
-  font-size: 10px;
-  color: var(--green);
-  padding: 6px 12px;
-  background: rgba(0,10,25,.92);
-  border: 1px solid rgba(0,212,255,.22);
-  border-radius: 6px;
+  bottom: 16px; right: 16px;
+  font-size: 11px;
+  font-family: var(--f-data);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--verdigris);
+  padding: 7px 14px;
+  background: var(--surface-raised);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: var(--r);
   z-index: 1000;
   cursor: help;
   transition: all .3s;
-  font-family: var(--f-mono);
-  font-weight: 700;
-  letter-spacing: 1px;
 }
-#copyright:hover {
-  border-color: var(--green);
-  box-shadow: 0 0 18px rgba(0,212,255,.28);
-}
+#copyright:hover { border-color: var(--gold); }
 
 .help-tip {
   position: absolute;
-  bottom: 38px; right: 0;
-  width: 360px;
-  background: rgba(3,6,24,.98);
-  border: 1px solid rgba(0,212,255,.38);
-  border-radius: 11px;
-  padding: 16px;
-  font-size: 11.5px;
-  line-height: 1.75;
+  bottom: 42px; right: 0;
+  width: 380px;
+  background: var(--surface-raised);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-soft);
+  padding: 18px;
+  font-size: 12.5px;
+  line-height: 1.8;
   opacity: 0; visibility: hidden;
-  transition: all .3s;
+  transform: translateY(6px) scaleX(-1);
+  transition: all .35s cubic-bezier(.4,0,.2,1);
   pointer-events: none;
   z-index: 1001;
+  box-shadow: 0 10px 28px rgba(26,20,16,0.3);
 }
-#copyright:hover .help-tip { opacity: 1; visibility: visible; }
+#copyright:hover .help-tip {
+  opacity: 1; visibility: visible;
+  transform: translateY(0) scaleX(1);
+}
 .help-tip h4 {
   font-family: var(--f-display);
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--green);
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--sanguine);
   margin-bottom: 10px;
+  font-weight: 700;
 }
-.help-tip p { color: #aab0cc; margin: 4px 0; }
-.help-tip strong { color: var(--cyan); }
+.help-tip p { color: var(--ink-faded); margin: 5px 0; font-family: var(--f-body); }
+.help-tip strong { color: var(--verdigris); font-weight: 600; }
+.help-tip .mirror-note {
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-pale);
+  margin-top: 10px;
+  border-top: 1px dashed var(--parchment-shadow);
+  padding-top: 8px;
+}
+
+/* =============================================
+   DONATE BUTTON — "patron's purse"
+============================================= */
+#coffeeBtn {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--gold);
+  border-radius: var(--r);
+  color: var(--gold);
+  font-family: var(--f-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+#coffeeBtn:hover {
+  background: var(--gold);
+  color: var(--shadow);
+  transform: translateY(-2px);
+}
 
 /* =============================================
    UTILITIES
 ============================================= */
 .hidden      { display: none !important; }
 .hidden-label{ display: none; }
-.semi-dim    { opacity: .35; pointer-events: none; }
 
-/* Typewriter cursor */
 .typing-cursor {
   display: inline-block;
   width: 2px; height: 1em;
-  background: var(--cyan);
+  background: var(--sanguine);
   margin-left: 2px;
   animation: blink 1s step-end infinite;
   vertical-align: text-bottom;
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* hex binary display */
 .hex-result { word-break: break-all; }
+
+/* =============================================
+   CRYPTEX UNLOCK MODAL (Fibonacci riddle)
+   A small dormant feature panel ("Vault of Sketches")
+   is locked until the user clicks the form-heading
+   sequence in Fibonacci order: 1,1,2,3,5 → unlocks
+   a Leonardo aphorism as reward. Pure delight, no
+   functional gate on real features.
+============================================= */
+#vaultBadge {
+  position: fixed;
+  top: 28px;
+  right: 24px;
+  z-index: 90;
+  font-family: var(--f-data);
+  font-size: 10px;
+  color: var(--ink-pale);
+  background: var(--surface-raised);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: var(--r);
+  padding: 6px 12px;
+  cursor: help;
+  opacity: 0.75;
+  transition: opacity .25s;
+}
+#vaultBadge:hover { opacity: 1; border-color: var(--gold); }
+
+#vaultModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,20,16,0.55);
+  z-index: 20000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+#vaultModal.visible { display: flex; animation: fadeInOverlay .4s ease; }
+@keyframes fadeInOverlay { from{opacity:0} to{opacity:1} }
+
+#vaultInner {
+  width: 420px;
+  max-width: 90vw;
+  background: var(--surface-raised);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-soft);
+  padding: 32px 30px 26px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(26,20,16,0.4);
+  animation: panelIn .45s cubic-bezier(.175,.885,.32,1.275);
+}
+@keyframes panelIn { from{opacity:0;transform:scale(.9) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+#vaultInner .vault-icon { font-size: 30px; margin-bottom: 10px; color: var(--gold); font-family: var(--f-display); }
+#vaultInner h3 { font-family: var(--f-display); font-size: 18px; color: var(--sanguine); margin-bottom: 14px; letter-spacing: 1px; }
+#vaultInner p { font-family: var(--f-body); font-style: italic; font-size: 15px; color: var(--ink); line-height: 1.7; margin-bottom: 18px; }
+#vaultInner .vault-attrib { font-size: 11px; color: var(--ink-pale); font-family: var(--f-data); margin-bottom: 18px; }
+#vaultClose { font-family: var(--f-display); font-size: 12px; letter-spacing: 1px; }
+
+/* =============================================
+   THE LV CIPHER — easter egg triggered whenever any
+   input contains "55" (L=50, V=5 in Roman numerals,
+   the maison's own monogram hiding in plain sight).
+   Non-blocking: appears in the right margin, can be
+   dismissed or quietly fades if left alone.
+============================================= */
+#lvEgg {
+  position: fixed;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%) translateX(calc(100% + 24px));
+  width: 268px;
+  z-index: 7000;
+  background: var(--surface-raised);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-soft);
+  padding: 16px 18px 14px;
+  box-shadow: 0 10px 28px rgba(26,20,16,0.28);
+  opacity: 0;
+  transition: transform 0.55s cubic-bezier(.16,.84,.32,1.08), opacity 0.45s ease;
+  pointer-events: none;
+}
+#lvEgg.show {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+#lvEgg.dismissing {
+  transform: translateY(-50%) translateX(calc(100% + 24px));
+  opacity: 0;
+}
+
+#lvEgg .lv-close {
+  position: absolute;
+  top: 8px; right: 9px;
+  background: transparent;
+  border: none;
+  color: var(--ink-pale);
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px;
+  transition: color 0.2s;
+}
+#lvEgg .lv-close:hover { color: var(--sanguine); }
+
+#lvEgg .lv-monogram {
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+#lvEgg .lv-monogram .lv-roman {
+  font-size: 13px;
+  font-family: var(--f-data);
+  color: var(--verdigris);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+#lvEgg p {
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-faded);
+  margin: 0;
+}
+#lvEgg .lv-attrib {
+  margin-top: 8px;
+  font-family: var(--f-data);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  color: var(--ink-pale);
+  text-transform: uppercase;
+}
 
 /* =============================================
    RESPONSIVE
@@ -957,51 +1072,79 @@ input.field-error {
     grid-template-columns: 1fr;
   }
   #FormContainer { position: static; }
-  #blackHoleButton { left: 50%; transform: translateX(-50%); }
+  #cryptexButton { left: 50%; transform: translateX(-50%); top: 14px; position: absolute; }
+  body { padding-top: 130px; }
 }
 
 @media (max-width: 680px) {
   #mainContainer { grid-template-columns: 1fr; }
   #productImageSection,.history-panel { grid-column: 1; }
+  .header-title { font-size: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 </style>
 </head>
 <body>
 
-<!-- BG layers -->
-<canvas id="canvas3d"></canvas>
-<div id="particleContainer"></div>
-
-<!-- Black Hole (draggable generate trigger) -->
-<button id="blackHoleButton" onclick="generateCodeEnhanced()" title="Generate ↵">
-  <span id="blackHoleText">GEN</span>
+<!-- THE CRYPTEX (signature generate trigger) -->
+<button id="cryptexButton" onclick="generateCodeEnhanced()" title="Generate ↵ — turn the cipher wheel">
+  <svg class="cryptex-ring" viewBox="0 0 84 84" aria-hidden="true">
+    <circle cx="42" cy="42" r="38" fill="none" stroke="var(--ink-pale)" stroke-width="0.6" stroke-dasharray="2 4" opacity="0.6"/>
+  </svg>
+  <span id="cryptexText">GENERA</span>
 </button>
 
-<!-- Gravity Float Panel -->
-<div class="gravity-float" id="gravityPanel">
-  <button class="g-hide-btn" id="gravityHideBtn" title="Hide">◀</button>
-  <div class="g-toggle">
-    <input type="checkbox" id="gravityToggle" class="toggle-checkbox">
-    <label for="gravityToggle" class="toggle-label">
-      <span class="toggle-slider">
-        <span class="toggle-icon toggle-icon-left">🌌</span>
-        <span class="toggle-icon toggle-icon-right">🕳️</span>
-      </span>
-    </label>
+<!-- VAULT badge: Fibonacci click-sequence riddle (1,1,2,3,5 on the three form headings in order) -->
+<div id="vaultBadge" title="?">𝍕 Vault of Sketches</div>
+<div id="vaultModal">
+  <div id="vaultInner">
+    <div class="vault-icon">✒︎</div>
+    <h3>The Vault Opens</h3>
+    <p id="vaultQuote">"Simplicity is the ultimate sophistication."</p>
+    <div class="vault-attrib">— from the notebooks, attrib. Leonardo da Vinci</div>
+    <button class="btn btn-outline" id="vaultClose">Seal it again</button>
   </div>
-  <span id="gravityLabel" class="g-label">Gravity OFF</span>
 </div>
-<button class="g-show-btn" id="gravityShowBtn" title="Show gravity toggle">🕳️</button>
+
+<!-- LV CIPHER easter egg: appears quietly when any input contains "55" -->
+<div id="lvEgg" role="status" aria-live="polite">
+  <button class="lv-close" id="lvEggClose" title="Hide" aria-label="Hide">✕</button>
+  <div class="lv-monogram">LV <span class="lv-roman">L+V = 55</span></div>
+  <p>Leonardo filled his notebooks chasing whole numbers hidden in nature — proportion, the golden ratio, the body's own arithmetic. Five centuries later, a Parisian malletier folded his own initials into that same Roman cipher. Fifty-five finds you here for a reason, or for none at all.</p>
+  <div class="lv-attrib">a quiet correspondence · Codex Atlanticus</div>
+</div>
 
 <!-- HEADER -->
-<header class="header-section panel panel-cyan">
-  <div>
-    <div class="header-title">Digital Codes Generator</div>
-    <div class="header-sub">Warehouse IT · Space Edition v2.0</div>
+<header class="header-section panel panel-sforza">
+  <div class="header-emblem">
+    <svg class="vitruvian-mark" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="var(--ink)" stroke-width="1"/>
+      <rect x="14" y="14" width="72" height="72" fill="none" stroke="var(--ink)" stroke-width="1"/>
+      <circle cx="50" cy="32" r="6" fill="none" stroke="var(--sanguine)" stroke-width="1.2"/>
+      <line x1="50" y1="38" x2="50" y2="66" stroke="var(--sanguine)" stroke-width="1.2"/>
+      <line x1="22" y1="48" x2="78" y2="48" stroke="var(--sanguine)" stroke-width="1.2"/>
+      <line x1="50" y1="66" x2="30" y2="88" stroke="var(--sanguine)" stroke-width="1.2"/>
+      <line x1="50" y1="66" x2="70" y2="88" stroke="var(--sanguine)" stroke-width="1.2"/>
+    </svg>
+    <div>
+      <div class="header-title">Codex Atlanticus</div>
+      <div class="header-sub">Officina Digitale · Workshop Edition MMXXVI</div>
+    </div>
   </div>
   <div class="header-right">
+    <div class="chiaroscuro-toggle" title="Studio Candlelight / Midnight Workshop">
+      <span style="font-size:11px;font-family:var(--f-data);color:var(--ink-faded)">☀</span>
+      <input type="checkbox" id="chiaroscuroToggle" class="toggle-checkbox">
+      <label for="chiaroscuroToggle" class="toggle-label">
+        <span class="toggle-slider">🕯</span>
+      </label>
+      <span style="font-size:11px;font-family:var(--f-data);color:var(--ink-faded)">☾</span>
+    </div>
     <div class="badge">
-      <span style="opacity:.7">Session</span>
+      <span style="opacity:.7;font-style:italic">Folio</span>
       <span class="badge-count" id="sessionCounter">0</span>
     </div>
     <button class="btn btn-ghost" onclick="copyAllCodes()" title="Copy all 4 codes as text">⊞ Copy All</button>
@@ -1009,19 +1152,16 @@ input.field-error {
 </header>
 
 <!-- MODE SWITCHER -->
-<div class="mode-section panel panel-purple">
+<div class="mode-section panel panel-sforza">
   <div class="mode-left">
-    <div>
+    <div class="mode-toggle-wrap">
       <input type="checkbox" id="modeToggle" class="toggle-checkbox">
       <label for="modeToggle" class="toggle-label">
-        <span class="toggle-slider">
-          <span class="toggle-icon toggle-icon-left">✨</span>
-          <span class="toggle-icon toggle-icon-right">🔭</span>
-        </span>
+        <span class="toggle-slider">✎</span>
       </label>
     </div>
     <div class="mode-info">
-      <span id="modeLabel" class="mode-text">Generate · Product Data → Codes</span>
+      <span id="modeLabel" class="mode-text">Compose · Product Data → Codes</span>
       <span class="mode-hint">
         <kbd>F3</kbd> toggle mode &nbsp;·&nbsp; <kbd>F2</kbd> serial field &nbsp;·&nbsp; <kbd>Enter</kbd> generate
       </span>
@@ -1034,50 +1174,50 @@ input.field-error {
   </div>
 </div>
 
-<!-- FORM -->
-<div id="FormContainer" class="panel panel-cyan">
-  <div class="form-heading">Product Data</div>
+<!-- FORM — Verrocchio's Workshop -->
+<div id="FormContainer" class="panel panel-verrocchio">
+  <div class="form-heading" data-fib-step="1">I. Studio · Product Data</div>
 
   <div class="input-group">
-    <label for="serial" class="hidden-label">Serial (13–14)</label>
+    <label for="serial" class="hidden-label"><span class="label-period">Folio Mark</span> · Serial (13–14)</label>
     <input type="text" id="serial" maxlength="14" placeholder="Serial number…">
     <span class="field-hint" id="serialHint">&nbsp;</span>
   </div>
 
   <div class="input-group">
-    <label for="shortSku">Short SKU <span style="opacity:.5">(6)</span></label>
+    <label for="shortSku"><span class="label-period">Bottega Mark</span> · Short SKU <span style="opacity:.6">(6)</span></label>
     <input type="text" id="shortSku" maxlength="6" placeholder="M41414">
     <span class="field-hint" id="skuHint">&nbsp;</span>
   </div>
 
   <div class="input-group">
-    <label for="quantity">Quantity <span style="opacity:.5">(4 digits)</span></label>
+    <label for="quantity"><span class="label-period">Tally of Pieces</span> · Quantity <span style="opacity:.6">(4 digits)</span></label>
     <input type="number" id="quantity" min="0" max="9999" placeholder="0010">
   </div>
 
   <div class="input-group">
-    <label for="madeIn">Made In <span style="opacity:.5">(2)</span></label>
-    <input type="text" id="madeIn" maxlength="2" placeholder="FR">
+    <label for="madeIn"><span class="label-period">Province of Origin</span> · Made In <span style="opacity:.6">(2)</span></label>
+    <input type="text" id="madeIn" maxlength="2" placeholder="IT">
   </div>
 
   <div class="input-group">
-    <label for="supplierId">Supplier ID <span style="opacity:.5">(max 30)</span></label>
+    <label for="supplierId"><span class="label-period">Patron's Seal</span> · Supplier ID <span style="opacity:.6">(max 30)</span></label>
     <input type="text" id="supplierId" maxlength="30" placeholder="130">
   </div>
 
   <div class="input-group">
-    <label for="batch">Batch <span style="opacity:.5">(3–17)</span></label>
+    <label for="batch"><span class="label-period">Codex Folio</span> · Batch <span style="opacity:.6">(3–17)</span></label>
     <input type="text" id="batch" minlength="3" maxlength="17" placeholder="FR">
   </div>
 
   <div class="input-group">
-    <label for="originPref">Origin Pref <span style="opacity:.5">(3–17)</span></label>
+    <label for="originPref"><span class="label-period">Provenance Rite</span> · Origin Pref <span style="opacity:.6">(3–17)</span></label>
     <input type="text" id="originPref" minlength="3" maxlength="17" placeholder="UE">
   </div>
 
   <!-- PARSE MODE extra inputs -->
   <div id="codeInputSection" class="hidden">
-    <div class="form-heading" style="margin-top:8px;color:var(--pink)">Paste Codes to Parse</div>
+    <div class="form-heading" style="margin-top:10px;color:var(--verdigris)">Decipher · Paste Codes</div>
     <div class="input-group">
       <label for="rfidCodeInput">RFID Code</label>
       <input type="text" id="rfidCodeInput" placeholder="Paste RFID hex…">
@@ -1096,18 +1236,19 @@ input.field-error {
     </div>
   </div>
 
-  <button class="btn btn-primary btn-generate" id="generateBtn" onclick="generateCodeEnhanced()">
-    Generate Code <span class="kbd">↵</span>
+  <button class="btn btn-primary btn-generate btn-full" id="generateBtn" onclick="generateCodeEnhanced()">
+    Compose Code <span class="kbd">↵</span>
   </button>
 </div>
 
-<!-- MAIN OUTPUT -->
+<!-- MAIN OUTPUT — Sforza Court -->
 <div id="mainContainer">
 
   <!-- 2D Matrix -->
-  <div id="generatedCode" class="code-section panel panel-cyan section-cyan hidden">
+  <div id="generatedCode" class="code-section panel panel-sforza hidden">
+    <canvas class="ethereal-canvas" data-ethereal></canvas>
     <div class="section-header">
-      <span class="section-title">2D Data Matrix · PCE</span>
+      <span class="section-title">II. Engine · 2D Data Matrix</span>
       <button class="btn-copy" data-target="codeResult">Copy <span class="kbd">A+S+C</span></button>
     </div>
     <div class="code-value" id="codeResult"></div>
@@ -1115,9 +1256,10 @@ input.field-error {
   </div>
 
   <!-- 1D Code -->
-  <div id="oneDCodeSection" class="code-section panel panel-green section-green hidden">
+  <div id="oneDCodeSection" class="code-section panel panel-sforza hidden">
+    <canvas class="ethereal-canvas" data-ethereal></canvas>
     <div class="section-header">
-      <span class="section-title">1D Linear Code</span>
+      <span class="section-title">Linear Cipher · 1D</span>
       <button class="btn-copy" data-target="oneDResult">Copy <span class="kbd">A+S+1</span></button>
     </div>
     <div class="code-value" id="oneDResult"></div>
@@ -1125,18 +1267,20 @@ input.field-error {
   </div>
 
   <!-- RFID -->
-  <div id="binaryCodeSection" class="code-section panel panel-orange section-orange hidden">
+  <div id="binaryCodeSection" class="code-section panel panel-sforza hidden">
+    <canvas class="ethereal-canvas" data-ethereal></canvas>
     <div class="section-header">
-      <span class="section-title">RFID Code</span>
+      <span class="section-title">Mechanism · RFID Code</span>
       <button class="btn-copy" data-target="binaryResult">Copy <span class="kbd">A+S+R</span></button>
     </div>
     <div class="code-value" id="binaryResult"><div class="hex-result"></div></div>
   </div>
 
   <!-- Full Box GS1 -->
-  <div id="fullBoxCodeSection" class="code-section panel panel-purple section-purple hidden">
+  <div id="fullBoxCodeSection" class="code-section panel panel-sforza hidden">
+    <canvas class="ethereal-canvas" data-ethereal></canvas>
     <div class="section-header">
-      <span class="section-title">Full Box · GS1</span>
+      <span class="section-title">Fortress · Full Box GS1</span>
       <button class="btn-copy" data-target="fullBoxResult">Copy <span class="kbd">A+S+F</span></button>
     </div>
     <div class="code-value" id="fullBoxResult"></div>
@@ -1144,9 +1288,9 @@ input.field-error {
   </div>
 
   <!-- Product Image -->
-  <div id="productImageSection" class="code-section panel panel-gold section-gold hidden">
+  <div id="productImageSection" class="code-section panel panel-belvedere hidden">
     <div class="section-header">
-      <span class="section-title">Product Image</span>
+      <span class="section-title">III. Belvedere · Product Study</span>
     </div>
     <a id="productImageLink" href="#" target="_blank">
       <img id="productImage" src="" alt="Product">
@@ -1154,13 +1298,13 @@ input.field-error {
   </div>
 
   <!-- History -->
-  <div id="historyPanel" class="code-section panel panel-slate history-panel hidden">
+  <div id="historyPanel" class="code-section panel panel-belvedere history-panel hidden">
     <div class="section-header">
-      <span class="section-title" style="color:#9b8fcc">Session History</span>
-      <button class="btn btn-ghost" onclick="clearHistory()" style="padding:4px 10px;font-size:9px">Clear</button>
+      <span class="section-title">Clos Lucé · Folio History</span>
+      <button class="btn btn-ghost" onclick="clearHistory()" style="padding:4px 10px;font-size:10px">Clear</button>
     </div>
     <div class="history-list" id="historyList">
-      <div class="history-empty">No codes generated yet this session.</div>
+      <div class="history-empty">No folios composed yet this session.</div>
     </div>
   </div>
 </div>
@@ -1168,22 +1312,24 @@ input.field-error {
 <!-- Toasts -->
 <div id="toastContainer"></div>
 
-<!-- Copyright -->
+<!-- Donate -->
 <a id="coffeeBtn" href="https://www.buymeacoffee.com/stilsla" target="_blank" rel="noopener" title="Support the project">
-  <span class="coffee-icon">☕</span> Fuel the Mission
+  ✒︎ Fund the Atelier
 </a>
 
+<!-- Copyright + Mirror-writing help tip -->
 <div id="copyright">
-  © Nikita Astafiev v2.0
+  © Nikita Astafiev · Da Vinci Ed.
   <div class="help-tip">
-    <h4>🌌 Digital Codes Generator — Space Edition</h4>
-    <p><strong>Generate Mode:</strong> Fill product data → Generate → copy codes.</p>
-    <p><strong>Parse Mode (F3):</strong> Paste any code in sidebar → Parse → fields auto-fill.</p>
-    <p><strong>Black Hole:</strong> Drag it anywhere. Toggle gravity in the floating panel.</p>
+    <h4>The Atelier's Hand</h4>
+    <p><strong>Compose:</strong> Fill product data → Compose → copy codes.</p>
+    <p><strong>Decipher (F3):</strong> Paste any code in the sidebar → Decipher → fields auto-fill.</p>
+    <p><strong>The Cryptex:</strong> The cipher wheel atop the page is your generate trigger — click or press Enter.</p>
     <p><strong>Copy All:</strong> Header "⊞ Copy All" copies all 4 codes as text.</p>
-    <p><strong>History:</strong> Last 10 codes — click any row to restore.</p>
-    <p><strong>Shortcuts:</strong> <strong>Enter</strong> generate · <strong>F2</strong> serial · <strong>F3</strong> mode</p>
+    <p><strong>Folio History:</strong> Last 10 codes — click any row to restore.</p>
+    <p><strong>Shortcuts:</strong> <strong>Enter</strong> compose · <strong>F2</strong> serial · <strong>F3</strong> mode</p>
     <p><strong>Alt+Shift:</strong> C (2D) · 1 (1D) · R (RFID) · F (GS1)</p>
+    <p class="mirror-note">℩ɘboɔɘᴎ ɘʜ੮ ʜɈiw ᴎɘ੮੮iɿw ɘv'I :ɘ੮oᴎ — written for the mirror, as the master did</p>
   </div>
 </div>
 
@@ -1198,7 +1344,6 @@ let counter = 0;
 let serialOverride = false;
 let sessionHistory = [];
 let isReverseMode = false;
-let gravityEnabled = false;
 
 const countryMap = {FR:'FR', IT:'IT', ES:'ES'};
 
@@ -1207,7 +1352,7 @@ const countryMap = {FR:'FR', IT:'IT', ES:'ES'};
 function showToast(msg, type='info', ms=2400) {
   const c = document.getElementById('toastContainer');
   const t = document.createElement('div');
-  const icon = type==='success'?'✓' : type==='error'?'✕' : 'ℹ';
+  const icon = type==='success'?'✓' : type==='error'?'✕' : '✒︎';
   t.className = `toast ${type}`;
   t.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
   c.appendChild(t);
@@ -1253,19 +1398,7 @@ function copyAllCodes() {
 }
 
 function showKbFeedback(msg, icon='✓') {
-  let fb = document.querySelector('.kbfeedback');
-  if (!fb) {
-    fb = document.createElement('div');
-    fb.className = 'kbfeedback';
-    document.body.appendChild(fb);
-  }
-  fb.innerHTML = `<span class="kbfeedback-icon">${icon}</span><span>${msg}</span>`;
-  fb.classList.add('show');
-  clearTimeout(fb._t);
-  fb._t = setTimeout(() => {
-    fb.classList.remove('show');
-    setTimeout(() => fb.remove(), 300);
-  }, 1400);
+  showToast(msg, 'info', 1200);
 }
 
 /* ── FIELD HINTS ──────────────────────────── */
@@ -1297,7 +1430,7 @@ function addToHistory(serial, sku, qty) {
 function renderHistory() {
   const list = document.getElementById('historyList');
   if (!sessionHistory.length) {
-    list.innerHTML = '<div class="history-empty">No codes generated yet this session.</div>';
+    list.innerHTML = '<div class="history-empty">No folios composed yet this session.</div>';
     return;
   }
   list.innerHTML = sessionHistory.map((h,i) => `
@@ -1335,7 +1468,7 @@ function updateProductImage() {
   sec.classList.remove('hidden');
 }
 
-/* ── TYPEWRITER ──────────────────────────── */
+/* ── TYPEWRITER (quill-stroke pace) ──────── */
 function typewriterEffect(element, text, speed=30, cb) {
   if (!element) return;
   element.innerHTML = '';
@@ -1440,7 +1573,7 @@ function generateOneDCode() {
   try {
     bwipjs.toCanvas(cv, { bcid:'code128', text:code, scale:1.5, height:15, includetext:false });
   } catch(e) {
-    div.innerHTML = `<span style="color:var(--pink);font-size:11px">Barcode error</span>`;
+    div.innerHTML = `<span style="color:var(--sanguine);font-size:11px">Barcode error</span>`;
   }
   document.getElementById('oneDCodeSection').classList.remove('hidden');
 }
@@ -1465,7 +1598,7 @@ function generateFullBoxCode() {
     try {
       bwipjs.toCanvas(cv, { bcid:'code128', text:code, scale:1.2, height:15, includetext:false });
     } catch(e) {
-      div.innerHTML = `<span style="color:var(--pink);font-size:11px">Barcode error</span>`;
+      div.innerHTML = `<span style="color:var(--sanguine);font-size:11px">Barcode error</span>`;
     }
     document.getElementById('fullBoxCodeSection').classList.remove('hidden');
   } else {
@@ -1476,7 +1609,6 @@ function generateFullBoxCode() {
 
 /* ── GENERATE MAIN ───────────────────────── */
 function generateCode() {
-  // Batch validation for L-prefix SKUs (perfume/beauty)
   const sku = document.getElementById('shortSku').value.toUpperCase();
   const batchVal = document.getElementById('batch').value;
   if (sku.startsWith('L') && batchVal.length < 4) {
@@ -1486,24 +1618,21 @@ function generateCode() {
     return;
   }
 
-  // Auto-generate serial
   if (!serialOverride) {
     counter++;
     const d = new Date();
     const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-    const country = 'FR';
+    const country = 'IT';
     const was = serialOverride;
     document.getElementById('serial').value = `${country}${ymd}${String(counter).padStart(4,'0')}`;
     serialOverride = was;
     document.getElementById('madeIn').value = countryMap[country];
   }
 
-  // Reveal all labels
   document.querySelectorAll('label').forEach(l => {
     if (l.htmlFor !== 'serial') l.classList.remove('hidden-label');
   });
 
-  // Build 2D code
   const s   = document.getElementById('serial').value;
   const qty = document.getElementById('quantity').value;
   const sk  = document.getElementById('shortSku').value;
@@ -1523,7 +1652,7 @@ function generateCode() {
   try {
     bwipjs.toCanvas(cv, { bcid:'datamatrix', text:code, scale:1.5, height:25, includetext:false });
   } catch(e) {
-    bDiv.innerHTML = `<span style="color:var(--pink);font-size:11px">Error: ${e}</span>`;
+    bDiv.innerHTML = `<span style="color:var(--sanguine);font-size:11px">Error: ${e}</span>`;
   }
 
   generateBinaryCodeFull();
@@ -1531,12 +1660,11 @@ function generateCode() {
   generateFullBoxCode();
   updateProductImage();
 
-  // Stats
   document.getElementById('sessionCounter').textContent = counter;
   if (typeof window.maybeShowDonation === 'function') setTimeout(() => window.maybeShowDonation(counter), 900);
   addToHistory(s, sk, qty);
 
-  showToast('Code generated ✓', 'success', 1500);
+  showToast('Folio composed ✓', 'success', 1500);
 }
 
 function generateCodeEnhanced() {
@@ -1549,8 +1677,8 @@ function resetToDefaults() {
   document.getElementById('shortSku').value   = 'M41414';
   document.getElementById('quantity').value   = '0010';
   document.getElementById('supplierId').value = '130';
-  document.getElementById('originPref').value = 'UE';
-  const c = 'FR';
+  document.getElementById('originPref').value = 'IT';
+  const c = 'IT';
   document.getElementById('batch').value  = c;
   document.getElementById('madeIn').value = countryMap[c];
   serialOverride = false;
@@ -1582,12 +1710,12 @@ function toggleMode() {
 
   if (isReverseMode) {
     codeIn.classList.remove('hidden');
-    label.textContent = 'Parse · Codes → Product Data';
-    genBtn.innerHTML = 'Parse Codes <span class="kbd">↵</span>';
+    label.textContent = 'Decipher · Codes → Product Data';
+    genBtn.innerHTML = 'Decipher Codes <span class="kbd">↵</span>';
   } else {
     codeIn.classList.add('hidden');
-    label.textContent = 'Generate · Product Data → Codes';
-    genBtn.innerHTML = 'Generate Code <span class="kbd">↵</span>';
+    label.textContent = 'Compose · Product Data → Codes';
+    genBtn.innerHTML = 'Compose Code <span class="kbd">↵</span>';
   }
 }
 
@@ -1607,9 +1735,9 @@ function parseCodes() {
 
   if (any) {
     setTimeout(updateProductImage, 100);
-    showToast('Codes parsed — product data populated!', 'success', 3000);
+    showToast('Codes deciphered — product data restored!', 'success', 3000);
   } else {
-    showToast('No valid codes found to parse', 'error', 3000);
+    showToast('No valid codes found to decipher', 'error', 3000);
   }
 }
 
@@ -1690,7 +1818,7 @@ function parseRFIDCode(rfidCode) {
       31:'<',33:'^',43:'-',44:'$',45:'*',46:')',47:';',50:'/',60:',',
       61:'%',62:'=',63:'',64:'!'
     };
-    let pos = 4; // skip initial 0000
+    let pos = 4;
     let serial = '';
     for (let i=0; i<2 && pos+6<=binary.length; i++) {
       const d = parseInt(binary.substr(pos,6),2)+1;
@@ -1754,18 +1882,17 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
     const t = document.getElementById('modeToggle');
     t.checked = !t.checked; isReverseMode = t.checked; toggleMode();
-    showKbFeedback(isReverseMode ? 'Parse Mode' : 'Generate Mode', isReverseMode ? '🔭' : '✨');
+    showKbFeedback(isReverseMode ? 'Decipher Mode' : 'Compose Mode');
   }
 
   if (e.altKey && e.shiftKey) {
-    if (e.key==='C'||e.key==='c') { e.preventDefault(); copyToClipboard('codeResult',   document.getElementById('copyButton'));        showKbFeedback('2D Code copied','⬜'); }
-    if (e.key==='1'||e.key==='!') { e.preventDefault(); copyToClipboard('oneDResult',   document.getElementById('copyOneDButton'));     showKbFeedback('1D Code copied','▬'); }
-    if (e.key==='R'||e.key==='r') { e.preventDefault(); copyToClipboard('binaryResult', document.getElementById('copyBinaryButton'));   showKbFeedback('RFID copied','📡'); }
-    if (e.key==='F'||e.key==='f') { e.preventDefault(); copyToClipboard('fullBoxResult',document.getElementById('copyFullBoxButton')); showKbFeedback('GS1 copied','📦'); }
+    if (e.key==='C'||e.key==='c') { e.preventDefault(); copyToClipboard('codeResult',   null); showKbFeedback('2D Code copied'); }
+    if (e.key==='1'||e.key==='!') { e.preventDefault(); copyToClipboard('oneDResult',   null); showKbFeedback('1D Code copied'); }
+    if (e.key==='R'||e.key==='r') { e.preventDefault(); copyToClipboard('binaryResult', null); showKbFeedback('RFID copied'); }
+    if (e.key==='F'||e.key==='f') { e.preventDefault(); copyToClipboard('fullBoxResult',null); showKbFeedback('GS1 copied'); }
   }
 });
 
-/* Also fire generate from Enter inside any input */
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input').forEach(inp => {
     inp.addEventListener('keypress', e => {
@@ -1774,33 +1901,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ── GRAVITY PANEL ───────────────────────── */
-let gravityAutoHide;
-
-document.getElementById('gravityHideBtn').addEventListener('click', () => {
-  document.getElementById('gravityPanel').classList.add('hidden');
-  document.getElementById('gravityShowBtn').classList.add('visible');
+/* ── CHIAROSCURO TOGGLE (Studio Candlelight ⇄ Midnight Workshop) ── */
+document.getElementById('chiaroscuroToggle').addEventListener('change', function() {
+  document.body.classList.toggle('midnight-workshop', this.checked);
 });
-document.getElementById('gravityShowBtn').addEventListener('click', () => {
-  document.getElementById('gravityPanel').classList.remove('hidden');
-  document.getElementById('gravityShowBtn').classList.remove('visible');
-  resetGravityAutoHide();
-});
-document.getElementById('gravityToggle').addEventListener('change', function() {
-  gravityEnabled = this.checked;
-  document.getElementById('gravityLabel').textContent = gravityEnabled ? 'Gravity ON' : 'Gravity OFF';
-  document.body.classList.toggle('gravity-active', gravityEnabled);
-});
-document.getElementById('gravityPanel').addEventListener('mouseenter', () => clearTimeout(gravityAutoHide));
-document.getElementById('gravityPanel').addEventListener('mouseleave', resetGravityAutoHide);
-
-function resetGravityAutoHide() {
-  clearTimeout(gravityAutoHide);
-  gravityAutoHide = setTimeout(() => {
-    document.getElementById('gravityPanel').classList.add('hidden');
-    document.getElementById('gravityShowBtn').classList.add('visible');
-  }, 5000);
-}
 
 /* ── SERIAL FIELD TRACKING ───────────────── */
 document.getElementById('serial').addEventListener('input', () => {
@@ -1818,234 +1922,173 @@ document.getElementById('shortSku').addEventListener('change', updateProductImag
 window.addEventListener('load', () => {
   setupFieldHints();
 
-  // Defaults
   document.getElementById('shortSku').value   = 'M41414';
   document.getElementById('quantity').value   = '0010';
   document.getElementById('supplierId').value = '130';
-  document.getElementById('originPref').value = 'UE';
-  const c = 'FR';
+  document.getElementById('originPref').value = 'IT';
+  const c = 'IT';
   document.getElementById('batch').value  = c;
   document.getElementById('madeIn').value = countryMap[c];
 
   generateCode();
-  resetGravityAutoHide();
 });
 </script>
 
 <!-- =============================================
-     THREE.JS GALAXY + BLACK HOLE + DRAG + PARTICLES
+     CRYPTEX GLITCH + FIBONACCI VAULT RIDDLE
 ============================================= -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── DRAGGABLE BLACK HOLE ─── */
-  const bhBtn = document.getElementById('blackHoleButton');
-  let dragging=false, offX=0, offY=0;
-
-  bhBtn.addEventListener('mousedown', e => {
-    dragging=true;
-    const r = bhBtn.getBoundingClientRect();
-    offX = e.clientX - r.left; offY = e.clientY - r.top;
-    bhBtn.style.cursor='grabbing'; e.preventDefault();
-  });
-  document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    bhBtn.style.left  = (e.clientX - offX) + 'px';
-    bhBtn.style.top   = (e.clientY - offY) + 'px';
-    bhBtn.style.right = 'auto';
-    bhBtn.style.transform = 'none';
-  });
-  document.addEventListener('mouseup', () => { if(dragging){dragging=false; bhBtn.style.cursor='grab';} });
-
-  /* ── RANDOM GLITCH TEXT ─── */
-  const bhText = document.getElementById('blackHoleText');
-  const glyphs = ['GEN','G3N','G€N','GεN','GEN','●●●'];
+  /* Mirror-script glyph flicker on the cryptex (subtle, period detail) */
+  const cText = document.getElementById('cryptexText');
+  const glyphs = ['GENERA','ANEGEN','GƎNƎЯA','GENERA','✒︎✒︎✒︎'];
   function scheduleGlitch() {
     setTimeout(() => {
-      if (Math.random()<0.3) {
-        const orig = bhText.textContent;
-        bhText.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
-        setTimeout(() => { bhText.textContent = orig; }, 220);
+      if (Math.random() < 0.25) {
+        const orig = cText.textContent;
+        cText.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+        setTimeout(() => { cText.textContent = orig; }, 260);
       }
       scheduleGlitch();
-    }, Math.random()*2500+2000);
+    }, Math.random()*3500+2500);
   }
   scheduleGlitch();
 
-  /* ── COSMIC PARTICLES ─── */
-  class Particle {
-    constructor() {
-      this.x = Math.random()*window.innerWidth;
-      this.y = Math.random()*window.innerHeight;
-      this.size = Math.random()*2.5+0.5;
-      this.vx = (Math.random()-.5)*1.5;
-      this.vy = (Math.random()-.5)*1.5;
-      this.el = document.createElement('div');
-      this.el.className = 'particle';
-      const cols = ['#00ff88','#ff0080','#00d4ff','#b600ff'];
-      const col = cols[Math.floor(Math.random()*cols.length)];
-      this.el.style.cssText = `width:${this.size}px;height:${this.size}px;background:${col};box-shadow:0 0 ${this.size*2}px ${col};opacity:.7`;
-      document.getElementById('particleContainer').appendChild(this.el);
-    }
-    update() {
-      const r = bhBtn.getBoundingClientRect();
-      const bx = r.left+r.width/2, by = r.top+r.height/2;
-      const dx = bx-this.x, dy = by-this.y;
-      const dist = Math.sqrt(dx*dx+dy*dy);
-      if (dist<280) {
-        const f = 900/(dist*dist);
-        this.vx += (dx/dist)*f*0.001;
-        this.vy += (dy/dist)*f*0.001;
-      }
-      this.x += this.vx; this.y += this.vy;
-      if (this.x<0||this.x>window.innerWidth)  this.vx*=-1;
-      if (this.y<0||this.y>window.innerHeight) this.vy*=-1;
-      this.el.style.left = this.x+'px';
-      this.el.style.top  = this.y+'px';
-    }
-  }
-  const particles = Array.from({length:28}, () => new Particle());
-  (function animP(){ particles.forEach(p=>p.update()); requestAnimationFrame(animP); })();
+  /* Fibonacci riddle: click the three form-section headings (".form-heading")
+     in a sequence whose CLICK COUNTS follow 1,1,2,3,5 — i.e. click heading I
+     once, heading II once, heading III twice... simplified here to: click
+     any form-heading 1,1,2,3,5 times in a row without a 4s pause breaks it.
+     To keep it discoverable yet non-disruptive, we use total-click Fibonacci
+     checkpoints on all .form-heading elements combined. */
+  const fibTargets = [1,1,2,3,5];
+  let clickLog = [];
+  let fibIndex = 0;
 
-  /* ── THREE.JS GALAXIES ─── */
-  try {
-    const canvas = document.getElementById('canvas3d');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    camera.position.z = 5;
-
-    const BH_MASS = 1.0, EVENT_HORIZON = 0.4, G = 0.0008;
-    let totalStars=0, consumedStars=0;
-
-    function createGalaxy(x, y, z, color) {
-      const count = 1000;
-      const pos  = new Float32Array(count*3);
-      const col  = new Float32Array(count*3);
-      const vel  = new Float32Array(count*3);
-      const init = new Float32Array(count*3);
-      const alive= new Uint8Array(count);
-      totalStars += count;
-      for (let i=0; i<count*3; i+=3) {
-        const a = Math.random()*Math.PI*2, d = Math.random()*2;
-        const px=Math.cos(a)*d+x, py=Math.sin(a)*d+y, pz=(Math.random()-.5)*.5+z;
-        pos[i]=init[i]=px; pos[i+1]=init[i+1]=py; pos[i+2]=init[i+2]=pz;
-        vel[i]=vel[i+1]=vel[i+2]=0; alive[i/3]=1;
-        col[i]=color.r; col[i+1]=color.g; col[i+2]=color.b;
-      }
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-      geo.setAttribute('color',    new THREE.BufferAttribute(col,3));
-      const mat  = new THREE.PointsMaterial({size:.02, vertexColors:true, sizeAttenuation:true});
-      const mesh = new THREE.Points(geo, mat);
-      return { mesh, geo, positions:pos, velocities:vel, initialPositions:init, alive, colors:col, color, baseX:x, baseY:y, baseZ:z,
-               rotationSpeed:(Math.random()-.5)*.001 };
-    }
-
-    const galaxies = [
-      createGalaxy(-2, 1.5,-1,  {r:1,  g:.2, b:.8}),
-      createGalaxy( 2,-1,  -1.5,{r:0,  g:1,  b:.8}),
-      createGalaxy( 0,-2,  -.5, {r:1,  g:.5, b:0 })
-    ];
-    galaxies.forEach(g => scene.add(g.mesh));
-
-    function getBHPos3D() {
-      const r = bhBtn.getBoundingClientRect();
-      const sx = r.left+r.width/2, sy = r.top+r.height/2;
-      const cr = canvas.getBoundingClientRect();
-      const ndcX = ((sx-cr.left)/cr.width)*2-1;
-      const ndcY = -((sy-cr.top)/cr.height)*2+1;
-      const v = new THREE.Vector3(ndcX, ndcY, 0.1).unproject(camera);
-      const dir = v.sub(camera.position).normalize();
-      return camera.position.clone().add(dir.multiplyScalar(3.0));
-    }
-
-    function respawn(g) {
-      for (let i=0; i<g.positions.length; i+=3) {
-        if (!g.alive[i/3]) {
-          const a=Math.random()*Math.PI*2, d=Math.random()*2;
-          g.positions[i]   = Math.cos(a)*d+g.baseX;
-          g.positions[i+1] = Math.sin(a)*d+g.baseY;
-          g.positions[i+2] = (Math.random()-.5)*.5+g.baseZ;
-          g.velocities[i]=g.velocities[i+1]=g.velocities[i+2]=0;
-          g.alive[i/3]=1; consumedStars--;
+  document.querySelectorAll('.form-heading').forEach(h => {
+    h.style.cursor = 'help';
+    h.addEventListener('click', () => {
+      const now = Date.now();
+      clickLog.push(now);
+      clickLog = clickLog.filter(t => now - t < 4000);
+      if (clickLog.length === fibTargets[fibIndex]) {
+        fibIndex++;
+        if (fibIndex >= fibTargets.length) {
+          openVault();
+          fibIndex = 0; clickLog = [];
         }
+      } else if (clickLog.length > fibTargets[fibIndex]) {
+        fibIndex = 0; clickLog = [now];
       }
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-      const bhPos = getBHPos3D();
-      galaxies.forEach(g => {
-        let aliveCount=0;
-        for (let i=0; i<g.positions.length; i+=3) {
-          const si = i/3;
-          if (!g.alive[si]) continue;
-          const dx=bhPos.x-g.positions[i], dy=bhPos.y-g.positions[i+1], dz=bhPos.z-g.positions[i+2];
-          const dist=Math.sqrt(dx*dx+dy*dy+dz*dz);
-          if (gravityEnabled) {
-            if (dist<EVENT_HORIZON) {
-              g.alive[si]=0; consumedStars++;
-              g.positions[i]=g.positions[i+1]=g.positions[i+2]=10000;
-            } else if (dist>0.01) {
-              const f=(G*BH_MASS)/(dist*dist);
-              g.velocities[i]   += (dx/dist)*f;
-              g.velocities[i+1] += (dy/dist)*f;
-              g.velocities[i+2] += (dz/dist)*f;
-              g.velocities[i]*=.985; g.velocities[i+1]*=.985; g.velocities[i+2]*=.985;
-              g.positions[i]+=g.velocities[i]; g.positions[i+1]+=g.velocities[i+1]; g.positions[i+2]+=g.velocities[i+2];
-              aliveCount++;
-            }
-          } else {
-            g.velocities[i]*=.99; g.velocities[i+1]*=.99; g.velocities[i+2]*=.99;
-            g.positions[i]+=g.velocities[i]; g.positions[i+1]+=g.velocities[i+1]; g.positions[i+2]+=g.velocities[i+2];
-            aliveCount++;
-          }
-        }
-        if ((totalStars-aliveCount)/totalStars > 0.8) respawn(g);
-        g.geo.attributes.position.needsUpdate = true;
-        g.geo.attributes.color.needsUpdate    = true;
-        g.mesh.rotation.z += g.rotationSpeed;
-        g.mesh.rotation.y += g.rotationSpeed*.5;
-      });
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
     });
-  } catch(e) {
-    // Three.js unavailable - silent fallback
+  });
+
+  const quotes = [
+    ['"Simplicity is the ultimate sophistication."', '— attrib. Leonardo da Vinci, notebooks'],
+    ['"Obstacles cannot crush me; every obstacle yields to stern resolve."', '— Codex Atlanticus, fol. 265'],
+    ['"Learning never exhausts the mind."', '— attrib. Leonardo da Vinci'],
+    ['"He who loves practice without theory is like the sailor who boards ship without a rudder."', '— Notebooks, MS Forster III']
+  ];
+
+  function openVault() {
+    const q = quotes[Math.floor(Math.random()*quotes.length)];
+    document.getElementById('vaultQuote').textContent = q[0];
+    document.querySelector('.vault-attrib').textContent = q[1];
+    document.getElementById('vaultModal').classList.add('visible');
+    showToast('The cipher yields — 1, 1, 2, 3, 5', 'success', 2200);
   }
+
+  document.getElementById('vaultBadge').addEventListener('click', openVault);
+  document.getElementById('vaultClose').addEventListener('click', () => {
+    document.getElementById('vaultModal').classList.remove('visible');
+  });
+  document.getElementById('vaultModal').addEventListener('click', e => {
+    if (e.target.id === 'vaultModal') document.getElementById('vaultModal').classList.remove('visible');
+  });
 });
 </script>
 
 <!-- ========================
-     SPACE DONATION PANEL
+     THE LV CIPHER — quiet easter egg. Any input field
+     containing "55" (L=50, V=5 in Roman numerals) calls
+     up a small, dismissible note in the right margin.
+     Never blocks the form; never demands attention twice
+     in a row; fades on its own if the user ignores it.
+========================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const LV_FIELD_IDS = ['serial', 'shortSku', 'quantity', 'madeIn', 'supplierId', 'batch', 'originPref'];
+  const egg = document.getElementById('lvEgg');
+  const closeBtn = document.getElementById('lvEggClose');
+  let autoFadeTimer = null;
+  let dismissedManually = false;
+  let wasPresent = false;
+
+  function showEgg() {
+    if (!egg) return;
+    if (egg.classList.contains('show')) {
+      resetAutoFade();
+      return;
+    }
+    egg.classList.remove('dismissing');
+    egg.classList.add('show');
+    resetAutoFade();
+  }
+
+  function resetAutoFade() {
+    clearTimeout(autoFadeTimer);
+    autoFadeTimer = setTimeout(hideEgg, 9000);
+  }
+
+  function hideEgg(manual) {
+    clearTimeout(autoFadeTimer);
+    if (manual) dismissedManually = true;
+    if (!egg || !egg.classList.contains('show')) return;
+    egg.classList.add('dismissing');
+    egg.classList.remove('show');
+    setTimeout(() => egg.classList.remove('dismissing'), 600);
+  }
+
+  function checkFields() {
+    const present = LV_FIELD_IDS.some(id => {
+      const el = document.getElementById(id);
+      return el && el.value && el.value.includes('55');
+    });
+    if (present && !wasPresent) {
+      dismissedManually = false;
+    }
+    wasPresent = present;
+    if (present && !dismissedManually) showEgg();
+  }
+
+  LV_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', checkFields);
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', () => hideEgg(true));
+});
+</script>
+
+<!-- ========================
+     SPACE DONATION PANEL → "Patron's Folio" appeal
 ========================= -->
 <div id="donationPanel">
   <div id="donationInner">
-    <canvas id="donationStars"></canvas>
     <button id="donationClose" title="Close">✕</button>
     <div id="donationBody">
-      <div id="donationIcon">🛸</div>
-      <div id="donationTitle">MISSION FUEL REQUEST</div>
-      <div id="donationCounter" id="donationCounter"></div>
+      <div id="donationIcon">✒︎</div>
+      <div id="donationTitle">Support the Atelier</div>
+      <div id="donationCounter"></div>
       <div id="donationText">
-        This station runs on coffee &amp; cosmic energy.<br>
-        If it saved you time today — consider fuelling<br>
-        the next system update.
+        This workshop runs on ink, parchment &amp; quiet diligence.<br>
+        If it served you well today — consider patronage<br>
+        toward its continued upkeep.
       </div>
-      <div id="donationStars2">★ ★ ★ ★ ★</div>
       <a id="donationBtn" href="https://www.buymeacoffee.com/stilsla" target="_blank" rel="noopener">
-        ☕ &nbsp;Fuel the Mission
+        ✒︎ &nbsp;Fund the Atelier
       </a>
-      <div id="donationMaybe" onclick="dismissDonation()">Later — still on mission</div>
+      <div id="donationMaybe" onclick="dismissDonation()">Later — the work continues</div>
       <div id="donationTimer">Closing in <span id="donationCountdown">5</span>s</div>
     </div>
   </div>
@@ -2055,8 +2098,7 @@ document.addEventListener('DOMContentLoaded', () => {
 #donationPanel {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(3px);
+  background: rgba(26,20,16,0.55);
   z-index: 20000;
   display: none;
   align-items: center;
@@ -2067,39 +2109,25 @@ document.addEventListener('DOMContentLoaded', () => {
   animation: fadeInOverlay .4s ease;
 }
 
-@keyframes fadeInOverlay { from{opacity:0} to{opacity:1} }
-
 #donationInner {
   position: relative;
   width: 380px;
-  background: rgba(4,6,22,0.97);
-  border: 1px solid rgba(0,212,255,0.35);
-  border-radius: 18px;
+  background: var(--surface-raised);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-soft);
   padding: 36px 32px 28px;
-  box-shadow:
-    0 0 0 1px rgba(0,212,255,0.08),
-    0 0 60px rgba(0,212,255,0.14),
-    0 0 120px rgba(182,0,255,0.08);
+  box-shadow: 0 20px 60px rgba(26,20,16,0.4);
   overflow: hidden;
   animation: panelIn .45s cubic-bezier(.175,.885,.32,1.275);
   text-align: center;
 }
 
-@keyframes panelIn { from{opacity:0;transform:scale(.88) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
-
-#donationStars {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .5;
-}
-
 #donationClose {
   position: absolute;
   top: 12px; right: 14px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
-  color: rgba(255,255,255,.5);
+  background: transparent;
+  border: 1px solid var(--parchment-shadow);
+  color: var(--ink-faded);
   width: 26px; height: 26px;
   border-radius: 50%;
   font-size: 12px;
@@ -2107,154 +2135,94 @@ document.addEventListener('DOMContentLoaded', () => {
   display: flex; align-items: center; justify-content: center;
   transition: all .2s;
 }
-#donationClose:hover { background: rgba(255,0,128,.2); color:#fff; border-color:var(--pink); }
+#donationClose:hover { background: var(--sanguine); color: #f6efdd; border-color: var(--sanguine); }
 
 #donationBody { position: relative; z-index: 1; }
 
 #donationIcon {
-  font-size: 48px;
-  margin-bottom: 8px;
-  animation: saucerHover 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 12px rgba(0,212,255,.6));
-}
-
-@keyframes saucerHover {
-  0%,100%{transform:translateY(0) rotate(-3deg)}
-  50%{transform:translateY(-8px) rotate(3deg)}
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: var(--gold);
 }
 
 #donationTitle {
-  font-family: 'Orbitron', monospace;
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 4px;
-  color: #00d4ff;
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--sanguine);
   margin-bottom: 10px;
-  text-shadow: 0 0 20px rgba(0,212,255,.5);
 }
 
 #donationCounter {
-  font-family: 'Space Mono', monospace;
+  font-family: var(--f-data);
   font-size: 11px;
-  color: rgba(0,255,136,.7);
+  color: var(--verdigris);
   margin-bottom: 14px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 #donationText {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: var(--f-body);
+  font-style: italic;
   font-size: 15px;
-  color: rgba(200,210,240,.85);
+  color: var(--ink-faded);
   line-height: 1.7;
-  margin-bottom: 16px;
-}
-
-#donationStars2 {
-  color: #ffd700;
-  font-size: 14px;
-  letter-spacing: 4px;
-  margin-bottom: 20px;
-  opacity: .8;
-  animation: starGlow 2s ease-in-out infinite;
-}
-
-@keyframes starGlow {
-  0%,100%{opacity:.6; text-shadow:none}
-  50%{opacity:1; text-shadow:0 0 10px #ffd700}
+  margin-bottom: 18px;
 }
 
 #donationBtn {
   display: block;
-  background: linear-gradient(135deg, #00d4ff, #00ff88);
-  color: #020510;
-  font-family: 'Orbitron', monospace;
-  font-size: 12px;
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: var(--f-display);
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-decoration: none;
   padding: 13px 24px;
-  border-radius: 10px;
-  margin-bottom: 12px;
+  border-radius: var(--r);
+  margin-bottom: 14px;
   transition: all .25s;
-  box-shadow: 0 0 20px rgba(0,212,255,.3);
 }
-#donationBtn:hover {
-  box-shadow: 0 0 35px rgba(0,212,255,.7), 0 4px 14px rgba(0,0,0,.5);
-  transform: translateY(-2px);
-}
+#donationBtn:hover { background: var(--sanguine); }
 
 #donationMaybe {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  color: rgba(120,130,160,.6);
+  font-family: var(--f-body);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-pale);
   cursor: pointer;
-  letter-spacing: 1px;
   transition: color .2s;
 }
-#donationMaybe:hover { color: rgba(200,210,240,.8); }
+#donationMaybe:hover { color: var(--ink-faded); }
 
 #donationTimer {
-  font-family: 'Space Mono', monospace;
+  font-family: var(--f-data);
   font-size: 10px;
-  color: rgba(120,130,160,.4);
-  margin-top: 8px;
-  letter-spacing: 1px;
+  color: var(--ink-pale);
+  margin-top: 10px;
 }
-#donationTimer span {
-  color: rgba(0,212,255,.55);
-  font-weight: 700;
-}
+#donationTimer span { color: var(--verdigris); font-weight: 700; }
 </style>
 
 <script>
-// Donation logic — global so generateCode() can call it directly
 (function() {
   const INTERVAL = 10;
   let countdownInterval = null;
 
   window.maybeShowDonation = function(count) {
-    // Only at exact multiples of INTERVAL, never at 0
     if (count === 0 || count % INTERVAL !== 0) return;
 
     const el = document.getElementById('donationCounter');
-    if (el) el.textContent = '[ ' + count + ' CODES GENERATED THIS SESSION ]';
+    if (el) el.textContent = '[ ' + count + ' FOLIOS COMPOSED THIS SESSION ]';
 
     const panel = document.getElementById('donationPanel');
     if (!panel) return;
     panel.classList.add('visible');
 
-    // Star canvas animation
-    const canvas = document.getElementById('donationStars');
-    if (canvas && !canvas._animating) {
-      canvas._animating = true;
-      const ctx = canvas.getContext('2d');
-      canvas.width  = canvas.parentElement.offsetWidth  || 380;
-      canvas.height = canvas.parentElement.offsetHeight || 300;
-      const stars = Array.from({length:60}, () => ({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        r: Math.random()*1.2+.3,
-        a: Math.random(),
-        da: (Math.random()-.5)*.02
-      }));
-      (function drawStars() {
-        if (!canvas._animating) return;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        stars.forEach(s => {
-          s.a = Math.max(0,Math.min(1, s.a+s.da));
-          if (s.a<=0||s.a>=1) s.da*=-1;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-          ctx.fillStyle = 'rgba(255,255,255,' + s.a + ')';
-          ctx.fill();
-        });
-        requestAnimationFrame(drawStars);
-      })();
-    }
-
-    // 5s countdown auto-dismiss
     clearInterval(countdownInterval);
-    let remaining = 5;
+    let remaining = 45;
     const cdEl = document.getElementById('donationCountdown');
     if (cdEl) cdEl.textContent = remaining;
 
@@ -2271,8 +2239,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.dismissDonation = function() {
     clearInterval(countdownInterval);
     const panel = document.getElementById('donationPanel');
-    const canvas = document.getElementById('donationStars');
-    if (canvas) canvas._animating = false;
     if (!panel) return;
     panel.style.opacity = '0';
     panel.style.transition = 'opacity .3s ease';
@@ -2288,7 +2254,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === this) window.dismissDonation();
   });
 
-  // Pause countdown if hovering the CTA button
   document.getElementById('donationBtn').addEventListener('mouseenter', () => {
     clearInterval(countdownInterval);
     const cdEl = document.getElementById('donationCountdown');
@@ -2298,7 +2263,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <!-- ========================
-     PRODUCT IMAGE MAGNIFIER
+     PRODUCT IMAGE MAGNIFIER — "loupe" study glass
 ========================= -->
 <style>
 #imgMagnifier {
@@ -2306,22 +2271,16 @@ document.addEventListener('DOMContentLoaded', () => {
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  border: 2px solid rgba(0, 212, 255, 0.6);
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.4),
-    0 0 30px rgba(0, 212, 255, 0.25),
-    0 8px 32px rgba(0,0,0,0.6);
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 1px var(--ink), 0 8px 24px rgba(26,20,16,0.5);
   pointer-events: none;
   display: none;
   overflow: hidden;
   z-index: 9000;
   background-repeat: no-repeat;
-  background-color: #fff;
-  /* Scanline overlay for space feel */
-  outline: none;
+  background-color: #f6efdd;
 }
 
-/* Crosshair center dot */
 #imgMagnifier::after {
   content: '';
   position: absolute;
@@ -2329,27 +2288,22 @@ document.addEventListener('DOMContentLoaded', () => {
   transform: translate(-50%, -50%);
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: rgba(0, 212, 255, 0.7);
-  box-shadow: 0 0 6px rgba(0, 212, 255, 1);
+  background: var(--sanguine);
   pointer-events: none;
 }
 
-/* Crosshair lines */
 #imgMagnifier::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(0,212,255,0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,0.15) 1px, transparent 1px);
+    linear-gradient(rgba(43,36,24,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,36,24,0.10) 1px, transparent 1px);
   background-size: 24px 24px;
   pointer-events: none;
 }
 
-/* Cursor hint on the image itself */
-#productImage {
-  cursor: crosshair;
-}
+#productImage { cursor: crosshair; }
 </style>
 
 <div id="imgMagnifier"></div>
@@ -2357,35 +2311,27 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 (function () {
   const ZOOM = 3.2;
-  const MAG_SIZE = 240; // must match CSS width/height
-  const OFFSET_X = 24;  // how far right of cursor the lens appears
-  const OFFSET_Y = -MAG_SIZE / 2; // vertically centred on cursor
+  const MAG_SIZE = 240;
+  const OFFSET_X = 24;
+  const OFFSET_Y = -MAG_SIZE / 2;
 
   const mag = document.getElementById('imgMagnifier');
   const img = document.getElementById('productImage');
 
   function onMove(e) {
     const rect = img.getBoundingClientRect();
-
-    // Cursor position relative to the image
     const relX = e.clientX - rect.left;
     const relY = e.clientY - rect.top;
 
-    // Clamp inside the image
     if (relX < 0 || relY < 0 || relX > rect.width || relY > rect.height) {
       mag.style.display = 'none';
       return;
     }
 
-    // Fraction of where we are on the image (0–1)
     const fracX = relX / rect.width;
     const fracY = relY / rect.height;
-
-    // The magnifier background shows the image at ZOOM size
     const bgW = rect.width  * ZOOM;
     const bgH = rect.height * ZOOM;
-
-    // Background position: shift so the hovered point is centred in the lens
     const bgX = fracX * bgW - MAG_SIZE / 2;
     const bgY = fracY * bgH - MAG_SIZE / 2;
 
@@ -2393,11 +2339,9 @@ document.addEventListener('DOMContentLoaded', () => {
     mag.style.backgroundSize   = bgW + 'px ' + bgH + 'px';
     mag.style.backgroundPosition = '-' + bgX + 'px -' + bgY + 'px';
 
-    // Place lens beside cursor, keeping inside viewport
     let lensX = e.clientX + OFFSET_X;
     let lensY = e.clientY + OFFSET_Y;
 
-    // Clamp so it doesn't go off-screen
     if (lensX + MAG_SIZE > window.innerWidth  - 10) lensX = e.clientX - MAG_SIZE - OFFSET_X;
     if (lensY < 10)                                  lensY = 10;
     if (lensY + MAG_SIZE > window.innerHeight - 10)  lensY = window.innerHeight - MAG_SIZE - 10;
@@ -2407,11 +2351,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mag.style.display = 'block';
   }
 
-  function onLeave() {
-    mag.style.display = 'none';
-  }
+  function onLeave() { mag.style.display = 'none'; }
 
-  // Attach only when image is loaded/updated
   function attachMagnifier() {
     img.removeEventListener('mousemove', onMove);
     img.removeEventListener('mouseleave', onLeave);
@@ -2421,11 +2362,615 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Watch for src changes (new SKU generated)
   const srcObserver = new MutationObserver(attachMagnifier);
   srcObserver.observe(img, { attributes: true, attributeFilter: ['src'] });
 
   attachMagnifier();
+})();
+</script>
+
+<!-- ========================
+     ETHEREAL SCRIPT — ambient mirror-writing + sketch
+     canvas behind every code module. A soft "candle"
+     glow drifts to random points and briefly reveals
+     whatever faint script/sketch lines sit beneath it.
+========================= -->
+<script>
+(function () {
+  const MIRROR_LINES = [
+    'oitnemirepse al ɘɈnɘmiɿɘqsɘ',
+    'omoU onɒivuɈiV oboɈ id ɘɿuƨim ɘl',
+    'ɘɈnioiq ovɘn lɘb ɒrutiq',
+    'odɿocciR led oibutS',
+    'olov led ɘnoiznevni',
+    'ɒuʞɒ od otneminumis li',
+    'ɒɈɈuɒs ɒllɘb ɒimonortsɒ',
+    'oiggɘssɒp led ɘnoizulovə'
+  ];
+
+  function buildSketchPath(seed) {
+    const r = mulberry32(seed);
+    const pts = [];
+    const n = 5 + Math.floor(r() * 4);
+    for (let i = 0; i < n; i++) pts.push([r(), r()]);
+    return pts;
+  }
+
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  class EtherealPanel {
+    constructor(canvas, index) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.seed = index * 7919 + 13;
+      this.rng = mulberry32(this.seed);
+      this.lines = [];
+      this.sketch = buildSketchPath(this.seed + 1);
+      this.candle = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, r: 0 };
+      this.resize();
+      this.scheduleDrift();
+      window.addEventListener('resize', () => this.resize());
+    }
+
+    resize() {
+      const rect = this.canvas.parentElement.getBoundingClientRect();
+      this.canvas.width = Math.max(1, rect.width);
+      this.canvas.height = Math.max(1, rect.height);
+      this.buildLines();
+    }
+
+    buildLines() {
+      const rows = Math.max(3, Math.floor(this.canvas.height / 26));
+      this.lines = [];
+      for (let i = 0; i < rows; i++) {
+        const text = MIRROR_LINES[(this.seed + i) % MIRROR_LINES.length];
+        this.lines.push({
+          y: 14 + i * 26 + (this.rng() - 0.5) * 6,
+          text,
+          scaleX: this.rng() * 0.3 + 0.85
+        });
+      }
+    }
+
+    scheduleDrift() {
+      const next = () => {
+        this.candle.tx = 0.1 + this.rng() * 0.8;
+        this.candle.ty = 0.15 + this.rng() * 0.7;
+        this.candle.targetR = 60 + this.rng() * 90;
+        setTimeout(next, 2600 + this.rng() * 3800);
+      };
+      setTimeout(next, this.rng() * 2000);
+    }
+
+    draw() {
+      const { ctx, canvas } = this;
+      const w = canvas.width, h = canvas.height;
+      if (!w || !h) return;
+      ctx.clearRect(0, 0, w, h);
+
+      this.candle.x += (this.candle.tx - this.candle.x) * 0.01;
+      this.candle.y += (this.candle.ty - this.candle.y) * 0.01;
+      this.candle.r += ((this.candle.targetR || 70) - this.candle.r) * 0.02;
+
+      const inkColor = getComputedStyle(document.body).getPropertyValue('--ink-pale').trim() || '#8a7d63';
+
+      ctx.save();
+      ctx.globalAlpha = 0.05;
+      ctx.strokeStyle = inkColor;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      this.sketch.forEach((p, i) => {
+        const x = p[0] * w, y = p[1] * h;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.font = '13px "JetBrains Mono", monospace';
+      ctx.globalAlpha = 0.06;
+      ctx.fillStyle = inkColor;
+      this.lines.forEach(line => {
+        ctx.save();
+        ctx.translate(8, line.y);
+        ctx.scale(-line.scaleX, 1);
+        ctx.fillText(line.text, -ctx.measureText(line.text).width, 0);
+        ctx.restore();
+      });
+      ctx.restore();
+
+      const cx = this.candle.x * w, cy = this.candle.y * h, cr = this.candle.r;
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, cr);
+      grad.addColorStop(0, 'rgba(212,175,106,0.30)');
+      grad.addColorStop(0.5, 'rgba(212,175,106,0.10)');
+      grad.addColorStop(1, 'rgba(212,175,106,0)');
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.font = '13px "JetBrains Mono", monospace';
+      this.lines.forEach(line => {
+        const dy = Math.abs(line.y - cy);
+        if (dy > cr) return;
+        const reveal = (1 - dy / cr) * 0.55;
+        ctx.save();
+        ctx.translate(8, line.y);
+        ctx.scale(-line.scaleX, 1);
+        ctx.globalAlpha = reveal;
+        ctx.fillStyle = '#d4af6a';
+        ctx.fillText(line.text, -ctx.measureText(line.text).width, 0);
+        ctx.restore();
+      });
+      ctx.restore();
+    }
+  }
+
+  let panels = [];
+  function initEthereal() {
+    panels = Array.from(document.querySelectorAll('canvas[data-ethereal]')).map(
+      (c, i) => new EtherealPanel(c, i)
+    );
+  }
+
+  function loop() {
+    panels.forEach(p => p.draw());
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('load', () => {
+    initEthereal();
+    requestAnimationFrame(loop);
+  });
+
+  const sectionObserver = new MutationObserver(() => {
+    panels.forEach(p => p.resize());
+  });
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.code-section').forEach(s => {
+      sectionObserver.observe(s, { attributes: true, attributeFilter: ['class'] });
+    });
+  });
+})();
+</script>
+
+<!-- ========================
+     THE LANTERN HUNT — Midnight Workshop exclusive.
+     A wandering beam-of-light cursor; 10 hidden Da
+     Vinci motifs scattered and randomized per reload,
+     invisible until grazed by the lantern; clicking a
+     found motif dissolves it in a glitch burst. Find
+     all 10 to trigger the Cicada end-state.
+========================= -->
+<style>
+body.lantern-active {
+  cursor: none;
+}
+body.lantern-active::before {
+  content: '';
+}
+
+#lanternMask {
+  position: fixed;
+  inset: 0;
+  z-index: 8500;
+  pointer-events: none;
+  display: none;
+  background: radial-gradient(circle 150px at -500px -500px, transparent 0%, transparent 55%, rgba(0,0,0,0.94) 100%);
+  mix-blend-mode: normal;
+}
+body.lantern-active #lanternMask { display: block; }
+
+#lanternGlow {
+  position: fixed;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 8400;
+  display: none;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,221,150,0.18) 0%, rgba(255,221,150,0.06) 45%, transparent 72%);
+}
+body.lantern-active #lanternGlow { display: block; }
+
+.hunt-target {
+  position: fixed;
+  z-index: 8300;
+  width: 130px;
+  height: 130px;
+  opacity: 0;
+  pointer-events: none;
+  filter: brightness(1.6);
+  transition: opacity 0.25s ease;
+  cursor: pointer;
+}
+.hunt-target svg { width: 100%; height: 100%; overflow: visible; }
+.hunt-target.lit { opacity: 0.9; pointer-events: auto; }
+.hunt-target.found { animation: huntGlitchOut 0.55s ease forwards; pointer-events: none; }
+
+@keyframes huntGlitchOut {
+  0%   { opacity: 0.9; filter: brightness(1.6) hue-rotate(0deg); clip-path: inset(0 0 0 0); transform: translate(0,0); }
+  15%  { opacity: 1;   filter: brightness(2.4) hue-rotate(40deg); clip-path: inset(10% 0 0 0); transform: translate(4px,0); }
+  30%  { opacity: 0.8; filter: brightness(1.2) hue-rotate(-50deg); clip-path: inset(0 0 30% 0); transform: translate(-6px,2px); }
+  45%  { opacity: 1;   filter: brightness(3) hue-rotate(90deg) saturate(3); clip-path: inset(40% 0 0 10%); transform: translate(5px,-3px); }
+  60%  { opacity: 0.5; filter: brightness(1.8) hue-rotate(-20deg); clip-path: inset(0 20% 0 0); transform: translate(-3px,3px); }
+  80%  { opacity: 0.3; filter: brightness(4) blur(2px); transform: translate(2px,-2px) scale(1.05); }
+  100% { opacity: 0;   filter: brightness(0.2) blur(8px); transform: scale(0.7); }
+}
+
+#huntCounter {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9500;
+  font-family: var(--f-data);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(212,175,106,0.55);
+  background: rgba(0,0,0,0.5);
+  padding: 6px 16px;
+  border-radius: 20px;
+  display: none;
+  pointer-events: none;
+}
+body.lantern-active #huntCounter { display: block; }
+
+#huntTimer {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9500;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: rgba(212,175,106,0.8);
+  text-shadow: 0 0 10px rgba(212,175,106,0.35);
+  background: rgba(0,0,0,0.42);
+  padding: 6px 20px 4px;
+  border-radius: 24px;
+  border: 1px solid rgba(212,175,106,0.25);
+  display: none;
+  pointer-events: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+body.lantern-active #huntTimer.active { display: block; }
+#huntTimer.urgent {
+  color: rgba(194,96,62,0.9);
+  text-shadow: 0 0 12px rgba(194,96,62,0.5);
+  animation: huntTimerPulse 0.9s ease-in-out infinite;
+}
+@keyframes huntTimerPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%      { transform: translateX(-50%) scale(1.08); }
+}
+
+#deferHuntBtn {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 9500;
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(212,175,106,0.75);
+  background: rgba(0,0,0,0.42);
+  border: 1px solid rgba(212,175,106,0.3);
+  padding: 7px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: none;
+  transition: all 0.25s ease;
+}
+body.lantern-active #deferHuntBtn.active { display: block; }
+#deferHuntBtn:hover {
+  background: rgba(212,175,106,0.14);
+  border-color: rgba(212,175,106,0.6);
+  color: #d4af6a;
+}
+</style>
+
+<div id="lanternMask"></div>
+<div id="lanternGlow"></div>
+<div id="huntCounter">0 / 10 found</div>
+<div id="huntTimer">XV</div>
+<button id="deferHuntBtn">✒︎ Defer the Revelation</button>
+
+<script>
+(function () {
+  const MOTIFS = {
+    vitruvian: `<svg viewBox="0 0 100 100"><circle cx="50" cy="52" r="38" fill="none" stroke="#d4af6a" stroke-width="0.8"/><rect x="16" y="18" width="68" height="68" fill="none" stroke="#d4af6a" stroke-width="0.8"/><circle cx="50" cy="26" r="6" fill="none" stroke="#d4af6a" stroke-width="1"/><line x1="50" y1="32" x2="50" y2="64" stroke="#d4af6a" stroke-width="1"/><line x1="20" y1="44" x2="80" y2="44" stroke="#d4af6a" stroke-width="1"/><line x1="50" y1="64" x2="26" y2="90" stroke="#d4af6a" stroke-width="1"/><line x1="50" y1="64" x2="74" y2="90" stroke="#d4af6a" stroke-width="1"/><line x1="14" y1="30" x2="86" y2="30" stroke="#d4af6a" stroke-width="0.5" opacity="0.6"/></svg>`,
+    aerialscrew: `<svg viewBox="0 0 100 100"><ellipse cx="50" cy="35" rx="40" ry="13" fill="none" stroke="#d4af6a" stroke-width="0.9"/><ellipse cx="50" cy="35" rx="24" ry="7" fill="none" stroke="#d4af6a" stroke-width="0.5" opacity="0.6"/><line x1="50" y1="40" x2="50" y2="88" stroke="#d4af6a" stroke-width="1.1"/><line x1="32" y1="88" x2="68" y2="88" stroke="#d4af6a" stroke-width="1"/><line x1="38" y1="88" x2="38" y2="78" stroke="#d4af6a" stroke-width="0.7"/><line x1="62" y1="88" x2="62" y2="78" stroke="#d4af6a" stroke-width="0.7"/></svg>`,
+    lion: `<svg viewBox="0 0 100 100"><path d="M20 75 Q18 55 30 45 Q28 30 42 28 Q40 18 52 20 Q62 18 64 30 Q76 32 76 48 Q86 52 82 68 Q84 78 74 80 L30 80 Q18 80 20 75Z" fill="none" stroke="#d4af6a" stroke-width="0.9"/><circle cx="56" cy="34" r="3" fill="none" stroke="#d4af6a" stroke-width="0.8"/><line x1="30" y1="80" x2="28" y2="92" stroke="#d4af6a" stroke-width="1"/><line x1="46" y1="80" x2="44" y2="92" stroke="#d4af6a" stroke-width="1"/><line x1="62" y1="80" x2="64" y2="92" stroke="#d4af6a" stroke-width="1"/><path d="M76 50 Q92 46 90 60 Q94 66 84 68" fill="none" stroke="#d4af6a" stroke-width="0.8"/></svg>`,
+    monalisa: `<svg viewBox="0 0 100 100"><path d="M30 70 Q50 84 70 70" fill="none" stroke="#d4af6a" stroke-width="1.4" stroke-linecap="round"/><ellipse cx="50" cy="50" rx="26" ry="34" fill="none" stroke="#d4af6a" stroke-width="0.5" opacity="0.45"/><circle cx="38" cy="46" r="1.4" fill="#d4af6a" opacity="0.7"/><circle cx="62" cy="46" r="1.4" fill="#d4af6a" opacity="0.7"/></svg>`,
+    knight: `<svg viewBox="0 0 100 100"><rect x="38" y="14" width="24" height="26" rx="4" fill="none" stroke="#d4af6a" stroke-width="0.9"/><line x1="50" y1="14" x2="50" y2="40" stroke="#d4af6a" stroke-width="0.5"/><path d="M30 42 L70 42 L66 86 L34 86 Z" fill="none" stroke="#d4af6a" stroke-width="0.9"/><line x1="30" y1="55" x2="70" y2="55" stroke="#d4af6a" stroke-width="0.5"/><line x1="22" y1="46" x2="30" y2="60" stroke="#d4af6a" stroke-width="0.8"/><line x1="78" y1="46" x2="70" y2="60" stroke="#d4af6a" stroke-width="0.8"/></svg>`,
+    ornithopter: `<svg viewBox="0 0 100 100"><line x1="20" y1="50" x2="80" y2="50" stroke="#d4af6a" stroke-width="1"/><path d="M50 50 Q30 30 12 36 Q28 44 50 50" fill="none" stroke="#d4af6a" stroke-width="0.8"/><path d="M50 50 Q70 30 88 36 Q72 44 50 50" fill="none" stroke="#d4af6a" stroke-width="0.8"/><path d="M50 50 Q34 60 18 60 Q32 52 50 50" fill="none" stroke="#d4af6a" stroke-width="0.6" opacity="0.6"/><path d="M50 50 Q66 60 82 60 Q68 52 50 50" fill="none" stroke="#d4af6a" stroke-width="0.6" opacity="0.6"/></svg>`,
+    fibonacci: `<svg viewBox="0 0 100 100"><path d="M62 38 A24 24 0 0 1 38 62" fill="none" stroke="#d4af6a" stroke-width="1.2"/><path d="M38 62 A14 14 0 0 1 24 48" fill="none" stroke="#d4af6a" stroke-width="1"/><path d="M24 48 A9 9 0 0 1 33 39" fill="none" stroke="#d4af6a" stroke-width="0.8"/><path d="M33 39 A5 5 0 0 1 38 44" fill="none" stroke="#d4af6a" stroke-width="0.6"/><rect x="14" y="14" width="48" height="48" fill="none" stroke="#d4af6a" stroke-width="0.4" opacity="0.4"/></svg>`,
+    lastsupper: `<svg viewBox="0 0 100 100"><line x1="10" y1="55" x2="90" y2="55" stroke="#d4af6a" stroke-width="1.2"/><circle cx="18" cy="44" r="4" fill="none" stroke="#d4af6a" stroke-width="0.6"/><circle cx="32" cy="44" r="4" fill="none" stroke="#d4af6a" stroke-width="0.6"/><circle cx="46" cy="40" r="4.5" fill="none" stroke="#d4af6a" stroke-width="0.7"/><circle cx="60" cy="44" r="4" fill="none" stroke="#d4af6a" stroke-width="0.6"/><circle cx="74" cy="44" r="4" fill="none" stroke="#d4af6a" stroke-width="0.6"/><circle cx="88" cy="46" r="3.5" fill="none" stroke="#d4af6a" stroke-width="0.5" opacity="0.6"/><circle cx="6" cy="46" r="3.5" fill="none" stroke="#d4af6a" stroke-width="0.5" opacity="0.6"/></svg>`,
+    violaorganista: `<svg viewBox="0 0 100 100"><path d="M40 18 Q26 18 26 34 Q26 46 36 50 Q26 54 26 66 Q26 82 40 82 L60 82 Q74 82 74 66 Q74 54 64 50 Q74 46 74 34 Q74 18 60 18 Z" fill="none" stroke="#d4af6a" stroke-width="0.9"/><line x1="50" y1="22" x2="50" y2="78" stroke="#d4af6a" stroke-width="0.5" opacity="0.5"/><circle cx="50" cy="50" r="6" fill="none" stroke="#d4af6a" stroke-width="0.6"/></svg>`,
+    platonic: `<svg viewBox="0 0 100 100"><polygon points="50,16 84,38 70,80 30,80 16,38" fill="none" stroke="#d4af6a" stroke-width="0.9"/><polygon points="50,16 84,38 50,52" fill="none" stroke="#d4af6a" stroke-width="0.5" opacity="0.5"/><polygon points="50,16 16,38 50,52" fill="none" stroke="#d4af6a" stroke-width="0.5" opacity="0.5"/><line x1="50" y1="52" x2="70" y2="80" stroke="#d4af6a" stroke-width="0.5" opacity="0.5"/><line x1="50" y1="52" x2="30" y2="80" stroke="#d4af6a" stroke-width="0.5" opacity="0.5"/></svg>`
+  };
+
+  const motifKeys = Object.keys(MOTIFS);
+  let foundCount = 0;
+  let targets = [];
+  let huntActive = false;
+  let lanternX = -9999, lanternY = -9999;
+  const BEAM_RADIUS = 150;
+  const COUNTDOWN_SECONDS = 15;
+  let countdownTimer = null;
+  let secondsLeft = COUNTDOWN_SECONDS;
+
+  const ROMAN_NUMERALS = [
+    [0, ''], [1, 'I'], [2, 'II'], [3, 'III'], [4, 'IV'], [5, 'V'],
+    [6, 'VI'], [7, 'VII'], [8, 'VIII'], [9, 'IX'], [10, 'X'],
+    [11, 'XI'], [12, 'XII'], [13, 'XIII'], [14, 'XIV'], [15, 'XV']
+  ];
+  function toRoman(n) {
+    const found = ROMAN_NUMERALS.find(([v]) => v === n);
+    return found ? found[1] : String(n);
+  }
+
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function spawnTargets() {
+    clearTargets();
+    const rng = mulberry32(Date.now() % 2147483647);
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const margin = 90;
+    foundCount = 0;
+    updateCounter();
+
+    motifKeys.forEach((key, i) => {
+      const el = document.createElement('div');
+      el.className = 'hunt-target';
+      el.dataset.motif = key;
+      el.innerHTML = MOTIFS[key];
+      const x = margin + rng() * (vw - margin * 2);
+      const y = margin + rng() * (vh - margin * 2);
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.marginLeft = '-65px';
+      el.style.marginTop = '-65px';
+      el.addEventListener('click', () => collectTarget(el));
+      document.body.appendChild(el);
+      targets.push(el);
+    });
+  }
+
+  function clearTargets() {
+    targets.forEach(t => t.remove());
+    targets = [];
+  }
+
+  function updateCounter() {
+    const c = document.getElementById('huntCounter');
+    if (c) c.textContent = foundCount + ' / 10 found';
+  }
+
+  function startCountdown() {
+    secondsLeft = COUNTDOWN_SECONDS;
+    const timerEl = document.getElementById('huntTimer');
+    const deferBtn = document.getElementById('deferHuntBtn');
+    if (timerEl) {
+      timerEl.textContent = toRoman(secondsLeft);
+      timerEl.classList.add('active');
+      timerEl.classList.remove('urgent');
+    }
+    if (deferBtn) deferBtn.classList.add('active');
+
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
+      secondsLeft--;
+      if (timerEl) {
+        timerEl.textContent = toRoman(Math.max(secondsLeft, 0));
+        timerEl.classList.toggle('urgent', secondsLeft <= 5 && secondsLeft > 0);
+      }
+      if (secondsLeft <= 0) {
+        clearInterval(countdownTimer);
+        onCountdownExpired();
+      }
+    }, 1000);
+  }
+
+  function stopCountdown() {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+    const timerEl = document.getElementById('huntTimer');
+    const deferBtn = document.getElementById('deferHuntBtn');
+    if (timerEl) timerEl.classList.remove('active', 'urgent');
+    if (deferBtn) deferBtn.classList.remove('active');
+  }
+
+  function onCountdownExpired() {
+    endHunt();
+  }
+
+  function collectTarget(el) {
+    if (el.classList.contains('found')) return;
+    el.classList.add('found');
+    foundCount++;
+    updateCounter();
+    setTimeout(() => el.remove(), 600);
+    if (foundCount >= motifKeys.length) {
+      stopCountdown();
+      setTimeout(() => { if (window.triggerCicada) window.triggerCicada(); }, 700);
+    }
+  }
+
+  function onLanternMove(e) {
+    lanternX = e.clientX; lanternY = e.clientY;
+    const mask = document.getElementById('lanternMask');
+    const glow = document.getElementById('lanternGlow');
+    if (mask) mask.style.background = `radial-gradient(circle ${BEAM_RADIUS}px at ${lanternX}px ${lanternY}px, transparent 0%, transparent 55%, rgba(0,0,0,0.94) 100%)`;
+    if (glow) { glow.style.left = lanternX + 'px'; glow.style.top = lanternY + 'px'; }
+
+    targets.forEach(t => {
+      const r = t.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const dist = Math.hypot(cx - lanternX, cy - lanternY);
+      t.classList.toggle('lit', dist < BEAM_RADIUS * 0.85 && !t.classList.contains('found'));
+    });
+  }
+
+  function startHunt() {
+    if (huntActive) return;
+    huntActive = true;
+    document.body.classList.add('lantern-active');
+    spawnTargets();
+    document.addEventListener('mousemove', onLanternMove);
+    startCountdown();
+  }
+
+  function endHunt() {
+    huntActive = false;
+    document.body.classList.remove('lantern-active');
+    document.removeEventListener('mousemove', onLanternMove);
+    clearTargets();
+    stopCountdown();
+  }
+
+  function exitHunt() {
+    endHunt();
+  }
+
+  window.addEventListener('load', () => {
+    const toggle = document.getElementById('chiaroscuroToggle');
+    const deferBtn = document.getElementById('deferHuntBtn');
+    if (toggle) {
+      toggle.addEventListener('change', function () {
+        if (this.checked) startHunt(); else exitHunt();
+      });
+      if (toggle.checked) startHunt();
+    }
+    if (deferBtn) {
+      deferBtn.addEventListener('click', () => {
+        endHunt();
+        showToast('The revelation waits — return another night', 'info', 2400);
+      });
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (huntActive) spawnTargets();
+  });
+
+  window._daVinciHunt = { startHunt, stopHunt: exitHunt, spawnTargets };
+})();
+</script>
+
+<!-- ========================
+     END-GAME REVEAL — triggered when all 10 hidden
+     motifs are found. Screen fades to black; after a
+     beat, static coordinates emerge in the lower-left
+     corner. No text, no name — just the place.
+========================= -->
+<style>
+#cicadaOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+  background: #000;
+  display: none;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+#cicadaOverlay.visible { display: block; opacity: 1; }
+
+#cicadaCoords {
+  position: fixed;
+  bottom: 28px;
+  left: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: #6fffb0;
+  text-shadow: 0 0 8px rgba(111,255,176,0.7);
+  opacity: 0;
+  animation: cicadaFlicker 3s ease-in-out infinite;
+}
+#cicadaCoords.show { opacity: 1; }
+
+@keyframes cicadaFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.3; }
+  94% { opacity: 1; }
+  96% { opacity: 0.5; }
+  97% { opacity: 1; }
+}
+
+#cicadaDismiss {
+  position: fixed;
+  top: 24px; right: 28px;
+  z-index: 30001;
+  background: transparent;
+  border: 1px solid rgba(111,255,176,0.3);
+  color: rgba(111,255,176,0.6);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 1.5s ease 2.5s, border-color 0.2s, color 0.2s;
+}
+#cicadaOverlay.visible #cicadaDismiss { opacity: 1; }
+#cicadaDismiss:hover { border-color: #6fffb0; color: #6fffb0; }
+</style>
+
+<div id="cicadaOverlay">
+  <div id="cicadaCoords">47.9060, 11.1035</div>
+  <button id="cicadaDismiss">close ✕</button>
+</div>
+
+<script>
+(function () {
+  function triggerCicada() {
+    if (window._daVinciHunt) window._daVinciHunt.stopHunt();
+    document.body.classList.remove('lantern-active');
+
+    const overlay = document.getElementById('cicadaOverlay');
+    const coords = document.getElementById('cicadaCoords');
+
+    overlay.classList.add('visible');
+    coords.classList.remove('show');
+
+    setTimeout(() => {
+      coords.classList.add('show');
+    }, 1600);
+  }
+
+  function closeCicada() {
+    document.getElementById('cicadaOverlay').classList.remove('visible');
+  }
+
+  document.getElementById('cicadaDismiss').addEventListener('click', closeCicada);
+
+  window.triggerCicada = triggerCicada;
 })();
 </script>
 
