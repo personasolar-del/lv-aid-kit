@@ -1622,7 +1622,7 @@ function generateCode() {
     counter++;
     const d = new Date();
     const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-    const country = 'IT';
+    const country = 'FR';
     const was = serialOverride;
     document.getElementById('serial').value = `${country}${ymd}${String(counter).padStart(4,'0')}`;
     serialOverride = was;
@@ -1677,8 +1677,8 @@ function resetToDefaults() {
   document.getElementById('shortSku').value   = 'M41414';
   document.getElementById('quantity').value   = '0010';
   document.getElementById('supplierId').value = '130';
-  document.getElementById('originPref').value = 'IT';
-  const c = 'IT';
+  document.getElementById('originPref').value = 'UE';
+  const c = 'UE';
   document.getElementById('batch').value  = c;
   document.getElementById('madeIn').value = countryMap[c];
   serialOverride = false;
